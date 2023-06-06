@@ -45,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v4.0.0
         with:
           context: .
-          file: {context}/CloverleafTrack/Dockerfile
+          file: ./CloverleafTrack/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
