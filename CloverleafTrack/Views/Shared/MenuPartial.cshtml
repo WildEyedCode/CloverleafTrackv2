@@ -1,0 +1,34 @@
+@{
+    var menuItems = new List<string>
+    {
+        "Home", "Leaderboard", "Seasons", "Roster", "Meets"
+    };
+}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-gradient border-bottom shadow-sm fixed-top">
+    <div class="container">
+        <a title="Cloverleaf Track" class="navbar-brand" href="/">
+            Cloverleaf Track
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                @foreach (var item in menuItems) {
+                    <li class="nav-item">
+                        @if ((string)ViewContext.RouteData.Values["controller"]! == item)
+                        {
+                            <a class="nav-link active border border-dark-subtle rounded-3 bg-dark ps-3 pe-3" title="@item" aria-current="page" asp-controller="@item" asp-action="Index">@item</a>
+                        }
+                        else
+                        {
+                            <a class="nav-link ps-3 pe-3" title="@item" asp-controller="@item" asp-action="Index">@item</a>
+                        }
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>

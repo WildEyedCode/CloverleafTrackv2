@@ -1,0 +1,24 @@
+﻿@model HomeViewModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h1 class="display-5">
+    Welcome!
+</h1>
+
+<p class="lead">
+    Welcome to the Cloverleaf Track and Field statistics website.
+</p>
+<p>
+    In total there are <span class="fw-bold">@Model.PerformanceCount</span> performances for <span class="fw-bold">@Model.AthleteCount</span> athletes from
+    <span class="fw-bold">@Model.MeetCount</span> meets across <span class="fw-bold">@Model.SeasonCount</span> seasons of Cloverleaf Track.
+</p>
+<p>
+    A lot of this website was updated manually. If something seems wrong, it very likely is. Please 
+    <a href="mailto:tony@morriscloud.com">email me</a> if you notice anything needs corrected!
+</p>
+<p>
+    This website was last updated on @DateTime.Now.ToLocalTime().ToString("D") at @DateTime.Now.ToString("h:mm:ss tt")
+</p>
