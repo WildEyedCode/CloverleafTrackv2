@@ -1,16 +1,17 @@
 using System.Data;
 using System.Data.SqlClient;
 
-using CloverleafTrack.Managers;
+using CloverleafTrack.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<IDbConnection>(db => new SqlConnection(builder.Configuration.GetConnectionString("CloverleafTrack")));
-builder.Services.AddTransient<IAthleteManager, AthleteManager>();
-builder.Services.AddTransient<IEventManager, EventManager>();
-builder.Services.AddTransient<IMeetManager, MeetManager>();
-builder.Services.AddTransient<IPerformanceManager, PerformanceManager>();
-builder.Services.AddTransient<ISeasonManager, SeasonManager>();
+builder.Services.AddSingleton<IAthleteService, AthleteService>();
+builder.Services.AddSingleton<IEventService, EventService>();
+builder.Services.AddSingleton<IMeetService, MeetService>();
+builder.Services.AddSingleton<IPerformanceService, PerformanceService>();
+builder.Services.AddSingleton<ISeasonService, SeasonService>();
+builder.Services.AddSingleton<ILeaderboardService, LeaderboardService>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

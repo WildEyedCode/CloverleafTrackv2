@@ -1,24 +1,847 @@
-﻿@model HomeViewModel
+﻿@model LeaderboardViewModel
 
 @{
-    ViewData["Title"] = "Home";
+    ViewBag.Title = "Leaderboard";
 }
 
-<h1 class="display-5">
-    Welcome!
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Leaderboard
+        </li>
+    </ol>
+</nav>
+
+<h1 class="display-5 text-center">
+    All-Time Leaderboard
 </h1>
 
-<p class="lead">
-    Welcome to the Cloverleaf Track and Field statistics website.
-</p>
-<p>
-    In total there are <span class="fw-bold">xxx</span> performances for <span class="fw-bold">xxx</span> athletes from
-    <span class="fw-bold">@Model.MeetCount</span> meets across <span class="fw-bold">xxx</span> seasons of Cloverleaf Track.
-</p>
-<p>
-    A lot of this website was updated manually. If something seems wrong, it very likely is. Please 
-    <a href="mailto:tony@morriscloud.com">email me</a> if you notice anything needs corrected!
-</p>
-<p>
-    This website was last updated on @DateTime.Now.ToLocalTime().ToString("D") at @DateTime.Now.ToString("h:mm:ss tt")
-</p>
+<div class="row">
+<div class="col-lg-6 text-center">
+<h1 class="display-6">Boys</h1>
+<table class="table table-hover table-striped table-sm">
+<caption>Boys Outdoor Leaderboard</caption>
+<thead>
+<tr>
+    <th colspan="4">
+        Outdoor Leaderboard
+    </th>
+</tr>
+<tr>
+    <th scope="col">Event</th>
+    <th scope="col">Athlete</th>
+    <th scope="col">Performance</th>
+    <th scope="col">Date</th>
+</tr>
+</thead>
+<tbody>
+@foreach (var leaderboardEvent in Model.BoysEvents.OutdoorRunningEvents)
+{
+    var performance = Model.BoysLeaderboard.OutdoorRunningLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    <li>
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                            @performance.Athlete.Name
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Time
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+@foreach (var leaderboardEvent in Model.BoysEvents.OutdoorRunningRelayEvents)
+{
+    var performance = Model.BoysLeaderboard.OutdoorRunningRelayLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    @foreach (var athlete in performance.Athletes)
+                    {
+                        <li>
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                                @athlete.Name
+                            </a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Time
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+@foreach (var leaderboardEvent in Model.BoysEvents.OutdoorFieldEvents)
+{
+    var performance = Model.BoysLeaderboard.OutdoorFieldLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    <li>
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                            @performance.Athlete.Name
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Distance
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+@foreach (var leaderboardEvent in Model.BoysEvents.OutdoorFieldRelayEvents)
+{
+    var performance = Model.BoysLeaderboard.OutdoorFieldRelayLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    @foreach (var athlete in performance.Athletes)
+                    {
+                        <li>
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                                @athlete.Name
+                            </a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Distance
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+</tbody>
+</table>
+<table class="table table-hover table-striped table-sm">
+<caption>Boys Indoor Leaderboard</caption>
+<thead>
+<tr>
+    <th colspan="4">
+        Indoor Leaderboard
+    </th>
+</tr>
+<tr>
+    <th scope="col">Event</th>
+    <th scope="col">Athlete</th>
+    <th scope="col">Performance</th>
+    <th scope="col">Date</th>
+</tr>
+</thead>
+<tbody>
+@foreach (var leaderboardEvent in Model.BoysEvents.IndoorRunningEvents)
+{
+    var performance = Model.BoysLeaderboard.IndoorRunningLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    <li>
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                            @performance.Athlete.Name
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Time
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+@foreach (var leaderboardEvent in Model.BoysEvents.IndoorRunningRelayEvents)
+{
+    var performance = Model.BoysLeaderboard.IndoorRunningRelayLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    @foreach (var athlete in performance.Athletes)
+                    {
+                        <li>
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                                @athlete.Name
+                            </a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Time
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+@foreach (var leaderboardEvent in Model.BoysEvents.IndoorFieldEvents)
+{
+    var performance = Model.BoysLeaderboard.IndoorFieldLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    <li>
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                            @performance.Athlete.Name
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Distance
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+@foreach (var leaderboardEvent in Model.BoysEvents.IndoorFieldRelayEvents)
+{
+    var performance = Model.BoysLeaderboard.IndoorFieldRelayLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    @foreach (var athlete in performance.Athletes)
+                    {
+                        <li>
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                                @athlete.Name
+                            </a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Distance
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+</tbody>
+</table>
+</div>
+<div class="col-lg-6 text-center">
+<h1 class="display-6">Girls</h1>
+<table class="table table-hover table-striped table-sm">
+<caption>Girls Outdoor Leaderboard</caption>
+<thead>
+<tr>
+    <th colspan="4">
+        Outdoor Leaderboard
+    </th>
+</tr>
+<tr>
+    <th scope="col">Event</th>
+    <th scope="col">Athlete</th>
+    <th scope="col">Performance</th>
+    <th scope="col">Date</th>
+</tr>
+</thead>
+<tbody>
+@foreach (var leaderboardEvent in Model.GirlsEvents.OutdoorRunningEvents)
+{
+    var performance = Model.GirlsLeaderboard.OutdoorRunningLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    <li>
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                            @performance.Athlete.Name
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Time
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+@foreach (var leaderboardEvent in Model.GirlsEvents.OutdoorRunningRelayEvents)
+{
+    var performance = Model.GirlsLeaderboard.OutdoorRunningRelayLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    @foreach (var athlete in performance.Athletes)
+                    {
+                        <li>
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                                @athlete.Name
+                            </a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Time
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+@foreach (var leaderboardEvent in Model.GirlsEvents.OutdoorFieldEvents)
+{
+    var performance = Model.GirlsLeaderboard.OutdoorFieldLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    <li>
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                            @performance.Athlete.Name
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Distance
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+@foreach (var leaderboardEvent in Model.GirlsEvents.OutdoorFieldRelayEvents)
+{
+    var performance = Model.GirlsLeaderboard.OutdoorFieldRelayLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    @foreach (var athlete in performance.Athletes)
+                    {
+                        <li>
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                                @athlete.Name
+                            </a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Distance
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+</tbody>
+</table>
+<table class="table table-hover table-striped table-sm">
+<caption>Girls Indoor Leaderboard</caption>
+<thead>
+<tr>
+    <th colspan="4">
+        Indoor Leaderboard
+    </th>
+</tr>
+<tr>
+    <th scope="col">Event</th>
+    <th scope="col">Athlete</th>
+    <th scope="col">Performance</th>
+    <th scope="col">Date</th>
+</tr>
+</thead>
+<tbody>
+@foreach (var leaderboardEvent in Model.GirlsEvents.IndoorRunningEvents)
+{
+    var performance = Model.GirlsLeaderboard.IndoorRunningLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    <li>
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                            @performance.Athlete.Name
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Time
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+@foreach (var leaderboardEvent in Model.GirlsEvents.IndoorRunningRelayEvents)
+{
+    var performance = Model.GirlsLeaderboard.IndoorRunningRelayLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    @foreach (var athlete in performance.Athletes)
+                    {
+                        <li>
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                                @athlete.Name
+                            </a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Time
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+@foreach (var leaderboardEvent in Model.GirlsEvents.IndoorFieldEvents)
+{
+    var performance = Model.GirlsLeaderboard.IndoorFieldLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    <li>
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                            @performance.Athlete.Name
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Distance
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+@foreach (var leaderboardEvent in Model.GirlsEvents.IndoorFieldRelayEvents)
+{
+    var performance = Model.GirlsLeaderboard.IndoorFieldRelayLeaderboards.FirstOrDefault(x => x.Event.Id == leaderboardEvent.Id);
+    <tr>
+        <th scope="row" class="align-middle">
+            <a title="@leaderboardEvent.Name" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@leaderboardEvent.UrlName">
+                @leaderboardEvent.Name
+            </a>
+        </th>
+        <td class="align-middle">
+            <ul class="list-unstyled mb-0">
+                @if (performance != null)
+                {
+                    @foreach (var athlete in performance.Athletes)
+                    {
+                        <li>
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                                @athlete.Name
+                            </a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                    <li>
+                        &nbsp;
+                    </li>
+                }
+            </ul>
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Distance
+            }
+        </td>
+        <td class="align-middle">
+            @if (performance != null)
+            {
+                @performance.Performance.Meet.Date.ToString("MM/dd/yyyy")
+            }
+        </td>
+    </tr>
+}
+</tbody>
+</table>
+</div>
+</div>

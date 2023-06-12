@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Diagnostics;
 
-using CloverleafTrack.Managers;
+using CloverleafTrack.Services;
 using CloverleafTrack.ViewModels;
 
 using Microsoft.AspNetCore.Mvc;
@@ -10,29 +10,29 @@ namespace CloverleafTrack.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly IAthleteManager athleteManager;
-    private readonly IEventManager eventManager;
-    private readonly IMeetManager meetManager;
-    private readonly IPerformanceManager performanceManager;
-    private readonly ISeasonManager seasonManager; 
+    private readonly IAthleteService athleteService;
+    private readonly IEventService eventService;
+    private readonly IMeetService meetService;
+    private readonly IPerformanceService performanceService;
+    private readonly ISeasonService seasonService; 
     
-    public HomeController(IAthleteManager athleteManager, IEventManager eventManager, IMeetManager meetManager, IPerformanceManager performanceManager, ISeasonManager seasonManager)
+    public HomeController(IAthleteService athleteService, IEventService eventService, IMeetService meetService, IPerformanceService performanceService, ISeasonService seasonService)
     {
-        this.athleteManager = athleteManager;
-        this.eventManager = eventManager;
-        this.meetManager = meetManager;
-        this.performanceManager = performanceManager;
-        this.seasonManager = seasonManager;
+        this.athleteService = athleteService;
+        this.eventService = eventService;
+        this.meetService = meetService;
+        this.performanceService = performanceService;
+        this.seasonService = seasonService;
     }
 
     public async Task<IActionResult> Index(CancellationToken token)
     {
-        if (meetManager.Count == 0)
+        if (meetService.Count == 0)
         {
             await ReloadAsync(token);
         }
         
-        var vm = new HomeViewModel(meetManager.Count, performanceManager.Count, athleteManager.Count, seasonManager.Count);
+        var vm = new HomeViewModel(meetService.Count, performanceService.Count, athleteService.Count, seasonService.Count);
         return View(vm);
     }
 
@@ -44,10 +44,10 @@ public class HomeController : Controller
 
     private async Task ReloadAsync(CancellationToken token = default)
     {
-        await athleteManager.ReloadAsync(token);
-        await eventManager.ReloadAsync(token);
-        await meetManager.ReloadAsync(token);
-        await performanceManager.ReloadAsync(token);
-        await seasonManager.ReloadAsync(token);
+        await athleteService.ReloadAsync(token);
+        await eventService.ReloadAsync(token);
+        await meetService.ReloadAsync(token);
+        await performanceService.ReloadAsync(token);
+        await seasonService.ReloadAsync(token);
     }
 }

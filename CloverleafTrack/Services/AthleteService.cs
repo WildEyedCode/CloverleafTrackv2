@@ -5,20 +5,20 @@ using CloverleafTrack.Queries;
 
 using Dapper;
 
-namespace CloverleafTrack.Managers;
+namespace CloverleafTrack.Services;
 
-public interface IAthleteManager
+public interface IAthleteService
 {
     public List<Athlete> Athletes { get; }
     public int Count { get; }
     public Task ReloadAsync(CancellationToken token);
 }
 
-public class AthleteManager : IAthleteManager
+public class AthleteService : IAthleteService
 {
     private readonly IDbConnection connection;
 
-    public AthleteManager(IDbConnection connection)
+    public AthleteService(IDbConnection connection)
     {
         this.connection = connection;
         Athletes = new List<Athlete>();

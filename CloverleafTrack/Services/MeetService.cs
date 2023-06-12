@@ -2,25 +2,29 @@ using System.Data;
 
 using CloverleafTrack.Models;
 using CloverleafTrack.Queries;
+using CloverleafTrack.ViewModels;
 
 using Dapper;
 
-namespace CloverleafTrack.Managers;
+namespace CloverleafTrack.Services;
 
-public interface IMeetManager
+public interface IMeetService
 {
     public List<Meet> Meets { get; }
     public int Count { get; }
     public Task ReloadAsync(CancellationToken token = default);
 }
 
-public class MeetManager : IMeetManager
+public class MeetService : IMeetService
 {
+    private readonly ISeasonService seasonService;
     private readonly IDbConnection connection;
 
-    public MeetManager(IDbConnection connection)
+    public MeetService(ISeasonService seasonService, IDbConnection connection)
     {
+        this.seasonService = seasonService;
         this.connection = connection;
+        
         Meets = new List<Meet>();
     }
 

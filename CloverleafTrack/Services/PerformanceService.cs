@@ -5,9 +5,9 @@ using CloverleafTrack.Queries;
 
 using Dapper;
 
-namespace CloverleafTrack.Managers;
+namespace CloverleafTrack.Services;
 
-public interface IPerformanceManager
+public interface IPerformanceService
 {
     public List<FieldPerformance> FieldPerformances { get; }
     public List<FieldRelayPerformance> FieldRelayPerformances { get; }
@@ -21,11 +21,11 @@ public interface IPerformanceManager
     public Task ReloadAsync(CancellationToken token = default);
 }
 
-public class PerformanceManager : IPerformanceManager
+public class PerformanceService : IPerformanceService
 {
     private readonly IDbConnection connection;
 
-    public PerformanceManager(IDbConnection connection)
+    public PerformanceService(IDbConnection connection)
     {
         this.connection = connection;
         FieldPerformances = new List<FieldPerformance>();
@@ -67,7 +67,8 @@ public class PerformanceManager : IPerformanceManager
                 performance.Athlete = athlete;
                 return performance;
             },
-                splitOn: "EventId,MeetId,SeasonId,AthleteId")).ToList();
+                splitOn: "EventId,MeetId,SeasonId,AthleteId"))
+            .OrderByDescending(x => x.Feet).ThenByDescending(x => x.Inches).ToList();
     }
     
     private async Task<List<FieldRelayPerformance>> ReloadFieldRelayPerformancesAsync()
@@ -83,7 +84,8 @@ public class PerformanceManager : IPerformanceManager
                 performance.Meet.Season = season;
                 return performance;
             },
-            splitOn: "EventId,MeetId,SeasonId")).ToList();
+            splitOn: "EventId,MeetId,SeasonId"))
+            .OrderByDescending(x => x.Feet).ThenByDescending(x => x.Inches).ToList();
 
         foreach (var performance in performances)
         {
@@ -109,7 +111,8 @@ public class PerformanceManager : IPerformanceManager
                 performance.Athlete = athlete;
                 return performance;
             },
-            splitOn: "EventId,MeetId,SeasonId,AthleteId")).ToList();
+            splitOn: "EventId,MeetId,SeasonId,AthleteId"))
+            .OrderBy(x => x.Minutes).ThenBy(x => x.Seconds).ToList();
     }
     
     private async Task<List<RunningRelayPerformance>> ReloadRunningRelayPerformancesAsync()
@@ -125,7 +128,8 @@ public class PerformanceManager : IPerformanceManager
                 performance.Meet.Season = season;
                 return performance;
             },
-            splitOn: "EventId,MeetId,SeasonId")).ToList();
+            splitOn: "EventId,MeetId,SeasonId"))
+            .OrderBy(x => x.Minutes).ThenBy(x => x.Seconds).ToList();
         
         foreach (var performance in performances)
         {

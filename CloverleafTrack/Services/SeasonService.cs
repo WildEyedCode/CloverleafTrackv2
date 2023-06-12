@@ -2,23 +2,27 @@ using System.Data;
 
 using CloverleafTrack.Models;
 using CloverleafTrack.Queries;
+using CloverleafTrack.ViewModels;
 
 using Dapper;
 
-namespace CloverleafTrack.Managers;
+using Environment = CloverleafTrack.Models.Environment;
 
-public interface ISeasonManager
+namespace CloverleafTrack.Services;
+
+public interface ISeasonService
 {
     public List<Season> Seasons { get; }
     public int Count { get; }
     public Task ReloadAsync(CancellationToken token = default);
+    MeetsViewModel GetSeasonsWithMeets();
 }
 
-public class SeasonManager : ISeasonManager
+public class SeasonService : ISeasonService
 {
     private readonly IDbConnection connection;
 
-    public SeasonManager(IDbConnection connection)
+    public SeasonService(IDbConnection connection)
     {
         this.connection = connection;
         Seasons = new List<Season>();
@@ -34,13 +38,18 @@ public class SeasonManager : ISeasonManager
                 season.Meets.Add(meet);
                 return season;
             },
-            splitOn: "MeetId")).ToList();
+            splitOn: "MeetId"))
+            .OrderByDescending(x => x.Name).ToList();
 
         Seasons = seasons.GroupBy(x => x.Id).Select(x =>
         {
             var groupedSeason = x.First();
-            groupedSeason.Meets = x.Select(s => s.Meets.Single()).ToList();
+            groupedSeason.Meets = x.Select(s => s.Meets.Single()).OrderByDescending(x => x.Date).ToList();
             return groupedSeason;
         }).ToList();
+    }
+    public MeetsViewModel GetSeasonsWithMeets()
+    {
+        return new MeetsViewModel(Seasons.Select(x => new SeasonMeetViewModel(x, x.Meets.FindAll(y => y.Environment == Environment.Outdoor), x.Meets.FindAll(y => y.Environment == Environment.Indoor))).ToList());
     }
 }

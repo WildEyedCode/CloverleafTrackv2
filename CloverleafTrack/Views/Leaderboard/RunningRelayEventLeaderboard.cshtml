@@ -1,0 +1,127 @@
+@model RunningRelayEventLeaderboardViewModel
+
+@{
+    ViewBag.Title = Model.PersonalRecordsOnly ? $"{Model.Event.DisplayName} PR Leaderboard" : $"{Model.Event.DisplayName} Leaderboard";
+}
+
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a title="Leaderboard" asp-controller="Leaderboard" asp-action="Index">
+                Leaderboard
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            @if (Model.PersonalRecordsOnly)
+            {
+                @Model.Event.DisplayName
+                @:PRs
+            }
+            else
+            {
+                @Model.Event.DisplayName
+            }
+        </li>
+    </ol>
+</nav>
+
+<h1 class="display-5 text-center">
+    @if (Model.PersonalRecordsOnly)
+    {
+        @Model.Event.DisplayName
+        @:PR Leaderboard
+    }
+    else
+    {
+        @Model.Event.DisplayName
+        @:Leaderboard
+    }
+</h1>
+
+<div class="lead text-center">
+    @if (Model.PersonalRecordsOnly)
+    {
+        <div class="btn-group">
+            <a class="btn btn-outline-dark" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@Model.Event.UrlName">All Performances</a>
+            <a class="btn btn-dark active" aria-current="page" asp-controller="Leaderboard" asp-action="EventPrLeaderboard" asp-route-eventName="@Model.Event.UrlName">PRs Only</a>
+        </div>
+    }
+    else
+    {
+        <div class="btn-group">
+            <a class="btn btn-dark active" aria-current="page" asp-controller="Leaderboard" asp-action="EventLeaderboard" asp-route-eventName="@Model.Event.UrlName">All Performances</a>
+            <a class="btn btn-outline-dark" asp-controller="Leaderboard" asp-action="EventPrLeaderboard" asp-route-eventName="@Model.Event.UrlName">PRs Only</a>
+        </div>
+    }
+</div>
+<hr />
+<table class="table table-hover table-striped">
+    <caption>
+        @if (Model.PersonalRecordsOnly)
+        {
+            @Model.Event.DisplayName
+            @:PR Leaderboard
+        }
+        else
+        {
+            @Model.Event.DisplayName
+            @:Leaderboard
+        }
+    </caption>
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">#</th>
+            <th scope="col" style="width:25%;">Athlete</th>
+            <th scope="col">Performance</th>
+            <th scope="col">Date</th>
+            <th scope="col" style="width:40%;">Meet</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+    @{
+        int count = 1;
+        foreach (var leaderboard in Model.Leaderboards)
+        {
+            <tr>
+                <th class="text-center align-middle">@count</th>
+                <th class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        @foreach (var athlete in leaderboard.Athletes)
+                        {
+                            <li>
+                                <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                                    @athlete.Name
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </th>
+                <td class="text-nowrap align-middle">
+                    @leaderboard.Performance.Time
+                    @if (!Model.PersonalRecordsOnly && leaderboard.Performance.PersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                    @if (!Model.PersonalRecordsOnly && leaderboard.Performance.SeasonBest)
+                    {
+                        <span class="badge bg-info" data-bs-toggle="tooltip" data-bs-placement="right" title="@leaderboard.Performance.Meet.Season.Name Season Best">📅</span>
+                    }
+                </td>
+                <td class="align-middle">
+                    @leaderboard.Performance.Meet.Date.ToString("MM/dd/yyyy")
+                </td>
+                <td class="align-middle">
+                    @leaderboard.Performance.Meet.Name @@ @leaderboard.Performance.Meet.Location
+                </td>
+            </tr>
+
+            count++;
+        }
+    }
+    </tbody>
+</table>

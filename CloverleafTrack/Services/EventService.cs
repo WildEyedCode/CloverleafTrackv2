@@ -2,12 +2,13 @@ using System.Data;
 
 using CloverleafTrack.Models;
 using CloverleafTrack.Queries;
+using CloverleafTrack.ViewModels;
 
 using Dapper;
 
-namespace CloverleafTrack.Managers;
+namespace CloverleafTrack.Services;
 
-public interface IEventManager
+public interface IEventService
 {
     public List<FieldEvent> FieldEvents { get; }
     public List<FieldRelayEvent> FieldRelayEvents { get; }
@@ -19,13 +20,14 @@ public interface IEventManager
     public int RunningRelayEventCount { get; }
     public int Count { get; }
     public Task ReloadAsync(CancellationToken token);
+    public AllEventTypesViewModel GetEventByName(string eventName);
 }
 
-public class EventManager : IEventManager
+public class EventService : IEventService
 {
     private readonly IDbConnection connection;
 
-    public EventManager(IDbConnection connection)
+    public EventService(IDbConnection connection)
     {
         this.connection = connection;
         FieldEvents = new List<FieldEvent>();
@@ -51,20 +53,35 @@ public class EventManager : IEventManager
         RunningEvents = await ReloadRunningEventsAsync();
         RunningRelayEvents = await ReloadRunningRelayEventsAsync();
     }
+
+    public AllEventTypesViewModel GetEventByName(string eventName)
+    {
+        var fieldEvent = FieldEvents.SingleOrDefault(x => x.UrlName == eventName);
+        var fieldRelayEvent = FieldRelayEvents.SingleOrDefault(x => x.UrlName == eventName);
+        var runningEvent = RunningEvents.SingleOrDefault(x => x.UrlName == eventName);
+        var runningRelayEvent = RunningRelayEvents.SingleOrDefault(x => x.UrlName == eventName);
+        
+        return new AllEventTypesViewModel(fieldEvent, fieldRelayEvent, runningEvent, runningRelayEvent);
+    }
+    
     private async Task<List<FieldEvent>> ReloadFieldEventsAsync()
     {
-        return (await connection.QueryAsync<FieldEvent>(EventQueries.SelectAllFieldEventsSql)).ToList();
+        return (await connection.QueryAsync<FieldEvent>(EventQueries.SelectAllFieldEventsSql))
+            .OrderBy(x => x.SortOrder).ToList();
     }
     private async Task<List<FieldRelayEvent>> ReloadFieldRelayEventsAsync()
     {
-        return (await connection.QueryAsync<FieldRelayEvent>(EventQueries.SelectAllFieldRelayEventsSql)).ToList();
+        return (await connection.QueryAsync<FieldRelayEvent>(EventQueries.SelectAllFieldRelayEventsSql))
+            .OrderBy(x => x.SortOrder).ToList();
     }
     private async Task<List<RunningEvent>> ReloadRunningEventsAsync()
     {
-        return (await connection.QueryAsync<RunningEvent>(EventQueries.SelectAllRunningEventsSql)).ToList();
+        return (await connection.QueryAsync<RunningEvent>(EventQueries.SelectAllRunningEventsSql))
+            .OrderBy(x => x.SortOrder).ToList();
     }
     private async Task<List<RunningRelayEvent>> ReloadRunningRelayEventsAsync()
     {
-        return (await connection.QueryAsync<RunningRelayEvent>(EventQueries.SelectAllRunningRelayEventsSql)).ToList();
+        return (await connection.QueryAsync<RunningRelayEvent>(EventQueries.SelectAllRunningRelayEventsSql))
+            .OrderBy(x => x.SortOrder).ToList();
     }
 }

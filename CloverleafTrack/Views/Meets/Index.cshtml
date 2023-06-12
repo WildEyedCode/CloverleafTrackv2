@@ -1,22 +1,79 @@
-﻿@{
-    ViewData["Title"] = "Meets";
+﻿@model MeetsViewModel
+
+@{
+    ViewData["Title"] = "Home";
 }
 
-<h1 class="display-5">
-    Welcome!
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Meets
+        </li>
+    </ol>
+</nav>
+
+<h1 class="display-5 text-center">
+    Meets
 </h1>
 
-<p class="lead">
-    Welcome to the Cloverleaf Track and Field statistics website.
-</p>
-<p>
-    In total there are <span class="fw-bold">xxx</span> performances for <span class="fw-bold">xxx</span> athletes from
-    <span class="fw-bold">xxx</span> meets across <span class="fw-bold">xxx</span> seasons of Cloverleaf Track.
-</p>
-<p>
-    A lot of this website was updated manually. If something seems wrong, it very likely is. Please 
-    <a href="mailto:tony@morriscloud.com">email me</a> if you notice anything needs corrected!
-</p>
-<p>
-    This website was last updated on @DateTime.Now.ToLocalTime().ToString("D") at @DateTime.Now.ToString("h:mm:ss tt")
-</p>
+@foreach (var season in Model.Seasons)
+{
+    <h1 class="display-6 text-center">
+        @season.Season.Name Season
+    </h1>
+    @if (season.OutdoorMeets.Any())
+    {
+        <table class="table table-hover table-striped table-sm">
+            <caption>@season.Season.Name Season Outdoor Meets</caption>
+            <thead>
+            <tr>
+                <th scope="col">Meet</th>
+                <th scope="col">Date</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            @foreach (var meet in season.OutdoorMeets)
+            {
+                <tr>
+                    <td>
+                        <a title="@meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@meet.UrlName">
+                            @meet.Name @@ @meet.Location
+                        </a>
+                    </td>
+                    <td>@meet.Date.ToString("MM/dd/yyyy")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    @if (season.IndoorMeets.Any())
+    {
+        <table class="table table-hover table-striped table-sm">
+            <caption>@season.Season.Name Season Indoor Meets</caption>
+            <thead>
+            <tr>
+                <th scope="col">Meet</th>
+                <th scope="col">Date</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            @foreach (var meet in season.IndoorMeets)
+            {
+                <tr>
+                    <td>
+                        <a title="@meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@meet.UrlName">
+                            @meet.Name @@ @meet.Location
+                        </a>
+                    </td>
+                    <td>@meet.Date.ToString("MM/dd/yyyy")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+}
