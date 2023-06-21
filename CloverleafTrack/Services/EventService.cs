@@ -6,14 +6,24 @@ using CloverleafTrack.ViewModels;
 
 using Dapper;
 
+using Environment = CloverleafTrack.Models.Environment;
+
 namespace CloverleafTrack.Services;
 
 public interface IEventService
 {
     public List<FieldEvent> FieldEvents { get; }
+    public List<FieldEvent> IndoorFieldEvents { get; }
+    public List<FieldEvent> OutdoorFieldEvents { get; }
     public List<FieldRelayEvent> FieldRelayEvents { get; }
+    public List<FieldRelayEvent> IndoorFieldRelayEvents { get; }
+    public List<FieldRelayEvent> OutdoorFieldRelayEvents { get; }
     public List<RunningEvent> RunningEvents { get; }
+    public List<RunningEvent> IndoorRunningEvents { get; }
+    public List<RunningEvent> OutdoorRunningEvents { get; }
     public List<RunningRelayEvent> RunningRelayEvents { get; }
+    public List<RunningRelayEvent> IndoorRunningRelayEvents { get; }
+    public List<RunningRelayEvent> OutdoorRunningRelayEvents { get; }
     public int FieldEventCount { get; }
     public int FieldRelayEventCount { get; }
     public int RunningEventCount { get; }
@@ -37,9 +47,17 @@ public class EventService : IEventService
     }
     
     public List<FieldEvent> FieldEvents { get; private set; }
+    public List<FieldEvent> IndoorFieldEvents => FieldEvents.FindAll(x => x.Environment == Environment.Indoor);
+    public List<FieldEvent> OutdoorFieldEvents => FieldEvents.FindAll(x => x.Environment == Environment.Outdoor);
     public List<FieldRelayEvent> FieldRelayEvents { get; private set; }
+    public List<FieldRelayEvent> IndoorFieldRelayEvents => FieldRelayEvents.FindAll(x => x.Environment == Environment.Indoor);
+    public List<FieldRelayEvent> OutdoorFieldRelayEvents => FieldRelayEvents.FindAll(x => x.Environment == Environment.Outdoor);
     public List<RunningEvent> RunningEvents { get; private set; }
+    public List<RunningEvent> IndoorRunningEvents => RunningEvents.FindAll(x => x.Environment == Environment.Indoor);
+    public List<RunningEvent> OutdoorRunningEvents => RunningEvents.FindAll(x => x.Environment == Environment.Outdoor);
     public List<RunningRelayEvent> RunningRelayEvents { get; private set; }
+    public List<RunningRelayEvent> IndoorRunningRelayEvents => RunningRelayEvents.FindAll(x => x.Environment == Environment.Indoor);
+    public List<RunningRelayEvent> OutdoorRunningRelayEvents => RunningRelayEvents.FindAll(x => x.Environment == Environment.Outdoor);
     public int FieldEventCount => FieldEvents.Count;
     public int FieldRelayEventCount => FieldRelayEvents.Count;
     public int RunningEventCount => RunningEvents.Count;

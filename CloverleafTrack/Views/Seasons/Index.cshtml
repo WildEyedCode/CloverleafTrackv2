@@ -1,24 +1,49 @@
-﻿@model HomeViewModel
+﻿@model SeasonsViewModel
 
 @{
-    ViewData["Title"] = "Home";
+    ViewBag.Title = "Seasons";
 }
 
-<h1 class="display-5">
-    Welcome!
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Seasons
+        </li>
+    </ol>
+</nav>
+
+<h1 class="display-5 text-center">
+    Seasons
 </h1>
 
-<p class="lead">
-    Welcome to the Cloverleaf Track and Field statistics website.
-</p>
-<p>
-    In total there are <span class="fw-bold">xxx</span> performances for <span class="fw-bold">xxx</span> athletes from
-    <span class="fw-bold">@Model.MeetCount</span> meets across <span class="fw-bold">xxx</span> seasons of Cloverleaf Track.
-</p>
-<p>
-    A lot of this website was updated manually. If something seems wrong, it very likely is. Please 
-    <a href="mailto:tony@morriscloud.com">email me</a> if you notice anything needs corrected!
-</p>
-<p>
-    This website was last updated on @DateTime.Now.ToLocalTime().ToString("D") at @DateTime.Now.ToString("h:mm:ss tt")
-</p>
+<table class="table table-hover table-striped text-center">
+    <caption>Seasons</caption>
+    <thead>
+    <tr>
+        <th scope="col" style="width:50%;">Season</th>
+        @* <th scope="col">Leaderboard</th> *@
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var season in Model.Seasons)
+    {
+        <tr>
+            <td>
+                <a title="@season.Season.Name" asp-controller="Seasons" asp-action="Details" asp-route-seasonName="@season.Season.Name">
+                    @season.Season.Name
+                </a>
+            </td>
+            @* <td> *@
+            @*     <a title="@season.Season.Name Leaderboard" asp-controller="Seasons" asp-action="Leaderboard" asp-route-seasonname="@season.Season.Name"> *@
+            @*         @season.Season.Name Leaderboard *@
+            @*     </a> *@
+            @* </td> *@
+        </tr>
+    }
+    </tbody>
+</table>

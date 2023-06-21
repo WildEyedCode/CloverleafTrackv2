@@ -1,0 +1,476 @@
+@model SeasonDetailViewModel
+
+@{
+    ViewBag.Title = $"{Model.Season.Name} Details";
+}
+
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a title="Seasons" asp-controller="Seasons" asp-action="Index">
+                Seasons
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            @Model.Season.Name Season Details
+        </li>
+    </ol>
+</nav>
+
+<h1 class="display-5 text-center">
+    @Model.Season.Name Season Details
+</h1>
+
+<div class="row">
+<div class="col-lg-6">
+@if (Model.OutdoorRunningPerformances.Any() || Model.OutdoorRunningRelayPerformances.Any() || Model.OutdoorFieldPerformances.Any() || Model.OutdoorFieldRelayPerformances.Any())
+{
+    <h1 class="display-6 text-center">
+        Outdoor Bests
+    </h1>
+    <table class="table table-hover table-striped table-sm">
+        <caption>@Model.Season.Name Season Outdoor Bests</caption>
+        <thead>
+        <tr>
+            <th scope="col" class="text-center">Event</th>
+            <th scope="col" colspan="2" class="text-center">Boys</th>
+            <th scope="col" colspan="2" class="text-center">Girls</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        @foreach (var best in Model.OutdoorRunningPerformances)
+        {
+            <tr>
+                <th scope="row" class="align-middle">
+                    @best.EventName
+                </th>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a title="@best.BoysAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthleteUrlName">
+                                @best.BoysAthleteName
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+                <td class="align-middle perf border-end">
+                    @best.BoysPerformance
+                    @if (best.BoysPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a title="@best.GirlsAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthleteUrlName">
+                                @best.GirlsAthleteName
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+                <td class="align-middle perf">
+                    @best.GirlsPerformance
+                    @if (best.GirlsPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+            </tr>
+        }
+        @foreach (var best in Model.OutdoorRunningRelayPerformances)
+        {
+            <tr>
+                <th scope="row" class="align-middle">
+                    @best.EventName
+                </th>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        @for (int i = 0; i < best.BoysAthletesNames.Count; i++)
+                        {
+                            <li>
+                                <a title="@best.BoysAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthletesUrlNames[i]">
+                                    @best.BoysAthletesNames[i]
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td class="align-middle perf border-end">
+                    @best.BoysPerformance
+                    @if (best.BoysPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        @for (int i = 0; i < best.GirlsAthletesNames.Count; i++)
+                        {
+                            <li>
+                                <a title="@best.GirlsAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthletesUrlNames[i]">
+                                    @best.GirlsAthletesNames[i]
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td class="align-middle perf">
+                    @best.GirlsPerformance
+                    @if (best.GirlsPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+
+            </tr>
+        }
+        @foreach (var best in Model.OutdoorFieldPerformances)
+        {
+            <tr>
+                <th scope="row" class="align-middle">
+                    @best.EventName
+                </th>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a title="@best.BoysAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthleteUrlName">
+                                @best.BoysAthleteName
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+                <td class="align-middle perf border-end">
+                    @best.BoysPerformance
+                    @if (best.BoysPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a title="@best.GirlsAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthleteUrlName">
+                                @best.GirlsAthleteName
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+                <td class="align-middle perf">
+                    @best.GirlsPerformance
+                    @if (best.GirlsPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+
+            </tr>
+        }
+        @foreach (var best in Model.OutdoorFieldRelayPerformances)
+        {
+            <tr>
+                <th scope="row" class="align-middle">
+                    @best.EventName
+                </th>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        @for (int i = 0; i < best.BoysAthletesNames.Count; i++)
+                        {
+                            <li>
+                                <a title="@best.BoysAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthletesUrlNames[i]">
+                                    @best.BoysAthletesNames[i]
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td class="align-middle perf border-end">
+                    @best.BoysPerformance
+                    @if (best.BoysPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        @for (int i = 0; i < best.GirlsAthletesNames.Count; i++)
+                        {
+                            <li>
+                                <a title="@best.GirlsAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthletesUrlNames[i]">
+                                    @best.GirlsAthletesNames[i]
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td class="align-middle perf">
+                    @best.GirlsPerformance
+                    @if (best.GirlsPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+@if (Model.IndoorRunningPerformances.Any() || Model.IndoorRunningRelayPerformances.Any() || Model.IndoorFieldPerformances.Any() || Model.IndoorFieldRelayPerformances.Any())
+{
+    <h1 class="display-6 text-center">
+        Indoor Bests
+    </h1>
+    <table class="table table-hover table-striped table-sm">
+        <caption>@Model.Season.Name Season Indoor Bests</caption>
+        <thead>
+        <tr>
+            <th scope="col" class="text-center">Event</th>
+            <th scope="col" colspan="2" class="text-center">Boys</th>
+            <th scope="col" colspan="2" class="text-center">Girls</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        @foreach (var best in Model.IndoorRunningPerformances)
+        {
+            <tr>
+                <th scope="row" class="align-middle">
+                    @best.EventName
+                </th>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a title="@best.BoysAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthleteUrlName">
+                                @best.BoysAthleteName
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+                <td class="align-middle perf border-end">
+                    @best.BoysPerformance
+                    @if (best.BoysPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a title="@best.GirlsAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthleteUrlName">
+                                @best.GirlsAthleteName
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+                <td class="align-middle perf">
+                    @best.GirlsPerformance
+                    @if (best.GirlsPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+
+            </tr>
+        }
+        @foreach (var best in Model.IndoorRunningRelayPerformances)
+        {
+            <tr>
+                <th scope="row" class="align-middle">
+                    @best.EventName
+                </th>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        @for (int i = 0; i < best.BoysAthletesNames.Count; i++)
+                        {
+                            <li>
+                                <a title="@best.BoysAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthletesUrlNames[i]">
+                                    @best.BoysAthletesNames[i]
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td class="align-middle perf border-end">
+                    @best.BoysPerformance
+                    @if (best.BoysPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        @for (int i = 0; i < best.GirlsAthletesNames.Count; i++)
+                        {
+                            <li>
+                                <a title="@best.GirlsAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthletesUrlNames[i]">
+                                    @best.GirlsAthletesNames[i]
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td class="align-middle perf">
+                    @best.GirlsPerformance
+                    @if (best.GirlsPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+
+            </tr>
+        }
+        @foreach (var best in Model.IndoorFieldPerformances)
+        {
+            <tr>
+                <th scope="row" class="align-middle">
+                    @best.EventName
+                </th>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a title="@best.BoysAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthleteUrlName">
+                                @best.BoysAthleteName
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+                <td class="align-middle perf border-end">
+                    @best.BoysPerformance
+                    @if (best.BoysPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a title="@best.GirlsAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthleteUrlName">
+                                @best.GirlsAthleteName
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+                <td class="align-middle perf">
+                    @best.GirlsPerformance
+                    @if (best.GirlsPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+
+            </tr>
+        }
+        @foreach (var best in Model.IndoorFieldRelayPerformances)
+        {
+            <tr>
+                <th scope="row" class="align-middle">
+                    @best.EventName
+                </th>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        @for (int i = 0; i < best.BoysAthletesNames.Count; i++)
+                        {
+                            <li>
+                                <a title="@best.BoysAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthletesUrlNames[i]">
+                                    @best.BoysAthletesNames[i]
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td class="align-middle perf border-end">
+                    @best.BoysPerformance
+                    @if (best.BoysPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+                <td class="align-middle">
+                    <ul class="list-unstyled mb-0">
+                        @for (int i = 0; i < best.GirlsAthletesNames.Count; i++)
+                        {
+                            <li>
+                                <a title="@best.GirlsAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthletesUrlNames[i]">
+                                    @best.GirlsAthletesNames[i]
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td class="align-middle perf">
+                    @best.GirlsPerformance
+                    @if (best.GirlsPersonalBest)
+                    {
+                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+</div>
+<div class="col-lg-6">
+    @if (Model.OutdoorMeets.Any())
+    {
+        <h1 class="display-6 text-center">
+            Outdoor Meets
+        </h1>
+        <table class="table table-hover table-striped table-sm">
+            <caption>@Model.Season.Name Season Outdoor Meets</caption>
+            <thead>
+            <tr>
+                <th scope="col">Meet</th>
+                <th scope="col">Date</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            @foreach (var meet in Model.OutdoorMeets)
+            {
+                <tr>
+                    <td>
+                        <a title="@meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@meet.UrlName">
+                            @meet.Name @@ @meet.Location
+                        </a>
+                    </td>
+                    <td>@meet.Date.ToString("MM/dd/yyyy")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    @if (Model.IndoorMeets.Any())
+    {
+        <h1 class="display-6 text-center">
+            Indoor Meets
+        </h1>
+        <table class="table table-hover table-striped table-sm">
+            <caption>@Model.Season.Name Season Indoor Meets</caption>
+            <thead>
+            <tr>
+                <th scope="col">Meet</th>
+                <th scope="col">Date</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            @foreach (var meet in Model.IndoorMeets)
+            {
+                <tr>
+                    <td>
+                        <a title="@meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@meet.UrlName">
+                            @meet.Name @@ @meet.Location
+                        </a>
+                    </td>
+                    <td>@meet.Date.ToString("MM/dd/yyyy")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>
+</div>

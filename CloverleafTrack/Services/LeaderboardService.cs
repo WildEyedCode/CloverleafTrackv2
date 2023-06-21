@@ -193,26 +193,26 @@ public class LeaderboardService : ILeaderboardService
     private GenderLeaderboardViewModel GetGenderLeaderboard(Gender gender)
     {
         return new GenderLeaderboardViewModel(
-            performanceService.FieldPerformances.Where(x => x.Event.Environment == Environment.Indoor && x.Event.Gender == gender).Select(x => new FieldLeaderboardViewModel(x.Event, x, x.Athlete)).ToList(),
-            performanceService.FieldPerformances.Where(x => x.Event.Environment == Environment.Outdoor && x.Event.Gender == gender).Select(x => new FieldLeaderboardViewModel(x.Event, x, x.Athlete)).ToList(),
-            performanceService.FieldRelayPerformances.Where(x => x.Event.Environment == Environment.Indoor && x.Event.Gender == gender).Select(x => new FieldRelayLeaderboardViewModel(x.Event, x, x.Athletes)).ToList(),
-            performanceService.FieldRelayPerformances.Where(x => x.Event.Environment == Environment.Outdoor && x.Event.Gender == gender).Select(x => new FieldRelayLeaderboardViewModel(x.Event, x, x.Athletes)).ToList(),
-            performanceService.RunningPerformances.Where(x => x.Event.Environment == Environment.Indoor && x.Event.Gender == gender).Select(x => new RunningLeaderboardViewModel(x.Event, x, x.Athlete)).ToList(),
-            performanceService.RunningPerformances.Where(x => x.Event.Environment == Environment.Outdoor && x.Event.Gender == gender).Select(x => new RunningLeaderboardViewModel(x.Event, x, x.Athlete)).ToList(),
-            performanceService.RunningRelayPerformances.Where(x => x.Event.Environment == Environment.Indoor && x.Event.Gender == gender).Select(x => new RunningRelayLeaderboardViewModel(x.Event, x, x.Athletes)).ToList(),
-            performanceService.RunningRelayPerformances.Where(x => x.Event.Environment == Environment.Outdoor && x.Event.Gender == gender).Select(x => new RunningRelayLeaderboardViewModel(x.Event, x, x.Athletes)).ToList());
+            performanceService.IndoorFieldPerformances.Where(x => x.Event.Gender == gender).Select(x => new FieldLeaderboardViewModel(x.Event, x, x.Athlete)).ToList(),
+            performanceService.OutdoorFieldPerformances.Where(x => x.Event.Gender == gender).Select(x => new FieldLeaderboardViewModel(x.Event, x, x.Athlete)).ToList(),
+            performanceService.IndoorFieldRelayPerformances.Where(x => x.Event.Gender == gender).Select(x => new FieldRelayLeaderboardViewModel(x.Event, x, x.Athletes)).ToList(),
+            performanceService.OutdoorFieldRelayPerformances.Where(x => x.Event.Gender == gender).Select(x => new FieldRelayLeaderboardViewModel(x.Event, x, x.Athletes)).ToList(),
+            performanceService.IndoorRunningPerformances.Where(x => x.Event.Gender == gender).Select(x => new RunningLeaderboardViewModel(x.Event, x, x.Athlete)).ToList(),
+            performanceService.OutdoorRunningPerformances.Where(x => x.Event.Gender == gender).Select(x => new RunningLeaderboardViewModel(x.Event, x, x.Athlete)).ToList(),
+            performanceService.IndoorRunningRelayPerformances.Where(x => x.Event.Gender == gender).Select(x => new RunningRelayLeaderboardViewModel(x.Event, x, x.Athletes)).ToList(),
+            performanceService.OutdoorRunningRelayPerformances.Where(x => x.Event.Gender == gender).Select(x => new RunningRelayLeaderboardViewModel(x.Event, x, x.Athletes)).ToList());
     }
 
     private GenderEventsViewModel GetGenderEvents(Gender gender)
     {
         return new GenderEventsViewModel(
-            eventService.FieldEvents.FindAll(x => x.Environment == Environment.Indoor && x.Gender == gender),
-            eventService.FieldEvents.FindAll(x => x.Environment == Environment.Outdoor && x.Gender == gender),
-            eventService.FieldRelayEvents.FindAll(x => x.Environment == Environment.Indoor && x.Gender == gender),
-            eventService.FieldRelayEvents.FindAll(x => x.Environment == Environment.Outdoor && x.Gender == gender),
-            eventService.RunningEvents.FindAll(x => x.Environment == Environment.Indoor && x.Gender == gender),
-            eventService.RunningEvents.FindAll(x => x.Environment == Environment.Outdoor && x.Gender == gender),
-            eventService.RunningRelayEvents.FindAll(x => x.Environment == Environment.Indoor && x.Gender == gender),
-            eventService.RunningRelayEvents.FindAll(x => x.Environment == Environment.Outdoor && x.Gender == gender));
+            eventService.IndoorFieldEvents.FindAll(x => x.Gender == gender),
+            eventService.OutdoorFieldEvents.FindAll(x => x.Gender == gender),
+            eventService.IndoorFieldRelayEvents.FindAll(x => x.Gender == gender),
+            eventService.OutdoorFieldRelayEvents.FindAll(x => x.Gender == gender),
+            eventService.IndoorRunningEvents.FindAll(x => x.Gender == gender),
+            eventService.OutdoorRunningEvents.FindAll(x => x.Gender == gender),
+            eventService.IndoorRunningRelayEvents.FindAll(x => x.Gender == gender),
+            eventService.OutdoorRunningRelayEvents.FindAll(x => x.Gender == gender));
     }
 }

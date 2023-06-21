@@ -1,24 +1,139 @@
-﻿@model HomeViewModel
+﻿@using CloverleafTrack.Models
+@model RosterViewModel
 
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Roster";
 }
 
-<h1 class="display-5">
-    Welcome!
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Roster
+        </li>
+    </ol>
+</nav>
+
+<h1 class="display-5 text-center">
+    Roster
 </h1>
 
-<p class="lead">
-    Welcome to the Cloverleaf Track and Field statistics website.
-</p>
-<p>
-    In total there are <span class="fw-bold">xxx</span> performances for <span class="fw-bold">xxx</span> athletes from
-    <span class="fw-bold">@Model.MeetCount</span> meets across <span class="fw-bold">xxx</span> seasons of Cloverleaf Track.
-</p>
-<p>
-    A lot of this website was updated manually. If something seems wrong, it very likely is. Please 
-    <a href="mailto:tony@morriscloud.com">email me</a> if you notice anything needs corrected!
-</p>
-<p>
-    This website was last updated on @DateTime.Now.ToLocalTime().ToString("D") at @DateTime.Now.ToString("h:mm:ss tt")
-</p>
+<h1 class="display-6 text-center">
+    Current Athletes
+</h1>
+<div class="row">
+    <div class="col-lg-6">
+        <table class="table table-hover table-striped text-center">
+            <caption>Current Boys Athletes</caption>
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Graduation Year</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var athlete in Model.CurrentBoysAthletes)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
+                            @athlete.Name
+                        </a>
+                    </td>
+                    <td>
+                        @athlete.GraduationYear
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-6">
+        <table class="table table-hover table-striped text-center">
+            <caption>Current Girls Athletes</caption>
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Graduation Year</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var athlete in Model.CurrentGirlsAthletes)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
+                            @athlete.Name
+                        </a>
+                    </td>
+                    <td>
+                        @athlete.GraduationYear
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<h1 class="display-6 text-center">
+    Past Athletes
+</h1>
+<div class="row">
+    <div class="col-lg-6">
+        <table class="table table-hover table-striped text-center">
+            <caption>Current Boys Athletes</caption>
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Graduation Year</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var athlete in Model.PastBoysAthletes)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
+                            @athlete.Name
+                        </a>
+                    </td>
+                    <td>
+                        @athlete.GraduationYear
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-6">
+        <table class="table table-hover table-striped text-center">
+            <caption>Current Girls Athletes</caption>
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Graduation Year</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var athlete in Model.PastGirlsAthletes)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
+                            @athlete.Name
+                        </a>
+                    </td>
+                    <td>
+                        @athlete.GraduationYear
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

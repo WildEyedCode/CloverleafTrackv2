@@ -8,6 +8,8 @@ public class Season : AuditModel, IEquatable<Season>
     public string Name { get; set; } = string.Empty;
 
     public List<Meet> Meets { get; set; } = new();
+    public List<Meet> IndoorMeets => Meets.FindAll(x => x.Environment == Environment.Indoor);
+    public List<Meet> OutdoorMeets => Meets.FindAll(x => x.Environment == Environment.Outdoor);
     
     public bool Equals(Season? other)
     {

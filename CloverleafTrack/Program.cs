@@ -1,9 +1,12 @@
 using System.Data;
 using System.Data.SqlClient;
 
+using CloverleafTrack.Options;
 using CloverleafTrack.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<CloverleafTrackOptions>(builder.Configuration.GetSection(CloverleafTrackOptions.CloverleafTrack));
 
 builder.Services.AddTransient<IDbConnection>(db => new SqlConnection(builder.Configuration.GetConnectionString("CloverleafTrack")));
 builder.Services.AddSingleton<IAthleteService, AthleteService>();
