@@ -9,6 +9,8 @@ using Dapper;
 
 using Microsoft.Extensions.Options;
 
+using Environment = CloverleafTrack.Models.Environment;
+
 namespace CloverleafTrack.Services;
 
 public interface IAthleteService
@@ -18,18 +20,22 @@ public interface IAthleteService
     public Task ReloadAsync(CancellationToken token);
     public List<Athlete> CurrentAthletes(bool gender);
     public List<Athlete> PastAthletes(bool gender);
+    public Athlete? GetAthleteByUrlName(string urlName);
     public RosterViewModel GetRoster();
+    public AthleteViewModel GetAthlete(string urlName);
 }
 
 public class AthleteService : IAthleteService
 {
     private readonly IDbConnection connection;
     private readonly CloverleafTrackOptions options;
+    private readonly IPerformanceService performanceService;
 
-    public AthleteService(IDbConnection connection, IOptions<CloverleafTrackOptions> options)
+    public AthleteService(IDbConnection connection, IOptions<CloverleafTrackOptions> options, IPerformanceService performanceService)
     {
         this.connection = connection;
         this.options = options.Value;
+        this.performanceService = performanceService;
         Athletes = new List<Athlete>();
     }
     
@@ -58,8 +64,37 @@ public class AthleteService : IAthleteService
             .ToList();
     }
 
+    public Athlete? GetAthleteByUrlName(string urlName)
+    {
+        return Athletes.FirstOrDefault(x => x.UrlName == urlName);
+    }
+
     public RosterViewModel GetRoster()
     {
         return new RosterViewModel(CurrentAthletes(false), CurrentAthletes(true), PastAthletes(false), PastAthletes(true));
+    }
+
+    public AthleteViewModel GetAthlete(string urlName)
+    {
+        var athlete = GetAthleteByUrlName(urlName);
+        var indoorFieldPerformances = performanceService.GetFieldPerformancesByAthlete(athlete, Environment.Indoor);
+        var outdoorFieldPerformances = performanceService.GetFieldPerformancesByAthlete(athlete, Environment.Outdoor);
+        var indoorFieldRelayPerformances = performanceService.GetFieldRelayPerformancesByAthlete(athlete, Environment.Indoor);
+        var outdoorFieldRelayPerformances = performanceService.GetFieldRelayPerformancesByAthlete(athlete, Environment.Outdoor);
+        var indoorRunningPerformances = performanceService.GetRunningPerformancesByAthlete(athlete, Environment.Indoor);
+        var outdoorRunningPerformances = performanceService.GetRunningPerformancesByAthlete(athlete, Environment.Outdoor);
+        var indoorRunningRelayPerformances = performanceService.GetRunningRelayPerformancesByAthlete(athlete, Environment.Indoor);
+        var outdoorRunningRelayPerformances = performanceService.GetRunningRelayPerformancesByAthlete(athlete, Environment.Outdoor);
+
+        return new AthleteViewModel(
+            athlete, 
+            indoorFieldPerformances,
+            outdoorFieldPerformances,
+            indoorFieldRelayPerformances,
+            outdoorFieldRelayPerformances,
+            indoorRunningPerformances,
+            outdoorRunningPerformances,
+            indoorRunningRelayPerformances,
+            outdoorRunningRelayPerformances);
     }
 }

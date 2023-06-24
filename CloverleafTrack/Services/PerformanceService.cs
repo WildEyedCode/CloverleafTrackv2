@@ -2,6 +2,7 @@ using System.Data;
 
 using CloverleafTrack.Models;
 using CloverleafTrack.Queries;
+using CloverleafTrack.ViewModels;
 
 using Dapper;
 
@@ -33,6 +34,10 @@ public interface IPerformanceService
     public FieldRelayPerformance? GetBestForEventAndSeason(FieldRelayEvent @event, Season season);
     public RunningPerformance? GetBestForEventAndSeason(RunningEvent @event, Season season);
     public RunningRelayPerformance? GetBestForEventAndSeason(RunningRelayEvent @event, Season season);
+    public List<FieldEventPerformancesViewModel> GetFieldPerformancesByAthlete(Athlete? athlete, Environment environment);
+    public List<FieldRelayEventPerformancesViewModel> GetFieldRelayPerformancesByAthlete(Athlete? athlete, Environment environment);
+    public List<RunningEventPerformancesViewModel> GetRunningPerformancesByAthlete(Athlete? athlete, Environment environment);
+    public List<RunningRelayEventPerformancesViewModel> GetRunningRelayPerformancesByAthlete(Athlete? athlete, Environment environment);
 }
 
 public class PerformanceService : IPerformanceService
@@ -42,6 +47,7 @@ public class PerformanceService : IPerformanceService
     public PerformanceService(IDbConnection connection)
     {
         this.connection = connection;
+        
         FieldPerformances = new List<FieldPerformance>();
         FieldRelayPerformances = new List<FieldRelayPerformance>();
         RunningPerformances = new List<RunningPerformance>();
@@ -96,6 +102,106 @@ public class PerformanceService : IPerformanceService
     {
         var performances = RunningRelayPerformances.FindAll(x => x.Meet.SeasonId == season.Id && x.EventId == @event.Id);
         return performances.MinBy(x => x.Time);
+    }
+    
+    public List<FieldEventPerformancesViewModel> GetFieldPerformancesByAthlete(Athlete? athlete, Environment environment)
+    {
+        if (athlete == null)
+        {
+            return Enumerable.Empty<FieldEventPerformancesViewModel>().ToList();
+        }
+
+        var output = new List<FieldEventPerformancesViewModel>();
+        var performances = FieldPerformances.FindAll(x => x.Event.Environment == environment && x.AthleteId == athlete.Id);
+        foreach (var performance in performances)
+        {
+            var existing = output.Find(x => x.Event.Id == performance.EventId);
+            if (existing != null)
+            {
+                existing.Performances.Add(performance);
+            }
+            else
+            {
+                output.Add(new FieldEventPerformancesViewModel(performance.Event, new List<FieldPerformance> { performance }));
+            }
+        }
+
+        return output;
+    }
+    
+    public List<FieldRelayEventPerformancesViewModel> GetFieldRelayPerformancesByAthlete(Athlete? athlete, Environment environment)
+    {
+        if (athlete == null)
+        {
+            return Enumerable.Empty<FieldRelayEventPerformancesViewModel>().ToList();
+        }
+
+        var output = new List<FieldRelayEventPerformancesViewModel>();
+        var performances = FieldRelayPerformances.FindAll(x => x.Event.Environment == environment && x.Athletes.Any(x => x.Id == athlete.Id));
+        foreach (var performance in performances)
+        {
+            var existing = output.Find(x => x.Event.Id == performance.EventId);
+            if (existing != null)
+            {
+                existing.Performances.Add(performance);
+            }
+            else
+            {
+                output.Add(new FieldRelayEventPerformancesViewModel(performance.Event, new List<FieldRelayPerformance> { performance }));
+            }
+        }
+
+        return output;
+    }
+    
+    public List<RunningEventPerformancesViewModel> GetRunningPerformancesByAthlete(Athlete? athlete, Environment environment)
+    {
+        if (athlete == null)
+        {
+            return Enumerable.Empty<RunningEventPerformancesViewModel>().ToList();
+        }
+
+        var output = new List<RunningEventPerformancesViewModel>();
+        var performances = RunningPerformances.FindAll(x => x.Event.Environment == environment && x.AthleteId == athlete.Id);
+        foreach (var performance in performances)
+        {
+            var existing = output.Find(x => x.Event.Id == performance.EventId);
+            if (existing != null)
+            {
+                existing.Performances.Add(performance);
+            }
+            else
+            {
+                output.Add(new RunningEventPerformancesViewModel(performance.Event, new List<RunningPerformance> { performance }));
+            }
+        }
+
+        return output;
+    }
+    
+    public List<RunningRelayEventPerformancesViewModel> GetRunningRelayPerformancesByAthlete(Athlete? athlete, Environment environment)
+    {
+        if (athlete == null)
+        {
+            return Enumerable.Empty<RunningRelayEventPerformancesViewModel>().ToList();
+        }
+
+        var output = new List<RunningRelayEventPerformancesViewModel>();
+        var performances = RunningRelayPerformances.FindAll(x => x.Event.Environment == environment && x.Athletes.Any(x => x.Id == athlete.Id));
+        foreach (var performance in performances)
+        {
+            var existing = output.Find(x => x.Event.Id == performance.EventId);
+            if (existing != null)
+            {
+                existing.Performances.Add(performance);
+            }
+            else
+            {
+                output.Add(new RunningRelayEventPerformancesViewModel(performance.Event, new List<RunningRelayPerformance> { performance }));
+            }
+        }
+
+        return output;
     }
 
     private async Task<List<FieldPerformance>> ReloadFieldPerformancesAsync()

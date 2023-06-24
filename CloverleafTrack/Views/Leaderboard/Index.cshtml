@@ -17,13 +17,13 @@
     </ol>
 </nav>
 
-<h1 class="display-5 text-center">
+<h1 class="text-center">
     All-Time Leaderboard
 </h1>
 
 <div class="row">
 <div class="col-lg-6 text-center">
-<h1 class="display-6">Boys</h1>
+<h2>Boys</h2>
 <table class="table table-hover table-striped table-sm">
 <caption>Boys Outdoor Leaderboard</caption>
 <thead>
@@ -54,7 +54,7 @@
                 @if (performance != null)
                 {
                     <li>
-                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@performance.Athlete.UrlName">
                             @performance.Athlete.Name
                         </a>
                     </li>
@@ -97,7 +97,7 @@
                     @foreach (var athlete in performance.Athletes)
                     {
                         <li>
-                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
                                 @athlete.Name
                             </a>
                         </li>
@@ -149,7 +149,7 @@
                 @if (performance != null)
                 {
                     <li>
-                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@performance.Athlete.UrlName">
                             @performance.Athlete.Name
                         </a>
                     </li>
@@ -192,7 +192,7 @@
                     @foreach (var athlete in performance.Athletes)
                     {
                         <li>
-                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
                                 @athlete.Name
                             </a>
                         </li>
@@ -258,7 +258,7 @@
                 @if (performance != null)
                 {
                     <li>
-                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@performance.Athlete.UrlName">
                             @performance.Athlete.Name
                         </a>
                     </li>
@@ -301,7 +301,7 @@
                     @foreach (var athlete in performance.Athletes)
                     {
                         <li>
-                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
                                 @athlete.Name
                             </a>
                         </li>
@@ -353,7 +353,7 @@
                 @if (performance != null)
                 {
                     <li>
-                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@performance.Athlete.UrlName">
                             @performance.Athlete.Name
                         </a>
                     </li>
@@ -396,7 +396,7 @@
                     @foreach (var athlete in performance.Athletes)
                     {
                         <li>
-                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
                                 @athlete.Name
                             </a>
                         </li>
@@ -434,7 +434,7 @@
 </table>
 </div>
 <div class="col-lg-6 text-center">
-<h1 class="display-6">Girls</h1>
+<h2>Girls</h2>
 <table class="table table-hover table-striped table-sm">
 <caption>Girls Outdoor Leaderboard</caption>
 <thead>
@@ -465,7 +465,7 @@
                 @if (performance != null)
                 {
                     <li>
-                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@performance.Athlete.UrlName">
                             @performance.Athlete.Name
                         </a>
                     </li>
@@ -508,7 +508,7 @@
                     @foreach (var athlete in performance.Athletes)
                     {
                         <li>
-                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
                                 @athlete.Name
                             </a>
                         </li>
@@ -560,7 +560,7 @@
                 @if (performance != null)
                 {
                     <li>
-                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@performance.Athlete.UrlName">
                             @performance.Athlete.Name
                         </a>
                     </li>
@@ -603,7 +603,7 @@
                     @foreach (var athlete in performance.Athletes)
                     {
                         <li>
-                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
                                 @athlete.Name
                             </a>
                         </li>
@@ -669,7 +669,7 @@
                 @if (performance != null)
                 {
                     <li>
-                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@performance.Athlete.UrlName">
                             @performance.Athlete.Name
                         </a>
                     </li>
@@ -712,7 +712,7 @@
                     @foreach (var athlete in performance.Athletes)
                     {
                         <li>
-                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
                                 @athlete.Name
                             </a>
                         </li>
@@ -764,7 +764,7 @@
                 @if (performance != null)
                 {
                     <li>
-                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@performance.Athlete.UrlName">
+                        <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@performance.Athlete.UrlName">
                             @performance.Athlete.Name
                         </a>
                     </li>
@@ -807,7 +807,7 @@
                     @foreach (var athlete in performance.Athletes)
                     {
                         <li>
-                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                            <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
                                 @athlete.Name
                             </a>
                         </li>

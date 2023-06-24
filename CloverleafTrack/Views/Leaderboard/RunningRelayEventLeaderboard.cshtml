@@ -30,7 +30,7 @@
     </ol>
 </nav>
 
-<h1 class="display-5 text-center">
+<h1 class="text-center">
     @if (Model.PersonalRecordsOnly)
     {
         @Model.Event.DisplayName
@@ -94,7 +94,7 @@
                         @foreach (var athlete in leaderboard.Athletes)
                         {
                             <li>
-                                <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@athlete.UrlName">
+                                <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
                                     @athlete.Name
                                 </a>
                             </li>

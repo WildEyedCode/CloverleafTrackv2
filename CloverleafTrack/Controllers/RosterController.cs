@@ -24,6 +24,12 @@ public class RosterController : Controller
     [Route("{name}")]
     public IActionResult Athlete(string name)
     {
-        return View();
+        var vm = athleteService.GetAthlete(name);
+        if (vm.Athlete == null)
+        {
+            return NotFound(name);
+        }
+        
+        return View(vm);
     }
 }

@@ -22,7 +22,7 @@
     </ol>
 </nav>
 
-<h1 class="display-5 text-center">
+<h1 class="text-center">
     @Model.Season.Name Season Details
 </h1>
 
@@ -30,9 +30,9 @@
 <div class="col-lg-6">
 @if (Model.OutdoorRunningPerformances.Any() || Model.OutdoorRunningRelayPerformances.Any() || Model.OutdoorFieldPerformances.Any() || Model.OutdoorFieldRelayPerformances.Any())
 {
-    <h1 class="display-6 text-center">
+    <h2 class="text-center">
         Outdoor Bests
-    </h1>
+    </h2>
     <table class="table table-hover table-striped table-sm">
         <caption>@Model.Season.Name Season Outdoor Bests</caption>
         <thead>
@@ -52,7 +52,7 @@
                 <td class="align-middle">
                     <ul class="list-unstyled mb-0">
                         <li>
-                            <a title="@best.BoysAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthleteUrlName">
+                            <a title="@best.BoysAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.BoysAthleteUrlName">
                                 @best.BoysAthleteName
                             </a>
                         </li>
@@ -68,7 +68,7 @@
                 <td class="align-middle">
                     <ul class="list-unstyled mb-0">
                         <li>
-                            <a title="@best.GirlsAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthleteUrlName">
+                            <a title="@best.GirlsAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.GirlsAthleteUrlName">
                                 @best.GirlsAthleteName
                             </a>
                         </li>
@@ -94,7 +94,7 @@
                         @for (int i = 0; i < best.BoysAthletesNames.Count; i++)
                         {
                             <li>
-                                <a title="@best.BoysAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthletesUrlNames[i]">
+                                <a title="@best.BoysAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.BoysAthletesUrlNames[i]">
                                     @best.BoysAthletesNames[i]
                                 </a>
                             </li>
@@ -113,7 +113,7 @@
                         @for (int i = 0; i < best.GirlsAthletesNames.Count; i++)
                         {
                             <li>
-                                <a title="@best.GirlsAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthletesUrlNames[i]">
+                                <a title="@best.GirlsAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.GirlsAthletesUrlNames[i]">
                                     @best.GirlsAthletesNames[i]
                                 </a>
                             </li>
@@ -139,7 +139,7 @@
                 <td class="align-middle">
                     <ul class="list-unstyled mb-0">
                         <li>
-                            <a title="@best.BoysAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthleteUrlName">
+                            <a title="@best.BoysAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.BoysAthleteUrlName">
                                 @best.BoysAthleteName
                             </a>
                         </li>
@@ -155,7 +155,7 @@
                 <td class="align-middle">
                     <ul class="list-unstyled mb-0">
                         <li>
-                            <a title="@best.GirlsAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthleteUrlName">
+                            <a title="@best.GirlsAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.GirlsAthleteUrlName">
                                 @best.GirlsAthleteName
                             </a>
                         </li>
@@ -182,7 +182,7 @@
                         @for (int i = 0; i < best.BoysAthletesNames.Count; i++)
                         {
                             <li>
-                                <a title="@best.BoysAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthletesUrlNames[i]">
+                                <a title="@best.BoysAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.BoysAthletesUrlNames[i]">
                                     @best.BoysAthletesNames[i]
                                 </a>
                             </li>
@@ -201,7 +201,7 @@
                         @for (int i = 0; i < best.GirlsAthletesNames.Count; i++)
                         {
                             <li>
-                                <a title="@best.GirlsAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthletesUrlNames[i]">
+                                <a title="@best.GirlsAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.GirlsAthletesUrlNames[i]">
                                     @best.GirlsAthletesNames[i]
                                 </a>
                             </li>
@@ -223,9 +223,9 @@
 }
 @if (Model.IndoorRunningPerformances.Any() || Model.IndoorRunningRelayPerformances.Any() || Model.IndoorFieldPerformances.Any() || Model.IndoorFieldRelayPerformances.Any())
 {
-    <h1 class="display-6 text-center">
+    <h2 class="text-center">
         Indoor Bests
-    </h1>
+    </h2>
     <table class="table table-hover table-striped table-sm">
         <caption>@Model.Season.Name Season Indoor Bests</caption>
         <thead>
@@ -245,7 +245,7 @@
                 <td class="align-middle">
                     <ul class="list-unstyled mb-0">
                         <li>
-                            <a title="@best.BoysAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthleteUrlName">
+                            <a title="@best.BoysAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.BoysAthleteUrlName">
                                 @best.BoysAthleteName
                             </a>
                         </li>
@@ -261,7 +261,7 @@
                 <td class="align-middle">
                     <ul class="list-unstyled mb-0">
                         <li>
-                            <a title="@best.GirlsAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthleteUrlName">
+                            <a title="@best.GirlsAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.GirlsAthleteUrlName">
                                 @best.GirlsAthleteName
                             </a>
                         </li>
@@ -288,7 +288,7 @@
                         @for (int i = 0; i < best.BoysAthletesNames.Count; i++)
                         {
                             <li>
-                                <a title="@best.BoysAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthletesUrlNames[i]">
+                                <a title="@best.BoysAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.BoysAthletesUrlNames[i]">
                                     @best.BoysAthletesNames[i]
                                 </a>
                             </li>
@@ -307,7 +307,7 @@
                         @for (int i = 0; i < best.GirlsAthletesNames.Count; i++)
                         {
                             <li>
-                                <a title="@best.GirlsAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthletesUrlNames[i]">
+                                <a title="@best.GirlsAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.GirlsAthletesUrlNames[i]">
                                     @best.GirlsAthletesNames[i]
                                 </a>
                             </li>
@@ -333,7 +333,7 @@
                 <td class="align-middle">
                     <ul class="list-unstyled mb-0">
                         <li>
-                            <a title="@best.BoysAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthleteUrlName">
+                            <a title="@best.BoysAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.BoysAthleteUrlName">
                                 @best.BoysAthleteName
                             </a>
                         </li>
@@ -349,7 +349,7 @@
                 <td class="align-middle">
                     <ul class="list-unstyled mb-0">
                         <li>
-                            <a title="@best.GirlsAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthleteUrlName">
+                            <a title="@best.GirlsAthleteName" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.GirlsAthleteUrlName">
                                 @best.GirlsAthleteName
                             </a>
                         </li>
@@ -376,7 +376,7 @@
                         @for (int i = 0; i < best.BoysAthletesNames.Count; i++)
                         {
                             <li>
-                                <a title="@best.BoysAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.BoysAthletesUrlNames[i]">
+                                <a title="@best.BoysAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.BoysAthletesUrlNames[i]">
                                     @best.BoysAthletesNames[i]
                                 </a>
                             </li>
@@ -395,7 +395,7 @@
                         @for (int i = 0; i < best.GirlsAthletesNames.Count; i++)
                         {
                             <li>
-                                <a title="@best.GirlsAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@best.GirlsAthletesUrlNames[i]">
+                                <a title="@best.GirlsAthletesNames[i]" asp-controller="Roster" asp-action="Athlete" asp-route-name="@best.GirlsAthletesUrlNames[i]">
                                     @best.GirlsAthletesNames[i]
                                 </a>
                             </li>
@@ -418,9 +418,9 @@
 <div class="col-lg-6">
     @if (Model.OutdoorMeets.Any())
     {
-        <h1 class="display-6 text-center">
+        <h2 class="text-center">
             Outdoor Meets
-        </h1>
+        </h2>
         <table class="table table-hover table-striped table-sm">
             <caption>@Model.Season.Name Season Outdoor Meets</caption>
             <thead>
@@ -446,9 +446,9 @@
     }
     @if (Model.IndoorMeets.Any())
     {
-        <h1 class="display-6 text-center">
+        <h2 class="text-center">
             Indoor Meets
-        </h1>
+        </h2>
         <table class="table table-hover table-striped table-sm">
             <caption>@Model.Season.Name Season Indoor Meets</caption>
             <thead>

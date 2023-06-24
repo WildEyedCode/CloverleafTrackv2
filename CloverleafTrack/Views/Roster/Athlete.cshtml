@@ -1,7 +1,307 @@
-@model object
+@model AthleteViewModel
 
 @{
-    ViewBag.Title = "Athlete";
+    ViewBag.Title = Model.Athlete.Name;
 }
 
-<h2>ATHLETE</h2>
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a title="Roster" asp-controller="Roster" asp-action="Index">
+                Roster
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            @Model.Athlete.Name
+        </li>
+    </ol>
+</nav>
+
+<h1 class="text-center">
+    @Model.Athlete.Name
+</h1>
+
+<h2 class="text-center">
+    Class of @Model.Athlete.GraduationYear
+</h2>
+
+<div class="row">
+<div class="col-lg-6">
+@if (Model.OutdoorFieldEventPerformances.Any() || Model.OutdoorFieldRelayEventPerformances.Any() || Model.OutdoorRunningEventPerformances.Any() || Model.OutdoorRunningRelayEventPerformances.Any())
+{
+    <h3 class="text-center">
+        Outdoor Performances
+    </h3>
+    @foreach (var eventPerformances in Model.OutdoorRunningEventPerformances)
+    {
+        <table class="table table-hover table-striped">
+            <caption>@Model.Athlete.Name's Outdoor @eventPerformances.Event.Name Performances</caption>
+            <thead>
+            <tr>
+                <th colspan="3" class="text-center">
+                    @eventPerformances.Event.Name
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" class="text-center">Performance</th>
+                <th scope="col" class="text-center">Date</th>
+                <th scope="col" class="text-center">Meet</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var performance in eventPerformances.Performances)
+            {
+                <tr>
+                    <td class="text-center">@performance.Time</td>
+                    <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td class="text-center">
+                        <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
+                            @performance.Meet.Name @@ @performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    @foreach (var eventPerformances in Model.OutdoorRunningRelayEventPerformances)
+    {
+        <table class="table table-hover table-striped">
+            <caption>@Model.Athlete.Name's Outdoor @eventPerformances.Event.Name Performances</caption>
+            <thead>
+            <tr>
+                <th colspan="3" class="text-center">
+                    @eventPerformances.Event.Name
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" class="text-center">Performance</th>
+                <th scope="col" class="text-center">Date</th>
+                <th scope="col" class="text-center">Meet</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var performance in eventPerformances.Performances)
+            {
+                <tr>
+                    <td class="text-center">@performance.Time</td>
+                    <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td class="text-center">
+                        <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
+                            @performance.Meet.Name @@ @performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    @foreach (var eventPerformances in Model.OutdoorFieldEventPerformances)
+    {
+        <table class="table table-hover table-striped">
+            <caption>@Model.Athlete.Name's Outdoor @eventPerformances.Event.Name Performances</caption>
+            <thead>
+            <tr>
+                <th colspan="3" class="text-center">
+                    @eventPerformances.Event.Name
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" class="text-center">Performance</th>
+                <th scope="col" class="text-center">Date</th>
+                <th scope="col" class="text-center">Meet</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var performance in eventPerformances.Performances)
+            {
+                <tr>
+                    <td class="text-center">@performance.Distance</td>
+                    <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td class="text-center">
+                        <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
+                            @performance.Meet.Name @@ @performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    @foreach (var eventPerformances in Model.OutdoorFieldRelayEventPerformances)
+    {
+        <table class="table table-hover table-striped">
+            <caption>@Model.Athlete.Name's Outdoor @eventPerformances.Event.Name Performances</caption>
+            <thead>
+            <tr>
+                <th colspan="3" class="text-center">
+                    @eventPerformances.Event.Name
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" class="text-center">Performance</th>
+                <th scope="col" class="text-center">Date</th>
+                <th scope="col" class="text-center">Meet</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var performance in eventPerformances.Performances)
+            {
+                <tr>
+                    <td class="text-center">@performance.Distance</td>
+                    <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td class="text-center">
+                        <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
+                            @performance.Meet.Name @@ @performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+}
+@if (Model.IndoorFieldEventPerformances.Any() || Model.IndoorFieldRelayEventPerformances.Any() || Model.IndoorRunningEventPerformances.Any() || Model.IndoorRunningRelayEventPerformances.Any())
+{
+    <h3 class="text-center">
+        Indoor Performances
+    </h3>
+    @foreach (var eventPerformances in Model.IndoorRunningEventPerformances)
+    {
+        <table class="table table-hover table-striped">
+            <caption>@Model.Athlete.Name's Indoor @eventPerformances.Event.Name Performances</caption>
+            <thead>
+            <tr>
+                <th colspan="3" class="text-center">
+                    @eventPerformances.Event.Name
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" class="text-center">Performance</th>
+                <th scope="col" class="text-center">Date</th>
+                <th scope="col" class="text-center">Meet</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var performance in eventPerformances.Performances)
+            {
+                <tr>
+                    <td class="text-center">@performance.Time</td>
+                    <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td class="text-center">
+                        <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
+                            @performance.Meet.Name @@ @performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    @foreach (var eventPerformances in Model.IndoorRunningRelayEventPerformances)
+    {
+        <table class="table table-hover table-striped">
+            <caption>@Model.Athlete.Name's Indoor @eventPerformances.Event.Name Performances</caption>
+            <thead>
+            <tr>
+                <th colspan="3" class="text-center">
+                    @eventPerformances.Event.Name
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" class="text-center">Performance</th>
+                <th scope="col" class="text-center">Date</th>
+                <th scope="col" class="text-center">Meet</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var performance in eventPerformances.Performances)
+            {
+                <tr>
+                    <td class="text-center">@performance.Time</td>
+                    <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td class="text-center">
+                        <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
+                            @performance.Meet.Name @@ @performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    @foreach (var eventPerformances in Model.IndoorFieldEventPerformances)
+    {
+        <table class="table table-hover table-striped">
+            <caption>@Model.Athlete.Name's Indoor @eventPerformances.Event.Name Performances</caption>
+            <thead>
+            <tr>
+                <th colspan="3" class="text-center">
+                    @eventPerformances.Event.Name
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" class="text-center">Performance</th>
+                <th scope="col" class="text-center">Date</th>
+                <th scope="col" class="text-center">Meet</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var performance in eventPerformances.Performances)
+            {
+                <tr>
+                    <td class="text-center">@performance.Distance</td>
+                    <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td class="text-center">
+                        <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
+                            @performance.Meet.Name @@ @performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    @foreach (var eventPerformances in Model.IndoorFieldRelayEventPerformances)
+    {
+        <table class="table table-hover table-striped">
+            <caption>@Model.Athlete.Name's Indoor @eventPerformances.Event.Name Performances</caption>
+            <thead>
+            <tr>
+                <th colspan="3" class="text-center">
+                    @eventPerformances.Event.Name
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" class="text-center">Performance</th>
+                <th scope="col" class="text-center">Date</th>
+                <th scope="col" class="text-center">Meet</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var performance in eventPerformances.Performances)
+            {
+                <tr>
+                    <td class="text-center">@performance.Distance</td>
+                    <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td class="text-center">
+                        <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
+                            @performance.Meet.Name @@ @performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+}
+</div>
+<div class="col-lg-6">
+
+</div>
+</div>

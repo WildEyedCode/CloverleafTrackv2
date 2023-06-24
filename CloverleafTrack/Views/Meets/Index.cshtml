@@ -17,15 +17,15 @@
     </ol>
 </nav>
 
-<h1 class="display-5 text-center">
+<h1 class="text-center">
     Meets
 </h1>
 
 @foreach (var season in Model.Seasons)
 {
-    <h1 class="display-6 text-center">
+    <h2 class="text-center">
         @season.Season.Name Season
-    </h1>
+    </h2>
     @if (season.OutdoorMeets.Any())
     {
         <table class="table table-hover table-striped table-sm">

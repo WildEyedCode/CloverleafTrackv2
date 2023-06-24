@@ -30,7 +30,7 @@
     </ol>
 </nav>
 
-<h1 class="display-5 text-center">
+<h1 class="text-center">
     @if (Model.PersonalRecordsOnly)
     {
         @Model.Event.DisplayName
@@ -92,7 +92,7 @@
                 <th class="align-middle">
                     <ul class="list-unstyled mb-0">
                         <li>
-                            <a title="@leaderboard.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-athleteName="@leaderboard.Athlete.UrlName">
+                            <a title="@leaderboard.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@leaderboard.Athlete.UrlName">
                                 @leaderboard.Athlete.Name
                             </a>
                         </li>
