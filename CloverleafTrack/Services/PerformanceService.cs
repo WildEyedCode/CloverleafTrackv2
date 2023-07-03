@@ -38,6 +38,14 @@ public interface IPerformanceService
     public List<FieldRelayEventPerformancesViewModel> GetFieldRelayPerformancesByAthlete(Athlete? athlete, Environment environment);
     public List<RunningEventPerformancesViewModel> GetRunningPerformancesByAthlete(Athlete? athlete, Environment environment);
     public List<RunningRelayEventPerformancesViewModel> GetRunningRelayPerformancesByAthlete(Athlete? athlete, Environment environment);
+    List<FieldEventSeasonViewModel> GetFieldPerformanceSeasonBestsByAthlete(Athlete? athlete, Environment environment);
+    List<FieldRelayEventSeasonViewModel> GetFieldRelayPerformanceSeasonBestsByAthlete(Athlete? athlete, Environment environment);
+    List<RunningEventSeasonViewModel> GetRunningPerformanceSeasonBestsByAthlete(Athlete? athlete, Environment environment);
+    List<RunningRelayEventSeasonViewModel> GetRunningRelayPerformanceSeasonBestsByAthlete(Athlete? athlete, Environment environment);
+    public List<FieldEventBestViewModel> GetFieldPerformanceBestsByAthlete(Athlete? athlete, Environment environment);
+    public List<FieldRelayEventBestViewModel> GetFieldRelayPerformanceBestsByAthlete(Athlete? athlete, Environment environment);
+    public List<RunningEventBestViewModel> GetRunningPerformanceBestsByAthlete(Athlete? athlete, Environment environment);
+    public List<RunningRelayEventBestViewModel> GetRunningRelayPerformanceBestsByAthlete(Athlete? athlete, Environment environment);
 }
 
 public class PerformanceService : IPerformanceService
@@ -137,7 +145,7 @@ public class PerformanceService : IPerformanceService
         }
 
         var output = new List<FieldRelayEventPerformancesViewModel>();
-        var performances = FieldRelayPerformances.FindAll(x => x.Event.Environment == environment && x.Athletes.Any(x => x.Id == athlete.Id));
+        var performances = FieldRelayPerformances.FindAll(x => x.Event.Environment == environment && x.Athletes.Any(y => y.Id == athlete.Id));
         foreach (var performance in performances)
         {
             var existing = output.Find(x => x.Event.Id == performance.EventId);
@@ -187,7 +195,7 @@ public class PerformanceService : IPerformanceService
         }
 
         var output = new List<RunningRelayEventPerformancesViewModel>();
-        var performances = RunningRelayPerformances.FindAll(x => x.Event.Environment == environment && x.Athletes.Any(x => x.Id == athlete.Id));
+        var performances = RunningRelayPerformances.FindAll(x => x.Event.Environment == environment && x.Athletes.Any(y => y.Id == athlete.Id));
         foreach (var performance in performances)
         {
             var existing = output.Find(x => x.Event.Id == performance.EventId);
@@ -199,6 +207,233 @@ public class PerformanceService : IPerformanceService
             {
                 output.Add(new RunningRelayEventPerformancesViewModel(performance.Event, new List<RunningRelayPerformance> { performance }));
             }
+        }
+
+        return output;
+    }
+    
+    public List<FieldEventSeasonViewModel> GetFieldPerformanceSeasonBestsByAthlete(Athlete? athlete, Environment environment)
+    {
+        if (athlete == null)
+        {
+            return Enumerable.Empty<FieldEventSeasonViewModel>().ToList();
+        }
+
+        var output = new List<FieldEventSeasonViewModel>();
+        var performances = FieldPerformances.FindAll(x => x.Meet.Environment == environment && x.AthleteId == athlete.Id);
+        var group = performances.GroupBy(x => x.Meet.Season);
+        foreach (var grouping in group)
+        {
+            var eventGroup = grouping.GroupBy(x => x.Event);
+            foreach (var eventGrouping in eventGroup)
+            {
+                var best = eventGrouping.Select(x => x).MaxBy(x => x.Distance);
+                if (best != null)
+                {
+                    var existing = output.FirstOrDefault(x => x.Season.Id == grouping.Key.Id);
+                    if (existing != null)
+                    {
+                        existing.Performances.Add(new FieldEventBestViewModel(best.Event, best));
+                    }
+                    else
+                    {
+                        output.Add(new FieldEventSeasonViewModel(grouping.Key, new List<FieldEventBestViewModel> { new(best.Event, best)}));
+                    }
+                }  
+            }
+        }
+        
+        return output;
+    }
+    
+    public List<FieldRelayEventSeasonViewModel> GetFieldRelayPerformanceSeasonBestsByAthlete(Athlete? athlete, Environment environment)
+    {
+        if (athlete == null)
+        {
+            return Enumerable.Empty<FieldRelayEventSeasonViewModel>().ToList();
+        }
+        
+        var output = new List<FieldRelayEventSeasonViewModel>();
+        var performances = FieldRelayPerformances.FindAll(x => x.Meet.Environment == environment && x.Athletes.Any(y => y.Id == athlete.Id));
+        var group = performances.GroupBy(x => x.Meet.Season);
+        foreach (var grouping in group)
+        {
+            var eventGroup = grouping.GroupBy(x => x.Event);
+            foreach (var eventGrouping in eventGroup)
+            {
+                var best = eventGrouping.Select(x => x).MaxBy(x => x.Distance);
+                if (best != null)
+                {
+                    var existing = output.FirstOrDefault(x => x.Season.Id == grouping.Key.Id);
+                    if (existing != null)
+                    {
+                        existing.Performances.Add(new FieldRelayEventBestViewModel(best.Event, best));
+                    }
+                    else
+                    {
+                        output.Add(new FieldRelayEventSeasonViewModel(grouping.Key, new List<FieldRelayEventBestViewModel> { new(best.Event, best)}));
+                    }
+                }
+            }
+        }
+        
+        return output;
+    }
+    
+    public List<RunningEventSeasonViewModel> GetRunningPerformanceSeasonBestsByAthlete(Athlete? athlete, Environment environment)
+    {
+        if (athlete == null)
+        {
+            return Enumerable.Empty<RunningEventSeasonViewModel>().ToList();
+        }
+        
+        var output = new List<RunningEventSeasonViewModel>();
+        var performances = RunningPerformances.FindAll(x => x.Meet.Environment == environment && x.AthleteId == athlete.Id);
+        var group = performances.GroupBy(x => x.Meet.Season);
+        foreach (var grouping in group)
+        {
+            var eventGroup = grouping.GroupBy(x => x.Event);
+            foreach (var eventGrouping in eventGroup)
+            {
+                var best = eventGrouping.Select(x => x).MinBy(x => x.Time);
+                if (best != null)
+                {
+                    var existing = output.FirstOrDefault(x => x.Season.Id == grouping.Key.Id);
+                    if (existing != null)
+                    {
+                        existing.Performances.Add(new RunningEventBestViewModel(best.Event, best));
+                    }
+                    else
+                    {
+                        output.Add(new RunningEventSeasonViewModel(grouping.Key, new List<RunningEventBestViewModel> { new(best.Event, best)}));
+                    }
+                }
+            }
+        }
+        
+        return output;
+    }
+    
+    public List<RunningRelayEventSeasonViewModel> GetRunningRelayPerformanceSeasonBestsByAthlete(Athlete? athlete, Environment environment)
+    {
+        if (athlete == null)
+        {
+            return Enumerable.Empty<RunningRelayEventSeasonViewModel>().ToList();
+        }
+        
+        var output = new List<RunningRelayEventSeasonViewModel>();
+        var performances = RunningRelayPerformances.FindAll(x => x.Meet.Environment == environment && x.Athletes.Any(y => y.Id == athlete.Id));
+        var group = performances.GroupBy(x => x.Meet.Season);
+        foreach (var grouping in group)
+        {
+            var eventGroup = grouping.GroupBy(x => x.Event);
+            foreach (var eventGrouping in eventGroup)
+            {
+                var best = eventGrouping.Select(x => x).MinBy(x => x.Time);
+                if (best != null)
+                {
+                    var existing = output.FirstOrDefault(x => x.Season.Id == grouping.Key.Id);
+                    if (existing != null)
+                    {
+                        existing.Performances.Add(new RunningRelayEventBestViewModel(best.Event, best));
+                    }
+                    else
+                    {
+                        output.Add(new RunningRelayEventSeasonViewModel(grouping.Key, new List<RunningRelayEventBestViewModel> { new(best.Event, best)}));
+                    }
+                }
+            }
+        }
+        
+        return output;
+    }
+
+    public List<FieldEventBestViewModel> GetFieldPerformanceBestsByAthlete(Athlete? athlete, Environment environment)
+    {
+        if (athlete == null)
+        {
+            return Enumerable.Empty<FieldEventBestViewModel>().ToList();
+        }
+
+        var output = new List<FieldEventBestViewModel>();
+        var allPerformances = GetFieldPerformancesByAthlete(athlete, environment);
+        foreach (var eventPerformance in allPerformances)
+        {
+            var best = eventPerformance.Performances.MaxBy(x => x.Distance);
+            if (best != null)
+            {
+                var vm = new FieldEventBestViewModel(eventPerformance.Event, best);
+                output.Add(vm);
+            }
+        }
+
+        return output;
+    }
+    
+    public List<FieldRelayEventBestViewModel> GetFieldRelayPerformanceBestsByAthlete(Athlete? athlete, Environment environment)
+    {
+        if (athlete == null)
+        {
+            return Enumerable.Empty<FieldRelayEventBestViewModel>().ToList();
+        }
+        
+        var output = new List<FieldRelayEventBestViewModel>();
+        var allPerformances = GetFieldRelayPerformancesByAthlete(athlete, environment);
+        foreach (var eventPerformance in allPerformances)
+        {
+            var best = eventPerformance.Performances.MaxBy(x => x.Distance);
+            if (best != null)
+            {
+                var vm = new FieldRelayEventBestViewModel(eventPerformance.Event, best);
+                output.Add(vm);
+            }
+
+        }
+
+        return output;
+    }
+    
+    public List<RunningEventBestViewModel> GetRunningPerformanceBestsByAthlete(Athlete? athlete, Environment environment)
+    {
+        if (athlete == null)
+        {
+            return Enumerable.Empty<RunningEventBestViewModel>().ToList();
+        }
+        
+        var output = new List<RunningEventBestViewModel>();
+        var allPerformances = GetRunningPerformancesByAthlete(athlete, environment);
+        foreach (var eventPerformance in allPerformances)
+        {
+            var best = eventPerformance.Performances.MinBy(x => x.Time);
+            if (best != null)
+            {
+                var vm = new RunningEventBestViewModel(eventPerformance.Event, best);
+                output.Add(vm);
+            }
+
+        }
+
+        return output;
+    }
+    
+    public List<RunningRelayEventBestViewModel> GetRunningRelayPerformanceBestsByAthlete(Athlete? athlete, Environment environment)
+    {
+        if (athlete == null)
+        {
+            return Enumerable.Empty<RunningRelayEventBestViewModel>().ToList();
+        }
+        
+        var output = new List<RunningRelayEventBestViewModel>();
+        var allPerformances = GetRunningRelayPerformancesByAthlete(athlete, environment);
+        foreach (var eventPerformance in allPerformances)
+        {
+            var best = eventPerformance.Performances.MinBy(x => x.Time);
+            if (best != null)
+            {
+                var vm = new RunningRelayEventBestViewModel(eventPerformance.Event, best);
+                output.Add(vm);
+            }
+
         }
 
         return output;

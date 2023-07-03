@@ -5,7 +5,7 @@ using Dapper.Contrib.Extensions;
 
 namespace CloverleafTrack.Models;
 
-public abstract class TrackEvent<T> : AuditModel where T : new()
+public abstract class TrackEvent<T> : AuditModel, IEquatable<TrackEvent<T>> where T : new()
 {
     [System.ComponentModel.DataAnnotations.Key] public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
@@ -45,6 +45,22 @@ public abstract class TrackEvent<T> : AuditModel where T : new()
     }
 
     public override string ToString() => DisplayName;
+    
+    public bool Equals(TrackEvent<T>? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        return ReferenceEquals(this, other) || Id.Equals(other.Id);
+    }
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        return obj.GetType() == GetType() && Equals((TrackEvent<T>) obj);
+    }
+    public override int GetHashCode()
+    {
+        return Id.GetHashCode();
+    }
 }
 
 public class FieldEvent : TrackEvent<FieldPerformance>

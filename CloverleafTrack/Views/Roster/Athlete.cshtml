@@ -32,7 +32,7 @@
 
 <div class="row">
 <div class="col-lg-6">
-@if (Model.OutdoorFieldEventPerformances.Any() || Model.OutdoorFieldRelayEventPerformances.Any() || Model.OutdoorRunningEventPerformances.Any() || Model.OutdoorRunningRelayEventPerformances.Any())
+@if (Model.HasOutdoorPerformances)
 {
     <h3 class="text-center">
         Outdoor Performances
@@ -166,7 +166,7 @@
         </table>
     }
 }
-@if (Model.IndoorFieldEventPerformances.Any() || Model.IndoorFieldRelayEventPerformances.Any() || Model.IndoorRunningEventPerformances.Any() || Model.IndoorRunningRelayEventPerformances.Any())
+@if (Model.HasIndoorPerformances)
 {
     <h3 class="text-center">
         Indoor Performances
@@ -302,6 +302,347 @@
 }
 </div>
 <div class="col-lg-6">
+@if (Model.HasLifetimeBests)
+{
+    <h3 class="text-center">
+        Lifetime Bests
+    </h3>
+    @if (Model.HasOutdoorLifetimeBests)
+    {
+        <h4 class="text-center">
+            Outdoor Lifetime Bests
+        </h4>
+        <table class="table table-hover table-striped">
+            <caption>@Model.Athlete.Name's Outdoor Lifetime Bests</caption>
+            <thead>
+            <tr>
+                <th scope="col" class="text-center">Event</th>
+                <th scope="col" class="text-center">Performance</th>
+                <th scope="col" class="text-center">Date</th>
+                <th scope="col" class="text-center">Meet</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var lifetimeBest in Model.OutdoorRunningEventLifetimeBests)
+            {
+                <tr>
+                    <th>@lifetimeBest.Event.Name</th>
+                    <td>@lifetimeBest.Performance.Time</td>
+                    <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td>
+                        <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
+                            @lifetimeBest.Performance.Meet.Name @@ @lifetimeBest.Performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            @foreach (var lifetimeBest in Model.OutdoorRunningRelayEventLifetimeBests)
+            {
+                <tr>
+                    <th>@lifetimeBest.Event.Name</th>
+                    <td>@lifetimeBest.Performance.Time</td>
+                    <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td>
+                        <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
+                            @lifetimeBest.Performance.Meet.Name @@ @lifetimeBest.Performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            @foreach (var lifetimeBest in Model.OutdoorFieldEventLifetimeBests)
+            {
+                <tr>
+                    <th>@lifetimeBest.Event.Name</th>
+                    <td>@lifetimeBest.Performance.Distance</td>
+                    <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td>
+                        <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
+                            @lifetimeBest.Performance.Meet.Name @@ @lifetimeBest.Performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            @foreach (var lifetimeBest in Model.OutdoorFieldRelayEventLifetimeBests)
+            {
+                <tr>
+                    <th>@lifetimeBest.Event.Name</th>
+                    <td>@lifetimeBest.Performance.Distance</td>
+                    <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td>
+                        <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
+                            @lifetimeBest.Performance.Meet.Name @@ @lifetimeBest.Performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    @if (Model.HasIndoorLifetimeBests)
+    {
+        <h4 class="text-center">
+            Indoor Lifetime Bests
+        </h4>
+        <table class="table table-hover table-striped">
+            <caption>@Model.Athlete.Name's Indoor Lifetime Bests</caption>
+            <thead>
+            <tr>
+                <th scope="col" class="text-center">Event</th>
+                <th scope="col" class="text-center">Performance</th>
+                <th scope="col" class="text-center">Date</th>
+                <th scope="col" class="text-center">Meet</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var lifetimeBest in Model.IndoorRunningEventLifetimeBests)
+            {
+                <tr>
+                    <th>@lifetimeBest.Event.Name</th>
+                    <td>@lifetimeBest.Performance.Time</td>
+                    <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td>
+                        <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
+                            @lifetimeBest.Performance.Meet.Name @@ @lifetimeBest.Performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            @foreach (var lifetimeBest in Model.IndoorRunningRelayEventLifetimeBests)
+            {
+                <tr>
+                    <th>@lifetimeBest.Event.Name</th>
+                    <td>@lifetimeBest.Performance.Time</td>
+                    <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td>
+                        <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
+                            @lifetimeBest.Performance.Meet.Name @@ @lifetimeBest.Performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            @foreach (var lifetimeBest in Model.IndoorFieldEventLifetimeBests)
+            {
+                <tr>
+                    <th>@lifetimeBest.Event.Name</th>
+                    <td>@lifetimeBest.Performance.Distance</td>
+                    <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td>
+                        <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
+                            @lifetimeBest.Performance.Meet.Name @@ @lifetimeBest.Performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            @foreach (var lifetimeBest in Model.IndoorFieldRelayEventLifetimeBests)
+            {
+                <tr>
+                    <th>@lifetimeBest.Event.Name</th>
+                    <td>@lifetimeBest.Performance.Distance</td>
+                    <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                    <td>
+                        <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
+                            @lifetimeBest.Performance.Meet.Name @@ @lifetimeBest.Performance.Meet.Location
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+}
+@if (Model.HasSeasonBests)
+{
+    <h3 class="text-center">
+        Season Bests
+    </h3>
+    foreach (var season in Model.Seasons)
+    {
+        var outdoorRunning = Model.OutdoorRunningSeasonBests.FirstOrDefault(x => x.Season.Equals(season))?.Performances;
+        var outdoorRunningRelay = Model.OutdoorRunningRelaySeasonBests.FirstOrDefault(x => x.Season.Equals(season))?.Performances;
+        var outdoorField = Model.OutdoorFieldSeasonBests.FirstOrDefault(x => x.Season.Equals(season))?.Performances;
+        var outdoorFieldRelay = Model.OutdoorFieldRelaySeasonBests.FirstOrDefault(x => x.Season.Equals(season))?.Performances;
+        var indoorRunning = Model.IndoorRunningSeasonBests.FirstOrDefault(x => x.Season.Equals(season))?.Performances;
+        var indoorRunningRelay = Model.IndoorRunningRelaySeasonBests.FirstOrDefault(x => x.Season.Equals(season))?.Performances;
+        var indoorField = Model.IndoorFieldSeasonBests.FirstOrDefault(x => x.Season.Equals(season))?.Performances;
+        var indoorFieldRelay = Model.IndoorFieldRelaySeasonBests.FirstOrDefault(x => x.Season.Equals(season))?.Performances;
+        var hasOutdoor = (outdoorRunning != null && outdoorRunning.Any()) || (outdoorRunningRelay != null && outdoorRunningRelay.Any()) || (outdoorField != null && outdoorField.Any()) || (outdoorFieldRelay != null && outdoorFieldRelay.Any());
+        var hasIndoor = (indoorRunning != null && indoorRunning.Any()) || (indoorRunningRelay != null && indoorRunningRelay.Any()) || (indoorField != null && indoorField.Any()) || (indoorFieldRelay != null && indoorFieldRelay.Any());
 
+        <h4 class="text-center">
+            @season.Name Season
+        </h4>
+
+        @if (hasOutdoor)
+        {
+            <table class="table table-hover table-striped">
+                <caption>@Model.Athlete.Name's @season.Name Season Outdoor Bests</caption>
+                <thead>
+                <tr>
+                    <th colspan="4" class="text-center">
+                        @season.Name Season Outdoor Bests
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" class="text-center">Event</th>
+                    <th scope="col" class="text-center">Performance</th>
+                    <th scope="col" class="text-center">Date</th>
+                    <th scope="col" class="text-center">Meet</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if (outdoorRunning != null)
+                {
+                    foreach (var performance in outdoorRunning)
+                    {
+                        <tr>
+                            <th>@performance.Event.Name</th>
+                            <td>@performance.Performance.Time</td>
+                            <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                            <td>
+                                <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">
+                                    @performance.Performance.Meet.Name @@ @performance.Performance.Meet.Location
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                @if (outdoorRunningRelay != null)
+                {
+                    foreach (var performance in outdoorRunningRelay)
+                    {
+                        <tr>
+                            <th>@performance.Event.Name</th>
+                            <td>@performance.Performance.Time</td>
+                            <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                            <td>
+                                <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">
+                                    @performance.Performance.Meet.Name @@ @performance.Performance.Meet.Location
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                @if (outdoorField != null)
+                {
+                    foreach (var performance in outdoorField)
+                    {
+                        <tr>
+                            <th>@performance.Event.Name</th>
+                            <td>@performance.Performance.Distance</td>
+                            <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                            <td>
+                                <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">
+                                    @performance.Performance.Meet.Name @@ @performance.Performance.Meet.Location
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                @if (outdoorFieldRelay != null)
+                {
+                    foreach (var performance in outdoorFieldRelay)
+                    {
+                        <tr>
+                            <th>@performance.Event.Name</th>
+                            <td>@performance.Performance.Distance</td>
+                            <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                            <td>
+                                <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">
+                                    @performance.Performance.Meet.Name @@ @performance.Performance.Meet.Location
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        }
+        @if (hasIndoor)
+        {
+            <table class="table table-hover table-striped">
+                <caption>@Model.Athlete.Name's @season.Name Season Indoor Bests</caption>
+                <thead>
+                <tr>
+                    <th colspan="4" class="text-center">
+                        @season.Name Season Indoor Bests
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" class="text-center">Event</th>
+                    <th scope="col" class="text-center">Performance</th>
+                    <th scope="col" class="text-center">Date</th>
+                    <th scope="col" class="text-center">Meet</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if (indoorRunning != null)
+                {
+                    foreach (var performance in indoorRunning)
+                    {
+                        <tr>
+                            <th>@performance.Event.Name</th>
+                            <td>@performance.Performance.Time</td>
+                            <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                            <td>
+                                <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">
+                                    @performance.Performance.Meet.Name @@ @performance.Performance.Meet.Location
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                @if (indoorRunningRelay != null)
+                {
+                    foreach (var performance in indoorRunningRelay)
+                    {
+                        <tr>
+                            <th>@performance.Event.Name</th>
+                            <td>@performance.Performance.Time</td>
+                            <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                            <td>
+                                <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">
+                                    @performance.Performance.Meet.Name @@ @performance.Performance.Meet.Location
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                @if (indoorField != null)
+                {
+                    foreach (var performance in indoorField)
+                    {
+                        <tr>
+                            <th>@performance.Event.Name</th>
+                            <td>@performance.Performance.Distance</td>
+                            <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                            <td>
+                                <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">
+                                    @performance.Performance.Meet.Name @@ @performance.Performance.Meet.Location
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                @if (indoorFieldRelay != null)
+                {
+                    foreach (var performance in indoorFieldRelay)
+                    {
+                        <tr>
+                            <th>@performance.Event.Name</th>
+                            <td>@performance.Performance.Distance</td>
+                            <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
+                            <td>
+                                <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">
+                                    @performance.Performance.Meet.Name @@ @performance.Performance.Meet.Location
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        }
+    }
+}
 </div>
 </div>
