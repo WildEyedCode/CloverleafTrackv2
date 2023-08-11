@@ -1,3 +1,346 @@
-﻿@{
-    ViewData["Title"] = "Meet Details";
+﻿@model MeetDetailsViewModel
+
+@{
+    ViewData["Title"] = $"{Model.Meet.Name} Meet Details";
 }
+
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a title="Meets" asp-controller="Meets" asp-action="Index">
+                Meets
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            @Model.Meet.Name Meet Details
+        </li>
+    </ol>
+</nav>
+
+<h1 class="text-center">
+    @Model.Meet.Name
+</h1>
+
+<h2 class="text-center">
+    @Model.Meet.Environment Meet @@ @Model.Meet.Location
+    <br />
+    @Model.Meet.Date.ToLongDateString()
+</h2>
+
+<div class="row">
+    <div class="col-lg-6 text-center">
+        <h3>
+            Boys
+        </h3>
+        @foreach (var ev in Model.BoysRunningEvents)
+        {
+            <table class="table table-hover table-striped">
+                <caption>@Model.Meet.Name Boys @ev.Event.Name Performances</caption>
+                <thead>
+                <tr>
+                    <th colspan="2" class="text-center">
+                        @ev.Event.Name
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" class="text-center">Athlete</th>
+                    <th scope="col" class="text-center">Performance</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var performance in ev.Performances)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            <ul class="list-unstyled mb-0">
+                                <li>
+                                    <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@performance.Athlete.UrlName">
+                                        @performance.Athlete.Name
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="align-middle">
+                            @performance.Time
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        @foreach (var ev in Model.BoysRunningRelayEvents)
+        {
+            <table class="table table-hover table-striped">
+                <caption>@Model.Meet.Name Boys @ev.Event.Name Performances</caption>
+                <thead>
+                <tr>
+                    <th colspan="2" class="text-center">
+                        @ev.Event.Name
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" class="text-center">Athlete</th>
+                    <th scope="col" class="text-center">Performance</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var performance in ev.Performances)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            <ul class="list-unstyled mb-0">
+                                @foreach (var athlete in performance.Athletes)
+                                {
+                                    <li>
+                                        <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
+                                            @athlete.Name
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td class="align-middle">
+                            @performance.Time
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        @foreach (var ev in Model.BoysFieldEvents)
+        {
+            <table class="table table-hover table-striped">
+                <caption>@Model.Meet.Name Boys @ev.Event.Name Performances</caption>
+                <thead>
+                <tr>
+                    <th colspan="2" class="text-center">
+                        @ev.Event.Name
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" class="text-center">Athlete</th>
+                    <th scope="col" class="text-center">Performance</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var performance in ev.Performances)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            <ul class="list-unstyled mb-0">
+                                <li>
+                                    <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@performance.Athlete.UrlName">
+                                        @performance.Athlete.Name
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="align-middle">
+                            @performance.Distance
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        @foreach (var ev in Model.BoysFieldRelayEvents)
+        {
+            <table class="table table-hover table-striped">
+                <caption>@Model.Meet.Name Boys @ev.Event.Name Performances</caption>
+                <thead>
+                <tr>
+                    <th colspan="2" class="text-center">
+                        @ev.Event.Name
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" class="text-center">Athlete</th>
+                    <th scope="col" class="text-center">Performance</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var performance in ev.Performances)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            <ul class="list-unstyled mb-0">
+                                @foreach (var athlete in performance.Athletes)
+                                {
+                                    <li>
+                                        <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
+                                            @athlete.Name
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td class="align-middle">
+                            @performance.Distance
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </div>
+    <div class="col-lg-6 text-center">
+        <h3>
+            Girls
+        </h3>
+        @foreach (var ev in Model.GirlsRunningEvents)
+        {
+            <table class="table table-hover table-striped">
+                <caption>@Model.Meet.Name Girls @ev.Event.Name Performances</caption>
+                <thead>
+                <tr>
+                    <th colspan="2" class="text-center">
+                        @ev.Event.Name
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" class="text-center">Athlete</th>
+                    <th scope="col" class="text-center">Performance</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var performance in ev.Performances)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            <ul class="list-unstyled mb-0">
+                                <li>
+                                    <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@performance.Athlete.UrlName">
+                                        @performance.Athlete.Name
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="align-middle">
+                            @performance.Time
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        @foreach (var ev in Model.GirlsRunningRelayEvents)
+        {
+            <table class="table table-hover table-striped">
+                <caption>@Model.Meet.Name Girls @ev.Event.Name Performances</caption>
+                <thead>
+                <tr>
+                    <th colspan="2" class="text-center">
+                        @ev.Event.Name
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" class="text-center">Athlete</th>
+                    <th scope="col" class="text-center">Performance</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var performance in ev.Performances)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            <ul class="list-unstyled mb-0">
+                                @foreach (var athlete in performance.Athletes)
+                                {
+                                    <li>
+                                        <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
+                                            @athlete.Name
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td class="align-middle">
+                            @performance.Time
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        @foreach (var ev in Model.GirlsFieldEvents)
+        {
+            <table class="table table-hover table-striped">
+                <caption>@Model.Meet.Name Girls @ev.Event.Name Performances</caption>
+                <thead>
+                <tr>
+                    <th colspan="2" class="text-center">
+                        @ev.Event.Name
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" class="text-center">Athlete</th>
+                    <th scope="col" class="text-center">Performance</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var performance in ev.Performances)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            <ul class="list-unstyled mb-0">
+                                <li>
+                                    <a title="@performance.Athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@performance.Athlete.UrlName">
+                                        @performance.Athlete.Name
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="align-middle">
+                            @performance.Distance
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        @foreach (var ev in Model.GirlsFieldRelayEvents)
+        {
+            <table class="table table-hover table-striped">
+                <caption>@Model.Meet.Name Girls @ev.Event.Name Performances</caption>
+                <thead>
+                <tr>
+                    <th colspan="2" class="text-center">
+                        @ev.Event.Name
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" class="text-center">Athlete</th>
+                    <th scope="col" class="text-center">Performance</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var performance in ev.Performances)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            <ul class="list-unstyled mb-0">
+                                @foreach (var athlete in performance.Athletes)
+                                {
+                                    <li>
+                                        <a title="@athlete.Name" asp-controller="Roster" asp-action="Athlete" asp-route-name="@athlete.UrlName">
+                                            @athlete.Name
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td class="align-middle">
+                            @performance.Distance
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

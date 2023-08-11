@@ -135,7 +135,10 @@ public static class PerformanceQueries
             FieldRelayPerformanceAthletes lookup
         WHERE
             athlete.Id = lookup.AthleteId
-            AND lookup.FieldRelayPerformanceId = @PerformanceId;";
+            AND lookup.FieldRelayPerformanceId = @PerformanceId
+        ORDER BY
+            athlete.LastName,
+            athlete.FirstName;";
     
     public const string SelectAllRunningPerformancesSql = 
         @"SELECT
@@ -269,5 +272,8 @@ public static class PerformanceQueries
             RunningRelayPerformanceAthletes lookup
         WHERE
             athlete.Id = lookup.AthleteId
-            AND lookup.RunningRelayPerformanceId = @PerformanceId;";
+            AND lookup.RunningRelayPerformanceId = @PerformanceId
+        ORDER BY
+            athlete.LastName,
+            athlete.FirstName;";
 }

@@ -113,7 +113,9 @@
                     @leaderboard.Performance.Meet.Date.ToString("MM/dd/yyyy")
                 </td>
                 <td class="align-middle">
-                    @leaderboard.Performance.Meet.Name @@ @leaderboard.Performance.Meet.Location
+                    <a title="@leaderboard.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@leaderboard.Performance.Meet.UrlName">
+                        @leaderboard.Performance.Meet.Name @@ @leaderboard.Performance.Meet.Location
+                    </a>
                 </td>
             </tr>
 
