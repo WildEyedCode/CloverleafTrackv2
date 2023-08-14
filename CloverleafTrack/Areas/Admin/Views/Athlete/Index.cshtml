@@ -1,0 +1,60 @@
+@model AllAthletesViewModel
+
+@{
+    ViewBag.Title = "Athlete Admin Home";
+}
+
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index" asp-area="Admin">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Athlete Admin
+        </li>
+    </ol>
+</nav>
+
+<h1 class="text-center">
+    Athlete Admin
+</h1>
+
+<table class="table table-striped table-hover">
+    <caption>Athlete Admin</caption>
+    <thead>
+    <tr>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Graduation Year</th>
+        <th scope="col">Deleted</th>
+        <th scope="col"></th>
+    </tr>
+    @foreach (var athlete in Model.Athletes)
+    {
+        <tr>
+            <td>@athlete.FirstName</td>
+            <td>@athlete.LastName</td>
+            <td>
+                @if (athlete.Gender)
+                {
+                    @:Female
+                }
+                else
+                {
+                    @:Male
+                }
+            </td>
+            <td>@athlete.GraduationYear</td>
+            <td>@athlete.Deleted</td>
+            <td>
+                <a role="button" class="btn btn-default" asp-area="Admin" asp-controller="Athlete" asp-action="Details" asp-route-id="@athlete.Id">Details</a>
+                <a role="button" class="btn btn-primary" asp-area="Admin" asp-controller="Athlete" asp-action="Edit" asp-route-id="@athlete.Id">Edit</a>
+                <a role="button" class="btn btn-danger" asp-area="Admin" asp-controller="Athlete" asp-action="Delete" asp-route-id="@athlete.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </thead>
+</table>

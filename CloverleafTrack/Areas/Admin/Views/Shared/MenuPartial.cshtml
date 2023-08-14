@@ -1,14 +1,14 @@
 @{
     var menuItems = new List<string>
     {
-        "Home", "Leaderboard", "Seasons", "Roster", "Meets"
+        "Home", "Athlete", "Event", "Meet", "Performance", "Season"
     };
 }
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-gradient border-bottom shadow-sm fixed-top">
+<nav class="navbar navbar-expand-lg bg-light bg-gradient border-bottom shadow-sm fixed-top" data-bs-theme="light">
     <div class="container">
-        <a title="Cloverleaf Track" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-            Cloverleaf Track
+        <a title="Cloverleaf Track" class="navbar-brand" asp-area="Admin" asp-controller="Home" asp-action="Index">
+            Cloverleaf Track Admin
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +20,7 @@
                     <li class="nav-item">
                         @if ((string)ViewContext.RouteData.Values["controller"]! == item)
                         {
-                            <a class="nav-link active border border-dark-subtle rounded-3 bg-dark ps-3 pe-3" title="@item" aria-current="page" asp-controller="@item" asp-action="Index">@item</a>
+                            <a class="nav-link active border border-light-subtle rounded-3 bg-light ps-3 pe-3" title="@item" aria-current="page" asp-controller="@item" asp-action="Index" asp-area="Admin">@item</a>
                         }
                         else
                         {

@@ -2,8 +2,9 @@ namespace CloverleafTrack.Queries;
 
 public static class EventQueries
 {
-    public const string SelectAllFieldEventsSql = 
-        @"SELECT
+    public const string AllFieldEventsSql = 
+        """
+        SELECT
             event.Id,
             event.Name,
             event.Gender,
@@ -14,10 +15,12 @@ public static class EventQueries
             event.Environment,
             event.Deleted
         FROM
-            FieldEvents event;";
+            FieldEvents event;
+        """;
     
-    public const string SelectAllFieldRelayEventsSql = 
-        @"SELECT
+    public const string AllFieldRelayEventsSql = 
+        """
+        SELECT
             event.Id,
             event.Name,
             event.Gender,
@@ -28,10 +31,12 @@ public static class EventQueries
             event.Environment,
             event.Deleted
         FROM
-            FieldRelayEvents event;";
+            FieldRelayEvents event;
+        """;
     
-    public const string SelectAllRunningEventsSql = 
-        @"SELECT
+    public const string AllRunningEventsSql = 
+        """
+        SELECT
             event.Id,
             event.Name,
             event.Gender,
@@ -42,10 +47,12 @@ public static class EventQueries
             event.Environment,
             event.Deleted
         FROM
-            RunningEvents event;";
+            RunningEvents event;
+        """;
     
-    public const string SelectAllRunningRelayEventsSql = 
-        @"SELECT
+    public const string AllRunningRelayEventsSql = 
+        """
+        SELECT
             event.Id,
             event.Name,
             event.Gender,
@@ -56,5 +63,6 @@ public static class EventQueries
             event.Environment,
             event.Deleted
         FROM
-            RunningRelayEvents event;";
+            RunningRelayEvents event;
+        """;
 }

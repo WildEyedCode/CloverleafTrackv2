@@ -84,22 +84,22 @@ public class EventService : IEventService
     
     private async Task<List<FieldEvent>> ReloadFieldEventsAsync()
     {
-        return (await connection.QueryAsync<FieldEvent>(EventQueries.SelectAllFieldEventsSql))
+        return (await connection.QueryAsync<FieldEvent>(EventQueries.AllFieldEventsSql))
             .OrderBy(x => x.SortOrder).ToList();
     }
     private async Task<List<FieldRelayEvent>> ReloadFieldRelayEventsAsync()
     {
-        return (await connection.QueryAsync<FieldRelayEvent>(EventQueries.SelectAllFieldRelayEventsSql))
+        return (await connection.QueryAsync<FieldRelayEvent>(EventQueries.AllFieldRelayEventsSql))
             .OrderBy(x => x.SortOrder).ToList();
     }
     private async Task<List<RunningEvent>> ReloadRunningEventsAsync()
     {
-        return (await connection.QueryAsync<RunningEvent>(EventQueries.SelectAllRunningEventsSql))
+        return (await connection.QueryAsync<RunningEvent>(EventQueries.AllRunningEventsSql))
             .OrderBy(x => x.SortOrder).ToList();
     }
     private async Task<List<RunningRelayEvent>> ReloadRunningRelayEventsAsync()
     {
-        return (await connection.QueryAsync<RunningRelayEvent>(EventQueries.SelectAllRunningRelayEventsSql))
+        return (await connection.QueryAsync<RunningRelayEvent>(EventQueries.AllRunningRelayEventsSql))
             .OrderBy(x => x.SortOrder).ToList();
     }
 }

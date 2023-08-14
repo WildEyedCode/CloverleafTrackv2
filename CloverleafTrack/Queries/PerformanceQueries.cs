@@ -2,8 +2,9 @@ namespace CloverleafTrack.Queries;
 
 public static class PerformanceQueries
 {
-    public const string SelectAllFieldPerformancesSql = 
-        @"SELECT
+    public const string AllFieldPerformancesSql = 
+        """
+        SELECT
             performance.Id,
             performance.SchoolRecord,
             performance.SeasonBest,
@@ -51,7 +52,7 @@ public static class PerformanceQueries
             athlete.Gender,
             athlete.GraduationYear,
             athlete.DateCreated,
-            athlete.DatedUpdated,
+            athlete.DateUpdated,
             athlete.DateDeleted,
             athlete.Deleted
         FROM
@@ -64,10 +65,12 @@ public static class PerformanceQueries
             performance.FieldEventId = event.Id
             AND performance.MeetId = meet.Id
             AND performance.AthleteId = athlete.Id
-            AND meet.SeasonId = season.Id;";
+            AND meet.SeasonId = season.Id;
+        """;
     
-    public const string SelectAllFieldRelayPerformancesSql = 
-        @"SELECT
+    public const string AllFieldRelayPerformancesSql = 
+        """
+        SELECT
             performance.Id,
             performance.SchoolRecord,
             performance.SeasonBest,
@@ -117,17 +120,19 @@ public static class PerformanceQueries
         WHERE
             performance.FieldRelayEventId = event.Id
             AND performance.MeetId = meet.Id
-            AND meet.SeasonId = season.Id;";
+            AND meet.SeasonId = season.Id;
+        """;
     
-    public const string SelectAthletesForFieldRelayPerformanceSql = 
-        @"SELECT
+    public const string AthletesForFieldRelayPerformanceSql = 
+        """
+        SELECT
             athlete.Id,
             athlete.FirstName,
             athlete.LastName,
             athlete.Gender,
             athlete.GraduationYear,
             athlete.DateCreated,
-            athlete.DatedUpdated,
+            athlete.DateUpdated,
             athlete.DateDeleted,
             athlete.Deleted
         FROM
@@ -138,10 +143,12 @@ public static class PerformanceQueries
             AND lookup.FieldRelayPerformanceId = @PerformanceId
         ORDER BY
             athlete.LastName,
-            athlete.FirstName;";
+            athlete.FirstName;
+        """;
     
-    public const string SelectAllRunningPerformancesSql = 
-        @"SELECT
+    public const string AllRunningPerformancesSql = 
+        """
+        SELECT
             performance.Id,
             performance.SchoolRecord,
             performance.SeasonBest,
@@ -189,7 +196,7 @@ public static class PerformanceQueries
             athlete.Gender,
             athlete.GraduationYear,
             athlete.DateCreated,
-            athlete.DatedUpdated,
+            athlete.DateUpdated,
             athlete.DateDeleted,
             athlete.Deleted
         FROM
@@ -202,10 +209,12 @@ public static class PerformanceQueries
             performance.RunningEventId = event.Id
             AND performance.MeetId = meet.Id
             AND performance.AthleteId = athlete.Id
-            AND meet.SeasonId = season.Id;";
+            AND meet.SeasonId = season.Id;
+        """;
     
-    public const string SelectAllRunningRelayPerformancesSql = 
-        @"SELECT
+    public const string AllRunningRelayPerformancesSql = 
+        """
+        SELECT
             performance.Id,
             performance.SchoolRecord,
             performance.SeasonBest,
@@ -254,17 +263,19 @@ public static class PerformanceQueries
             Seasons season
         WHERE
             performance.RunningRelayEventId = event.Id
-            AND performance.MeetId = meet.Id AND meet.SeasonId = season.Id;";
+            AND performance.MeetId = meet.Id AND meet.SeasonId = season.Id;
+        """;
     
-    public const string SelectAthletesForRunningRelayPerformanceSql = 
-        @"SELECT
+    public const string AthletesForRunningRelayPerformanceSql = 
+        """
+        SELECT
             athlete.Id,
             athlete.FirstName,
             athlete.LastName,
             athlete.Gender,
             athlete.GraduationYear,
             athlete.DateCreated,
-            athlete.DatedUpdated,
+            athlete.DateUpdated,
             athlete.DateDeleted,
             athlete.Deleted
         FROM
@@ -275,5 +286,6 @@ public static class PerformanceQueries
             AND lookup.RunningRelayPerformanceId = @PerformanceId
         ORDER BY
             athlete.LastName,
-            athlete.FirstName;";
+            athlete.FirstName;
+        """;
 }

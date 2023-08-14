@@ -2,8 +2,9 @@ namespace CloverleafTrack.Queries;
 
 public static class MeetQueries
 {
-    public const string SelectAllMeetsSql = 
-        @"SELECT
+    public const string AllMeetsSql = 
+        """
+        SELECT
             meet.Id,
             meet.Date,
             meet.Name,
@@ -27,5 +28,6 @@ public static class MeetQueries
             Meets meet,
             Seasons season
         WHERE
-            meet.SeasonId = season.Id;";
+            meet.SeasonId = season.Id;
+        """;
 }

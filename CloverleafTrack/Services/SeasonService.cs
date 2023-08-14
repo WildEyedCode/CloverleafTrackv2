@@ -38,7 +38,7 @@ public class SeasonService : ISeasonService
     public int Count => Seasons.Count;
     public async Task ReloadAsync(CancellationToken token)
     {
-        var seasons = (await connection.QueryAsync<Season, Meet, Season>(SeasonQueries.SelectAllSeasonsSql,
+        var seasons = (await connection.QueryAsync<Season, Meet, Season>(SeasonQueries.AllSeasonsSql,
             (season, meet) =>
             {
                 season.Meets.Add(meet);

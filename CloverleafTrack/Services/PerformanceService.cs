@@ -457,7 +457,7 @@ public class PerformanceService : IPerformanceService
 
     private async Task<List<FieldPerformance>> ReloadFieldPerformancesAsync()
     {
-        return (await connection.QueryAsync<FieldPerformance, FieldEvent, Meet, Season, Athlete, FieldPerformance>(PerformanceQueries.SelectAllFieldPerformancesSql,
+        return (await connection.QueryAsync<FieldPerformance, FieldEvent, Meet, Season, Athlete, FieldPerformance>(PerformanceQueries.AllFieldPerformancesSql,
             (performance, @event, meet, season, athlete) =>
             {
                 performance.EventId = @event.Id;
@@ -476,7 +476,7 @@ public class PerformanceService : IPerformanceService
     
     private async Task<List<FieldRelayPerformance>> ReloadFieldRelayPerformancesAsync()
     {
-        var performances = (await connection.QueryAsync<FieldRelayPerformance, FieldRelayEvent, Meet, Season, FieldRelayPerformance>(PerformanceQueries.SelectAllFieldRelayPerformancesSql,
+        var performances = (await connection.QueryAsync<FieldRelayPerformance, FieldRelayEvent, Meet, Season, FieldRelayPerformance>(PerformanceQueries.AllFieldRelayPerformancesSql,
             (performance, @event, meet, season) =>
             {
                 performance.EventId = @event.Id;
@@ -494,7 +494,7 @@ public class PerformanceService : IPerformanceService
 
         foreach (var performance in performances)
         {
-            var athletes = await connection.QueryAsync<Athlete>(PerformanceQueries.SelectAthletesForFieldRelayPerformanceSql, new { PerformanceId = performance.Id });
+            var athletes = await connection.QueryAsync<Athlete>(PerformanceQueries.AthletesForFieldRelayPerformanceSql, new { PerformanceId = performance.Id });
             performance.Athletes = athletes.ToList();
         }
 
@@ -503,7 +503,7 @@ public class PerformanceService : IPerformanceService
     
     private async Task<List<RunningPerformance>> ReloadRunningPerformancesAsync()
     {
-        return (await connection.QueryAsync<RunningPerformance, RunningEvent, Meet, Season, Athlete, RunningPerformance>(PerformanceQueries.SelectAllRunningPerformancesSql,
+        return (await connection.QueryAsync<RunningPerformance, RunningEvent, Meet, Season, Athlete, RunningPerformance>(PerformanceQueries.AllRunningPerformancesSql,
             (performance, @event, meet, season, athlete) =>
             {
                 performance.EventId = @event.Id;
@@ -522,7 +522,7 @@ public class PerformanceService : IPerformanceService
     
     private async Task<List<RunningRelayPerformance>> ReloadRunningRelayPerformancesAsync()
     {
-        var performances =  (await connection.QueryAsync<RunningRelayPerformance, RunningRelayEvent, Meet, Season, RunningRelayPerformance>(PerformanceQueries.SelectAllRunningRelayPerformancesSql,
+        var performances =  (await connection.QueryAsync<RunningRelayPerformance, RunningRelayEvent, Meet, Season, RunningRelayPerformance>(PerformanceQueries.AllRunningRelayPerformancesSql,
             (performance, @event, meet, season) =>
             {
                 performance.EventId = @event.Id;
@@ -538,7 +538,7 @@ public class PerformanceService : IPerformanceService
         
         foreach (var performance in performances)
         {
-            var athletes = await connection.QueryAsync<Athlete>(PerformanceQueries.SelectAthletesForRunningRelayPerformanceSql, new { PerformanceId = performance.Id });
+            var athletes = await connection.QueryAsync<Athlete>(PerformanceQueries.AthletesForRunningRelayPerformanceSql, new { PerformanceId = performance.Id });
             performance.Athletes = athletes.ToList();
         }
 

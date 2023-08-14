@@ -13,7 +13,7 @@ public interface IMeetService
     public List<Meet> Meets { get; }
     public int Count { get; }
     public Task ReloadAsync(CancellationToken token = default);
-    public Task<MeetDetailsViewModel?> GetMeetDetailsByName(string meetName);
+    public MeetDetailsViewModel? GetMeetDetailsByName(string meetName);
 }
 
 public class MeetService : IMeetService
@@ -36,7 +36,7 @@ public class MeetService : IMeetService
     
     public async Task ReloadAsync(CancellationToken token = default)
     {
-        Meets = (await connection.QueryAsync<Meet, Season, Meet>(MeetQueries.SelectAllMeetsSql,
+        Meets = (await connection.QueryAsync<Meet, Season, Meet>(MeetQueries.AllMeetsSql,
             (meet, season) =>
             {
                 meet.Season = season;
@@ -45,7 +45,7 @@ public class MeetService : IMeetService
             splitOn: "SeasonId")).ToList();
     }
 
-    public async Task<MeetDetailsViewModel?> GetMeetDetailsByName(string meetName)
+    public MeetDetailsViewModel? GetMeetDetailsByName(string meetName)
     {
         var meet = Meets.FirstOrDefault(x => x.UrlName == meetName);
         if (meet == null)

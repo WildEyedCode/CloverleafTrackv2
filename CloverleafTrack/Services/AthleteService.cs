@@ -44,7 +44,7 @@ public class AthleteService : IAthleteService
     
     public async Task ReloadAsync(CancellationToken token)
     {
-        Athletes = (await connection.QueryAsync<Athlete>(AthleteQueries.SelectAllAthletesSql)).ToList();
+        Athletes = (await connection.QueryAsync<Athlete>(AthleteQueries.AllAthletesSql)).ToList();
     }
 
     public List<Athlete> CurrentAthletes(bool gender)

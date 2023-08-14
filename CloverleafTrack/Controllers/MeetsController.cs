@@ -24,9 +24,9 @@ public class MeetsController : Controller
     }
 
     [Route("{meetName}")]
-    public async Task<IActionResult> Details(string meetName)
+    public IActionResult Details(string meetName)
     {
-        var vm = await meetService.GetMeetDetailsByName(meetName);
+        var vm = meetService.GetMeetDetailsByName(meetName);
         if (vm != null)
         {
             return View(vm);
