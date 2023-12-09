@@ -15,7 +15,9 @@ public static class EventQueries
             event.Environment,
             event.Deleted
         FROM
-            FieldEvents event;
+            FieldEvents event
+        WHERE
+            (event.Deleted = 0 OR event.Deleted IS NULL);
         """;
     
     public const string AllFieldRelayEventsSql = 
@@ -31,7 +33,9 @@ public static class EventQueries
             event.Environment,
             event.Deleted
         FROM
-            FieldRelayEvents event;
+            FieldRelayEvents event
+        WHERE
+            (event.Deleted = 0 OR event.Deleted IS NULL);
         """;
     
     public const string AllRunningEventsSql = 
@@ -47,7 +51,9 @@ public static class EventQueries
             event.Environment,
             event.Deleted
         FROM
-            RunningEvents event;
+            RunningEvents event
+        WHERE
+            (event.Deleted = 0 OR event.Deleted IS NULL);
         """;
     
     public const string AllRunningRelayEventsSql = 
@@ -63,6 +69,8 @@ public static class EventQueries
             event.Environment,
             event.Deleted
         FROM
-            RunningRelayEvents event;
+            RunningRelayEvents event
+        WHERE
+            (event.Deleted = 0 OR event.Deleted IS NULL);
         """;
 }

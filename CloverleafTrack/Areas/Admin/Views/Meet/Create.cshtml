@@ -1,0 +1,71 @@
+@using Environment = CloverleafTrack.Models.Environment
+@model MeetAndSeasonsViewModel
+
+@{
+    ViewBag.Title = "Create a Meet";
+}
+
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index" asp-area="Admin">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Meet" asp-action="Index" asp-area="Admin">
+                Meet Admin
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Create a Meet
+        </li>
+    </ol>
+</nav>
+
+<h1 class="text-center">
+    Create a Meet
+</h1>
+
+<form asp-area="Admin" asp-controller="Meet" asp-action="Create" class="w-50 m-auto">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3 form-group">
+        <label asp-for="Meet.Name" class="form-label"></label>
+        <input asp-for="Meet.Name" class="form-control"/>
+        <span asp-validation-for="Meet.Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="Meet.Location" class="form-label"></label>
+        <input asp-for="Meet.Location" class="form-control"/>
+        <span asp-validation-for="Meet.Location" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="Meet.Date" class="form-label"></label>
+        <input asp-for="Meet.Date" class="form-control"/>
+        <span asp-validation-for="Meet.Date" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <div class="form-check">
+            @Html.RadioButtonFor(x => x.Meet.Environment, Environment.Indoor, new { @class = "form-check-input" })
+            @Html.LabelFor(x => x.Meet.Environment, Environment.Indoor.ToString(), new { @class = "form-check-label" })
+        </div>
+        <div class="form-check">
+            @Html.RadioButtonFor(x => x.Meet.Environment, Environment.Outdoor, new { @class = "form-check-input" })
+            @Html.LabelFor(x => x.Meet.Environment, Environment.Outdoor.ToString(), new { @class = "form-check-label" })
+        </div>
+        <span asp-validation-for="Meet.Environment" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="Meet.SeasonId" class="form-label"></label>
+        @Html.DropDownListFor(x => x.Meet.SeasonId, new SelectList(Model.Seasons, "Id", "Name", Model.Meet.SeasonId))
+        <span asp-validation-for="Meet.SeasonId" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>
+
+<div>
+    <a asp-area="Admin" asp-controller="Meet" asp-action="Index">Back to List</a>
+</div>

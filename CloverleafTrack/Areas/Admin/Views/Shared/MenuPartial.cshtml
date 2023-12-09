@@ -1,10 +1,3 @@
-@{
-    var menuItems = new List<string>
-    {
-        "Home", "Athlete", "Event", "Meet", "Performance", "Season"
-    };
-}
-
 <nav class="navbar navbar-expand-lg bg-light bg-gradient border-bottom shadow-sm fixed-top" data-bs-theme="light">
     <div class="container">
         <a title="Cloverleaf Track" class="navbar-brand" asp-area="Admin" asp-controller="Home" asp-action="Index">
@@ -16,18 +9,71 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                @foreach (var item in menuItems) {
-                    <li class="nav-item">
-                        @if ((string)ViewContext.RouteData.Values["controller"]! == item)
-                        {
-                            <a class="nav-link active border border-light-subtle rounded-3 bg-light ps-3 pe-3" title="@item" aria-current="page" asp-controller="@item" asp-action="Index" asp-area="Admin">@item</a>
-                        }
-                        else
-                        {
-                            <a class="nav-link ps-3 pe-3" title="@item" asp-controller="@item" asp-action="Index">@item</a>
-                        }
-                    </li>
-                }
+                <li class="nav-item">
+                    @if ((string)ViewContext.RouteData.Values["controller"]! == "Home")
+                    {
+                        <a class="nav-link active border border-light-subtle rounded-3 bg-light ps-3 pe-3" title="Home" aria-current="page" asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a>
+                    }
+                    else
+                    {
+                        <a class="nav-link ps-3 pe-3" title="Home" asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a>
+                    }
+                </li>
+                <li class="nav-item">
+                    @if ((string)ViewContext.RouteData.Values["controller"]! == "Athlete")
+                    {
+                        <a class="nav-link active border border-light-subtle rounded-3 bg-light ps-3 pe-3" title="Athlete" aria-current="page" asp-area="Admin" asp-controller="Athlete" asp-action="Index">Athlete</a>
+                    }
+                    else
+                    {
+                        <a class="nav-link ps-3 pe-3" title="Athlete" asp-area="Admin" asp-controller="Athlete" asp-action="Index">Athlete</a>
+                    }
+                </li>
+                <li class="nav-item">
+                    @if ((string)ViewContext.RouteData.Values["controller"]! == "Season")
+                    {
+                        <a class="nav-link active border border-light-subtle rounded-3 bg-light ps-3 pe-3" title="Season" aria-current="page" asp-area="Admin" asp-controller="Season" asp-action="Index">Season</a>
+                    }
+                    else
+                    {
+                        <a class="nav-link ps-3 pe-3" title="Season" asp-area="Admin" asp-controller="Season" asp-action="Index">Season</a>
+                    }
+                </li>
+                <li class="nav-item">
+                    @if ((string)ViewContext.RouteData.Values["controller"]! == "Meet")
+                    {
+                        <a class="nav-link active border border-light-subtle rounded-3 bg-light ps-3 pe-3" title="Meet" aria-current="page" asp-area="Admin" asp-controller="Meet" asp-action="Index">Meet</a>
+                    }
+                    else
+                    {
+                        <a class="nav-link ps-3 pe-3" title="Meet" asp-area="Admin" asp-controller="Meet" asp-action="Index">Meet</a>
+                    }
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Events
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="RunningEvent" asp-action="Index">Running Events</a></li>
+                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="FieldEvent" asp-action="Index">Field Events</a></li>
+                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="RunningRelayEvent" asp-action="Index">Running Relay Events</a></li>
+                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Index">Field Relay Events</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Performances
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="RunningPerformance" asp-action="Index">Running Performances</a></li>
+                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="FieldPerformance" asp-action="Index">Field Performances</a></li>
+                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="RunningRelayPerformance" asp-action="Index">Running Relay Performances</a></li>
+                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="FieldRelayPerformance" asp-action="Index">Field Relay Performances</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link ps-3 pe-3" title="Refresh Cache" asp-area="Admin" asp-controller="Home" asp-action="RefreshCache">Refresh Cache</a>
+                </li>
             </ul>
         </div>
     </div>

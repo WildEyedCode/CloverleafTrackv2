@@ -15,6 +15,8 @@ public static class AthleteQueries
             athlete.DateDeleted,
             athlete.Deleted
         FROM
-            Athletes athlete;
+            Athletes athlete
+        WHERE
+            (athlete.Deleted = 0 OR athlete.Deleted IS NULL);
         """;
 }

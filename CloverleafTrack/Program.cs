@@ -1,9 +1,9 @@
 using System.Data;
 using System.Data.SqlClient;
-
+using CloverleafTrack.Mappers;
 using CloverleafTrack.Options;
 using CloverleafTrack.Services;
-
+using Dapper;
 using AdminServices = CloverleafTrack.Areas.Admin.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,12 +19,22 @@ builder.Services.AddSingleton<ISeasonService, SeasonService>();
 builder.Services.AddSingleton<ILeaderboardService, LeaderboardService>();
 
 builder.Services.AddSingleton<AdminServices.IAthleteService, AdminServices.AthleteService>();
-builder.Services.AddSingleton<AdminServices.IEventService, AdminServices.EventService>();
+builder.Services.AddSingleton<AdminServices.IFieldEventService, AdminServices.FieldEventService>();
+builder.Services.AddSingleton<AdminServices.IFieldRelayEventService, AdminServices.FieldRelayEventService>();
+builder.Services.AddSingleton<AdminServices.IRunningEventService, AdminServices.RunningEventService>();
+builder.Services.AddSingleton<AdminServices.IRunningRelayEventService, AdminServices.RunningRelayEventService>();
 builder.Services.AddSingleton<AdminServices.IPerformanceService, AdminServices.PerformanceService>();
 builder.Services.AddSingleton<AdminServices.IMeetService, AdminServices.MeetService>();
 builder.Services.AddSingleton<AdminServices.ISeasonService, AdminServices.SeasonService>();
+builder.Services.AddSingleton<AdminServices.IFieldPerformanceService, AdminServices.FieldPerformanceService>();
+builder.Services.AddSingleton<AdminServices.IFieldRelayPerformanceService, AdminServices.FieldRelayPerformanceService>();
+builder.Services.AddSingleton<AdminServices.IRunningPerformanceService, AdminServices.RunningPerformanceService>();
+builder.Services.AddSingleton<AdminServices.IRunningRelayPerformanceService, AdminServices.RunningRelayPerformanceService>();
 
 builder.Services.AddControllersWithViews();
+
+SqlMapper.AddTypeHandler(new SqlTimeTypeHandler());
+SqlMapper.AddTypeHandler(new SqlDistanceTypeHandler());
 
 var app = builder.Build();
 

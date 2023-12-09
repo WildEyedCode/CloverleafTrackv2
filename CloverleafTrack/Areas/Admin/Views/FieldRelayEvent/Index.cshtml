@@ -1,0 +1,109 @@
+@model PaginatedList<FieldRelayEvent>
+
+@{
+    ViewBag.Title = "Field Relay Event Admin Home";
+}
+
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index" asp-area="Admin">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Field Relay Event Admin
+        </li>
+    </ol>
+</nav>
+
+<h1 class="text-center">
+    Field Relay Event Admin
+</h1>
+
+<a class="btn btn-primary" asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Create">
+    Create New Field Relay Event
+</a>
+
+<form asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-primary" /> | 
+            <a class="btn btn-primary" asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+<table class="table table-striped table-hover">
+    <caption>Field Relay Event Admin</caption>
+    <thead>
+    <tr>
+        <th scope="col">
+            <a asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParameter"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                Name
+            </a>
+        </th>
+        <th scope="col">
+            <a asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Index" asp-route-sortOrder="@ViewData["GenderSortParameter"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                Gender
+            </a>
+        </th>
+        <th scope="col">
+            <a asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Index" asp-route-sortOrder="@ViewData["EnvironmentSortParameter"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                Environment
+            </a>
+        </th>
+        <th scope="col">
+            <a asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Index" asp-route-sortOrder="@ViewData["SortOrderSortParameter"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                Sort Order
+            </a>
+        </th>
+        <th scope="col">
+            <a asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Index" asp-route-sortOrder="@ViewData["DeletedSortParameter"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                Deleted
+            </a>
+        </th>
+        <th scope="col"></th>
+    </tr>
+    @foreach (var FieldRelayEvent in Model)
+    {
+        <tr>
+            <td>@FieldRelayEvent.Name</td>
+            <td>@FieldRelayEvent.Gender</td>
+            <td>@FieldRelayEvent.Environment</td>
+            <td>@FieldRelayEvent.SortOrder</td>
+            <td>@FieldRelayEvent.Deleted</td>
+            <td>
+                <a role="button" class="btn btn-primary" asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Details" asp-route-id="@FieldRelayEvent.Id">Details</a>
+                <a role="button" class="btn btn-info" asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Edit" asp-route-id="@FieldRelayEvent.Id">Edit</a>
+                <a role="button" class="btn btn-danger" asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Delete" asp-route-id="@FieldRelayEvent.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </thead>
+</table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : string.Empty;
+    var nextDisabled = !Model.HasNextPage ? "disabled" : string.Empty;
+}
+
+<a asp-area="Admin" 
+   asp-controller="FieldRelayEvent"
+   asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-area="Admin"
+   asp-controller="FieldRelayEvent"
+   asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>

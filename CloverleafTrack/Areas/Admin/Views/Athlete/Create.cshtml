@@ -27,31 +27,32 @@
 </h1>
 
 <form asp-area="Admin" asp-controller="Athlete" asp-action="Create" class="w-50 m-auto">
+    @Html.AntiForgeryToken()
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="mb-3 form-group">
         <label asp-for="FirstName" class="form-label"></label>
-        <input asp-for="FirstName" class="form-control" />
+        <input asp-for="FirstName" class="form-control"/>
         <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
     <div class="mb-3 form-group">
         <label asp-for="LastName" class="form-label"></label>
-        <input asp-for="LastName" class="form-control" />
+        <input asp-for="LastName" class="form-control"/>
         <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
     <div class="mb-3 form-group">
         <div class="form-check">
-            @Html.RadioButtonFor(x => x.Gender, true, new { @class = "form-check-input"})
+            @Html.RadioButtonFor(x => x.Gender, true, new { @class = "form-check-input" })
             @Html.LabelFor(x => x.Gender, "Female", new { @class = "form-check-label" })
         </div>
         <div class="form-check">
-            @Html.RadioButtonFor(x => x.Gender, false, new { @class = "form-check-input"})
+            @Html.RadioButtonFor(x => x.Gender, false, new { @class = "form-check-input" })
             @Html.LabelFor(x => x.Gender, "Male", new { @class = "form-check-label" })
         </div>
         <span asp-validation-for="Gender" class="text-danger"></span>
     </div>
     <div class="mb-3 form-group">
         <label asp-for="GraduationYear" class="form-label"></label>
-        <input asp-for="GraduationYear" class="form-control" />
+        <input asp-for="GraduationYear" class="form-control"/>
         <span asp-validation-for="GraduationYear" class="text-danger"></span>
     </div>
     <div class="mb-3 form-group">

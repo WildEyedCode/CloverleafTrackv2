@@ -21,6 +21,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <AdditionalFiles Include="Areas\Admin\Views\FieldEvent\Create.cshtml" />
+      <AdditionalFiles Include="Areas\Admin\Views\FieldEvent\Delete.cshtml" />
+      <AdditionalFiles Include="Areas\Admin\Views\FieldEvent\Details.cshtml" />
+      <AdditionalFiles Include="Areas\Admin\Views\FieldEvent\Edit.cshtml" />
+      <AdditionalFiles Include="Areas\Admin\Views\FieldEvent\Index.cshtml" />
       <AdditionalFiles Include="Areas\Admin\Views\Shared\Error.cshtml" />
       <AdditionalFiles Include="Areas\Admin\Views\Shared\MenuPartial.cshtml" />
       <AdditionalFiles Include="Areas\Admin\Views\Shared\_Layout.cshtml" />

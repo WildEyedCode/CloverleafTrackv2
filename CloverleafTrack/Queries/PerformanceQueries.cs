@@ -65,7 +65,12 @@ public static class PerformanceQueries
             performance.FieldEventId = event.Id
             AND performance.MeetId = meet.Id
             AND performance.AthleteId = athlete.Id
-            AND meet.SeasonId = season.Id;
+            AND meet.SeasonId = season.Id
+            AND (performance.Deleted = 0 OR performance.Deleted IS NULL)
+            AND (event.Deleted = 0 OR event.Deleted IS NULL)
+            AND (meet.Deleted = 0 OR meet.Deleted IS NULL)
+            AND (season.Deleted = 0 OR season.Deleted IS NULL)
+            AND (athlete.Deleted = 0 OR athlete.Deleted IS NULL);
         """;
     
     public const string AllFieldRelayPerformancesSql = 
@@ -120,7 +125,11 @@ public static class PerformanceQueries
         WHERE
             performance.FieldRelayEventId = event.Id
             AND performance.MeetId = meet.Id
-            AND meet.SeasonId = season.Id;
+            AND meet.SeasonId = season.Id
+            AND (performance.Deleted = 0 OR performance.Deleted IS NULL)
+            AND (event.Deleted = 0 OR event.Deleted IS NULL)
+            AND (meet.Deleted = 0 OR meet.Deleted IS NULL)
+            AND (season.Deleted = 0 OR season.Deleted IS NULL);
         """;
     
     public const string AthletesForFieldRelayPerformanceSql = 
@@ -141,6 +150,8 @@ public static class PerformanceQueries
         WHERE
             athlete.Id = lookup.AthleteId
             AND lookup.FieldRelayPerformanceId = @PerformanceId
+            AND (athlete.Deleted = 0 OR athlete.Deleted IS NULL)
+            AND (lookup.Deleted = 0 OR lookup.Deleted IS NULL)
         ORDER BY
             athlete.LastName,
             athlete.FirstName;
@@ -209,7 +220,12 @@ public static class PerformanceQueries
             performance.RunningEventId = event.Id
             AND performance.MeetId = meet.Id
             AND performance.AthleteId = athlete.Id
-            AND meet.SeasonId = season.Id;
+            AND meet.SeasonId = season.Id
+            AND (performance.Deleted = 0 OR performance.Deleted IS NULL)
+            AND (event.Deleted = 0 OR event.Deleted IS NULL)
+            AND (meet.Deleted = 0 OR meet.Deleted IS NULL)
+            AND (season.Deleted = 0 OR season.Deleted IS NULL)
+            AND (athlete.Deleted = 0 OR athlete.Deleted IS NULL);
         """;
     
     public const string AllRunningRelayPerformancesSql = 
@@ -263,7 +279,11 @@ public static class PerformanceQueries
             Seasons season
         WHERE
             performance.RunningRelayEventId = event.Id
-            AND performance.MeetId = meet.Id AND meet.SeasonId = season.Id;
+            AND performance.MeetId = meet.Id AND meet.SeasonId = season.Id
+            AND (performance.Deleted = 0 OR performance.Deleted IS NULL)
+            AND (event.Deleted = 0 OR event.Deleted IS NULL)
+            AND (meet.Deleted = 0 OR meet.Deleted IS NULL)
+            AND (season.Deleted = 0 OR season.Deleted IS NULL);
         """;
     
     public const string AthletesForRunningRelayPerformanceSql = 
@@ -284,6 +304,8 @@ public static class PerformanceQueries
         WHERE
             athlete.Id = lookup.AthleteId
             AND lookup.RunningRelayPerformanceId = @PerformanceId
+            AND (athlete.Deleted = 0 OR athlete.Deleted IS NULL)
+            AND (lookup.Deleted = 0 OR lookup.Deleted IS NULL)
         ORDER BY
             athlete.LastName,
             athlete.FirstName;

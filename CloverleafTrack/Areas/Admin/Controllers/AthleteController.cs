@@ -1,5 +1,4 @@
 using CloverleafTrack.Areas.Admin.Services;
-using CloverleafTrack.Areas.Admin.ViewModels;
 using CloverleafTrack.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,29 +17,72 @@ public class AthleteController : Controller
 
     [Route("")]
     [HttpGet]
-    public IActionResult Index()
+    public IActionResult Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
     {
-        var vm = new AllAthletesViewModel(athleteService.ReadAll());
-        return View(vm);
+        ViewData["CurrentSort"] = sortOrder;
+        ViewData["FirstNameSortParameter"] = string.IsNullOrEmpty(sortOrder) ? "firstName_descending" : string.Empty;
+        ViewData["LastNameSortParameter"] = sortOrder == "lastName_ascending" ? "lastName_descending" : "lastName_ascending";
+        ViewData["GenderSortParameter"] = sortOrder == "gender_ascending" ? "gender_descending" : "gender_ascending";
+        ViewData["GraduationYearSortParameter"] = sortOrder == "graduationYear_ascending" ? "graduationYear_descending" : "graduationYear_ascending";
+        ViewData["DeletedSortParameter"] = sortOrder == "deleted_ascending" ? "deleted_descending" : "deleted_ascending";
+
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            pageNumber = 1;
+        }
+        else
+        {
+            searchString = currentFilter;
+        }
+
+        ViewData["CurrentFilter"] = searchString;
+
+        var athletes = athleteService.ReadAll();
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            athletes = athletes.Where(x => x.FirstName.ToLower().Contains(searchString.ToLower()) || x.LastName.ToLower().Contains(searchString.ToLower())).ToList();
+        }
+
+        switch (sortOrder)
+        {
+            case "firstName_ascending":
+                athletes = athletes.OrderBy(x => x.FirstName).ToList();
+                break;
+            case "firstName_descending":
+                athletes = athletes.OrderByDescending(x => x.FirstName).ToList();
+                break;
+            case "lastName_ascending":
+                athletes = athletes.OrderBy(x => x.LastName).ToList();
+                break;
+            case "lastName_descending":
+                athletes = athletes.OrderByDescending(x => x.LastName).ToList();
+                break;
+            case "gender_ascending":
+                athletes = athletes.OrderBy(x => x.Gender).ToList();
+                break;
+            case "gender_descending":
+                athletes = athletes.OrderByDescending(x => x.Gender).ToList();
+                break;
+            case "graduationYear_ascending":
+                athletes = athletes.OrderBy(x => x.GraduationYear).ToList();
+                break;
+            case "graduationYear_descending":
+                athletes = athletes.OrderByDescending(x => x.GraduationYear).ToList();
+                break;
+            case "deleted_ascending":
+                athletes = athletes.OrderBy(x => x.Deleted).ToList();
+                break;
+            case "deleted_descending":
+                athletes = athletes.OrderByDescending(x => x.Deleted).ToList();
+                break;
+            default:
+                athletes = athletes.OrderBy(x => x.FirstName).ToList();
+                break;
+        }
+
+        int pageSize = athletes.Count;
+        return View(PaginatedList<Athlete>.Create(athletes, pageNumber ?? 1, pageSize));
     }
-
-    // [Route("{sortOrder}")]
-    // [HttpGet]
-    // public IActionResult Index(string sortOrder)
-    // {
-    // }
-
-    // [Route("{sortOrder}/{searchString}")]
-    // [HttpGet]
-    // public IActionResult Index(string sortOrder, string searchString)
-    // {
-    // }
-
-    // [Route("{sortOrder}/{currentFilter}/{searchString}/{pageNumber}")]
-    // [HttpGet]
-    // public IActionResult Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
-    // {
-    // }
 
     [Route("{id}")]
     [HttpGet]
@@ -76,7 +118,7 @@ public class AthleteController : Controller
         {
             if (ModelState.IsValid)
             {
-                await athleteService.Create(athlete, token);
+                await athleteService.CreateAsync(athlete, token);
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -109,9 +151,9 @@ public class AthleteController : Controller
     [Route("edit/{id}")]
     [HttpPost, ActionName("Edit")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditPost(Guid? id)
+    public async Task<IActionResult> EditPost(Guid? id, [Bind("Id,FirstName,LastName,Gender,GraduationYear")] Athlete athlete, CancellationToken token)
     {
-        if (!id.HasValue)
+        if (!id.HasValue || id.Value != athlete.Id)
         {
             return NotFound();
         }
@@ -122,14 +164,16 @@ public class AthleteController : Controller
             return NotFound(id);
         }
 
-        if (await TryUpdateModelAsync(
-                athleteToUpdate,
-                "",
-                x => x.FirstName, x => x.LastName, x => x.Gender, x => x.GraduationYear))
+        if (ModelState.IsValid)
         {
             try
             {
-                await athleteService.Update(athleteToUpdate);
+                athleteToUpdate.FirstName = athlete.FirstName;
+                athleteToUpdate.LastName = athlete.LastName;
+                athleteToUpdate.Gender = athlete.Gender;
+                athleteToUpdate.GraduationYear = athlete.GraduationYear;
+                
+                await athleteService.UpdateAsync(athleteToUpdate, token);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -138,10 +182,10 @@ public class AthleteController : Controller
             }
         }
 
-        return View();
+        return View(athleteToUpdate);
     }
 
-    [Route("delete/{id}/{saveChangesError}")]
+    [Route("delete/{id}/{saveChangesError?}")]
     [HttpGet]
     public IActionResult Delete(Guid? id, bool? saveChangesError = false)
     {
@@ -167,7 +211,7 @@ public class AthleteController : Controller
     [Route("delete/{id}")]
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(Guid? id)
+    public async Task<IActionResult> DeleteConfirmed(Guid? id, CancellationToken token)
     {
         if (!id.HasValue)
         {
@@ -182,7 +226,7 @@ public class AthleteController : Controller
 
         try
         {
-            await athleteService.Delete(athlete);
+            await athleteService.DeleteAsync(athlete, token);
             return RedirectToAction(nameof(Index));
         }
         catch (Exception)

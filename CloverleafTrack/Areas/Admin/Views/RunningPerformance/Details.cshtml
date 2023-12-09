@@ -1,0 +1,63 @@
+@model RunningPerformance
+
+@{
+    ViewBag.Title = $"{Model} Running Performance Details";
+}
+
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index" asp-area="Admin">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="RunningPerformance" asp-action="Index" asp-area="Admin">
+                Running Performance Admin
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            @Model.ToString() Running Performance Details
+        </li>
+    </ol>
+</nav>
+
+<h1 class="text-center">
+    @Model.ToString()
+</h1>
+
+<dl class="w-50 m-auto">
+    <dt>@Html.DisplayNameFor(x => x.Id)</dt>
+    <dd>@Model.Id</dd>
+    
+    <dt>Athlete</dt>
+    <dd>@Model.Athlete.Name</dd>
+    
+    <dt>Event</dt>
+    <dd>@Model.Event.DisplayName</dd>
+    
+    <dt>Meet</dt>
+    <dd>@Model.Meet.Name</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.Minutes)</dt>
+    <dd>@Model.Minutes</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.Seconds)</dt>
+    <dd>@Model.Seconds</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.DateCreated)</dt>
+    <dd>@Model.DateCreated</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.DateUpdated)</dt>
+    <dd>@Model.DateUpdated</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.Deleted)</dt>
+    <dd>@Model.Deleted</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.DateDeleted)</dt>
+    <dd>@Model.DateDeleted</dd>
+</dl>
+
+<div>
+    <a asp-area="Admin" asp-controller="RunningPerformance" asp-action="Index">Back to List</a>
+</div>

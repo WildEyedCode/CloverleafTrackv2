@@ -11,7 +11,7 @@ public class Meet : AuditModel
     public DateTime Date { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Location { get; set; } = string.Empty;
-    public bool OutDoor { get; set; }
+    public bool Outdoor { get; set; }
     public bool AllResultsIn { get; set; }
     public bool HandTimed { get; set; }
     public Environment? Environment { get; set; }

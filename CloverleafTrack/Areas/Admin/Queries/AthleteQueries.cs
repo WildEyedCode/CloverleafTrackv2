@@ -15,7 +15,10 @@ public static class AthleteQueries
             athlete.DateDeleted,
             athlete.Deleted
         FROM
-            Athletes athlete;
+            Athletes athlete
+        ORDER BY
+            athlete.LastName,
+            athlete.FirstName;
         """;
 
     public const string CreateAthleteSql =
@@ -44,5 +47,28 @@ public static class AthleteQueries
             @DateDeleted,
             @Deleted
         );
+        """;
+
+    public const string UpdateAthleteSql =
+        """
+        UPDATE Athletes
+        SET
+            FirstName = @FirstName,
+            LastName = @LastName,
+            Gender = @Gender,
+            GraduationYear = @GraduationYear,
+            DateUpdated = @DateUpdated
+        WHERE
+            Id = @Id;
+        """;
+
+    public const string DeleteAthleteSql =
+        """
+        UPDATE Athletes
+        SET
+            Deleted = @Deleted,
+            DateDeleted = @DateDeleted
+        WHERE
+            Id = @Id;
         """;
 }

@@ -28,6 +28,8 @@ public static class MeetQueries
             Meets meet,
             Seasons season
         WHERE
-            meet.SeasonId = season.Id;
+            meet.SeasonId = season.Id
+            AND (meet.Deleted = 0 OR meet.Deleted IS NULL)
+            AND (season.Deleted = 0 OR season.Deleted IS NULL);
         """;
 }

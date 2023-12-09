@@ -1,0 +1,45 @@
+@model Season
+
+@{
+    ViewBag.Title = $"Edit Season {Model.Name}";
+}
+
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index" asp-area="Admin">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Season" asp-action="Index" asp-area="Admin">
+                Season Admin
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Edit Season @Model.Name
+        </li>
+    </ol>
+</nav>
+
+<h1 class="text-center">
+    Edit Season @Model.Name
+</h1>
+
+<form asp-area="Admin" asp-controller="Season" asp-action="Edit" class="w-50 m-auto">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3 form-group">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control"/>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>
+
+<div>
+    <a asp-area="Admin" asp-controller="Season" asp-action="Index">Back to List</a>
+</div>

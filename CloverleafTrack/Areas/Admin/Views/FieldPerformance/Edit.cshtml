@@ -1,0 +1,65 @@
+@model FullFieldPerformanceViewModel
+
+@{
+    ViewBag.Title = $"Edit Field Performance {Model.Performance}";
+}
+
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index" asp-area="Admin">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="FieldPerformance" asp-action="Index" asp-area="Admin">
+                Field Performance Admin
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Edit Field Performance @Model.Performance.ToString()
+        </li>
+    </ol>
+</nav>
+
+<h1 class="text-center">
+    Edit Field Performance @Model.Performance.ToString()
+</h1>
+
+<form asp-area="Admin" asp-controller="FieldPerformance" asp-action="Edit" class="w-50 m-auto">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Performance.Id" />
+    <div class="mb-3 form-group">
+        <label asp-for="Performance.AthleteId" class="form-label">Athlete</label>
+        @Html.DropDownListFor(x => x.Performance.AthleteId, new SelectList(Model.Athletes, "Id", "Name", Model.Performance.AthleteId))
+        <span asp-validation-for="Performance.AthleteId" class="text-danger"></span>
+    </div>
+     <div class="mb-3 form-group">
+        <label asp-for="Performance.EventId" class="form-label">Event</label>
+        @Html.DropDownListFor(x => x.Performance.EventId, new SelectList(Model.Events, "Id", "DisplayName", Model.Performance.EventId))
+        <span asp-validation-for="Performance.EventId" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="Performance.MeetId" class="form-label">Meet</label>
+        @Html.DropDownListFor(x => x.Performance.MeetId, new SelectList(Model.Meets, "Id", "Name", Model.Performance.MeetId))
+        <span asp-validation-for="Performance.MeetId" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="Performance.Feet" class="form-label"></label>
+        <input asp-for="Performance.Feet" class="form-control"/>
+        <span asp-validation-for="Performance.Feet" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="Performance.Inches" class="form-label"></label>
+        <input asp-for="Performance.Inches" class="form-control"/>
+        <span asp-validation-for="Performance.Inches" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>
+
+<div>
+    <a asp-area="Admin" asp-controller="FieldPerformance" asp-action="Index">Back to List</a>
+</div>

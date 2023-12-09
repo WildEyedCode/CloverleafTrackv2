@@ -534,7 +534,9 @@ public class PerformanceService : IPerformanceService
                 return performance;
             },
             splitOn: "EventId,MeetId,SeasonId"))
-            .OrderBy(x => x.Minutes).ThenBy(x => x.Seconds).ToList();
+            .OrderBy(x => x.Minutes)
+            .ThenBy(x => x.Seconds)
+            .ToList();
         
         foreach (var performance in performances)
         {

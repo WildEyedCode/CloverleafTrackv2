@@ -1,0 +1,72 @@
+@using Environment = CloverleafTrack.Models.Environment
+@model RunningEvent
+
+@{
+    ViewBag.Title = "Create a Running Event";
+}
+
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index" asp-area="Admin">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="RunningEvent" asp-action="Index" asp-area="Admin">
+                Running Event Admin
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Create a Running Event
+        </li>
+    </ol>
+</nav>
+
+<h1 class="text-center">
+    Create a Running Event
+</h1>
+
+<form asp-area="Admin" asp-controller="RunningEvent" asp-action="Create" class="w-50 m-auto">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3 form-group">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control"/>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <div class="form-check">
+            @Html.RadioButtonFor(x => x.Gender, Gender.Female, new { @class = "form-check-input" })
+            @Html.LabelFor(x => x.Gender, "Female", new { @class = "form-check-label" })
+        </div>
+        <div class="form-check">
+            @Html.RadioButtonFor(x => x.Gender, Gender.Male, new { @class = "form-check-input" })
+            @Html.LabelFor(x => x.Gender, "Male", new { @class = "form-check-label" })
+        </div>
+        <span asp-validation-for="Gender" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+            <div class="form-check">
+                @Html.RadioButtonFor(x => x.Environment, Environment.Indoor, new { @class = "form-check-input" })
+                @Html.LabelFor(x => x.Environment, "Indoor", new { @class = "form-check-label" })
+            </div>
+            <div class="form-check">
+                @Html.RadioButtonFor(x => x.Environment, Environment.Outdoor, new { @class = "form-check-input" })
+                @Html.LabelFor(x => x.Environment, "Outdoor", new { @class = "form-check-label" })
+            </div>
+            <span asp-validation-for="Environment" class="text-danger"></span>
+        </div>
+    <div class="mb-3 form-group">
+        <label asp-for="SortOrder" class="form-label"></label>
+        <input asp-for="SortOrder" class="form-control"/>
+        <span asp-validation-for="SortOrder" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>
+
+<div>
+    <a asp-area="Admin" asp-controller="RunningEvent" asp-action="Index">Back to List</a>
+</div>

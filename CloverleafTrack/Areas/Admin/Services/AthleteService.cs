@@ -13,11 +13,11 @@ public interface IAthleteService
     public List<Athlete> Athletes { get; }
     public int Count { get; }
     public Task ReloadAsync(CancellationToken token);
-    public Task Create(Athlete athlete, CancellationToken token);
+    public Task CreateAsync(Athlete athlete, CancellationToken token);
     public List<Athlete> ReadAll();
     public Athlete? ReadById(Guid id);
-    public Task Update(Athlete athlete);
-    public Task Delete(Athlete athlete);
+    public Task UpdateAsync(Athlete athlete, CancellationToken token);
+    public Task DeleteAsync(Athlete athlete, CancellationToken token);
 }
 
 public class AthleteService : IAthleteService
@@ -41,7 +41,7 @@ public class AthleteService : IAthleteService
         Athletes = (await connection.QueryAsync<Athlete>(AthleteQueries.AllAthletesSql)).ToList();
     }
 
-    public async Task Create(Athlete athlete, CancellationToken token = default)
+    public async Task CreateAsync(Athlete athlete, CancellationToken token = default)
     {
         athlete.Id = Guid.NewGuid();
         athlete.DateCreated = DateTime.UtcNow;
@@ -52,6 +52,8 @@ public class AthleteService : IAthleteService
         AthleteQueries.CreateAthleteSql,
                     athlete,
                     cancellationToken: token));
+
+        await ReloadAsync(token);
     }
 
     public List<Athlete> ReadAll()
@@ -64,18 +66,30 @@ public class AthleteService : IAthleteService
         return Athletes.FirstOrDefault(x => x.Id == id);
     }
 
-    public Task Update(Athlete athlete)
+    public async Task UpdateAsync(Athlete athlete, CancellationToken token)
     {
         athlete.DateUpdated = DateTime.UtcNow;
         
-        throw new NotImplementedException();
+        await connection.ExecuteAsync(
+            new CommandDefinition(
+                AthleteQueries.UpdateAthleteSql,
+                athlete,
+                cancellationToken: token));
+        
+        await ReloadAsync(token);
     }
 
-    public Task Delete(Athlete athlete)
+    public async Task DeleteAsync(Athlete athlete, CancellationToken token)
     {
         athlete.Deleted = true;
         athlete.DateDeleted = DateTime.UtcNow;
         
-        throw new NotImplementedException();
+        await connection.ExecuteAsync(
+            new CommandDefinition(
+                AthleteQueries.DeleteAthleteSql,
+                athlete,
+                cancellationToken: token));
+        
+        await ReloadAsync(token);
     }
 }

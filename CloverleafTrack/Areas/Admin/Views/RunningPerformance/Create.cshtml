@@ -1,0 +1,64 @@
+@model FullRunningPerformanceViewModel
+
+@{
+    ViewBag.Title = "Create a Running Performance";
+}
+
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index" asp-area="Admin">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="RunningPerformance" asp-action="Index" asp-area="Admin">
+                Running Performance Admin
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Create a Running Performance
+        </li>
+    </ol>
+</nav>
+
+<h1 class="text-center">
+    Create a Running Performance
+</h1>
+
+<form asp-area="Admin" asp-controller="RunningPerformance" asp-action="Create" class="w-50 m-auto">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3 form-group">
+        <label asp-for="Performance.AthleteId" class="form-label">Athlete</label>
+        @Html.DropDownListFor(x => x.Performance.AthleteId, new SelectList(Model.Athletes, "Id", "Name", Model.Performance.AthleteId))
+        <span asp-validation-for="Performance.AthleteId" class="text-danger"></span>
+    </div>
+     <div class="mb-3 form-group">
+        <label asp-for="Performance.EventId" class="form-label">Event</label>
+        @Html.DropDownListFor(x => x.Performance.EventId, new SelectList(Model.Events, "Id", "DisplayName", Model.Performance.EventId))
+        <span asp-validation-for="Performance.EventId" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="Performance.MeetId" class="form-label">Meet</label>
+        @Html.DropDownListFor(x => x.Performance.MeetId, new SelectList(Model.Meets, "Id", "Name", Model.Performance.MeetId))
+        <span asp-validation-for="Performance.MeetId" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="Performance.Minutes" class="form-label"></label>
+        <input asp-for="Performance.Minutes" class="form-control"/>
+        <span asp-validation-for="Performance.Minutes" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="Performance.Seconds" class="form-label"></label>
+        <input asp-for="Performance.Seconds" class="form-control"/>
+        <span asp-validation-for="Performance.Seconds" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>
+
+<div>
+    <a asp-area="Admin" asp-controller="RunningPerformance" asp-action="Index">Back to List</a>
+</div>

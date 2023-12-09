@@ -1,0 +1,76 @@
+@model FieldEvent
+
+@{
+    ViewBag.Title = $"Delete Field Event {Model.Name}";
+}
+
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index" asp-area="Admin">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="FieldEvent" asp-action="Index" asp-area="Admin">
+                Field Event Admin
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Delete Field Event @Model.Name
+        </li>
+    </ol>
+</nav>
+
+<h1 class="text-center">
+    Delete Field Event @Model.Name
+</h1>
+
+<p class="text-danger">
+    @ViewData["ErrorMessage"]
+</p>
+
+<h3 class="text-center">
+    Are you sure you want to do this?
+</h3>
+
+<dl class="w-50 m-auto">
+    <dt>@Html.DisplayNameFor(x => x.Id)</dt>
+    <dd>@Model.Id</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.Name)</dt>
+    <dd>@Model.Name</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.Gender)</dt>
+    <dd>@Model.Gender</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.Environment)</dt>
+    <dd>@Model.Environment</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.SortOrder)</dt>
+    <dd>@Model.SortOrder</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.DisplayName)</dt>
+    <dd>@Model.DisplayName</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.UrlName)</dt>
+    <dd>@Model.UrlName</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.DateCreated)</dt>
+    <dd>@Model.DateCreated</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.DateUpdated)</dt>
+    <dd>@Model.DateUpdated</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.Deleted)</dt>
+    <dd>@Model.Deleted</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.DateDeleted)</dt>
+    <dd>@Model.DateDeleted</dd>
+</dl>
+
+<form asp-area="Admin" asp-controller="FieldEvent" asp-action="Delete" class="w-50 m-auto">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button> | <a asp-area="Admin" asp-controller="FieldEvent" asp-action="Index">Back to List</a>
+</form>

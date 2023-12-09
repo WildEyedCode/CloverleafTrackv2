@@ -1,0 +1,80 @@
+@model FullRunningRelayPerformanceViewModel
+
+@{
+    ViewBag.Title = $"Edit Running Relay Performance {Model.Performance}";
+}
+
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index" asp-area="Admin">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="RunningRelayPerformance" asp-action="Index" asp-area="Admin">
+                Running Relay Performance Admin
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Edit Running Relay Performance @Model.Performance.ToString()
+        </li>
+    </ol>
+</nav>
+
+<h1 class="text-center">
+    Edit Running Relay Performance @Model.Performance.ToString()
+</h1>
+
+<form asp-area="Admin" asp-controller="RunningRelayPerformance" asp-action="Edit" class="w-50 m-auto">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Performance.Id" />
+    <div class="mb-3 form-group">
+        <label asp-for="AthleteId1" class="form-label">Athlete 1</label>
+        @Html.DropDownListFor(x => x.AthleteId1, new SelectList(Model.Athletes, "Id", "Name", Model.AthleteId1))
+        <span asp-validation-for="AthleteId1" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="AthleteId1" class="form-label">Athlete 2</label>
+        @Html.DropDownListFor(x => x.AthleteId2, new SelectList(Model.Athletes, "Id", "Name", Model.AthleteId2))
+        <span asp-validation-for="AthleteId2" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="AthleteId1" class="form-label">Athlete 3</label>
+        @Html.DropDownListFor(x => x.AthleteId3, new SelectList(Model.Athletes, "Id", "Name", Model.AthleteId3))
+        <span asp-validation-for="AthleteId3" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="AthleteId1" class="form-label">Athlete 4</label>
+        @Html.DropDownListFor(x => x.AthleteId4, new SelectList(Model.Athletes, "Id", "Name", Model.AthleteId4))
+        <span asp-validation-for="AthleteId4" class="text-danger"></span>
+    </div>
+     <div class="mb-3 form-group">
+        <label asp-for="Performance.EventId" class="form-label">Event</label>
+        @Html.DropDownListFor(x => x.Performance.EventId, new SelectList(Model.Events, "Id", "DisplayName", Model.Performance.EventId))
+        <span asp-validation-for="Performance.EventId" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="Performance.MeetId" class="form-label">Meet</label>
+        @Html.DropDownListFor(x => x.Performance.MeetId, new SelectList(Model.Meets, "Id", "Name", Model.Performance.MeetId))
+        <span asp-validation-for="Performance.MeetId" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="Performance.Minutes" class="form-label"></label>
+        <input asp-for="Performance.Minutes" class="form-control"/>
+        <span asp-validation-for="Performance.Minutes" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="Performance.Seconds" class="form-label"></label>
+        <input asp-for="Performance.Seconds" class="form-control"/>
+        <span asp-validation-for="Performance.Seconds" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>
+
+<div>
+    <a asp-area="Admin" asp-controller="RunningRelayPerformance" asp-action="Index">Back to List</a>
+</div>

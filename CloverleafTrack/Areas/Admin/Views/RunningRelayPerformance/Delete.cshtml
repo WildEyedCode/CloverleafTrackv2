@@ -1,0 +1,80 @@
+@model RunningRelayPerformance
+
+@{
+    ViewBag.Title = $"Delete Running Relay Performance {Model}";
+}
+
+<nav style="--bs-breadcrumb-divider: '//';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="Home" asp-action="Index" asp-area="Admin">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a title="Home" asp-controller="RunningRelayPerformance" asp-action="Index" asp-area="Admin">
+                Running Relay Performance Admin
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Delete Running Relay Performance @Model.ToString()
+        </li>
+    </ol>
+</nav>
+
+<h1 class="text-center">
+    Delete Running Relay Performance @Model.ToString()
+</h1>
+
+<p class="text-danger">
+    @ViewData["ErrorMessage"]
+</p>
+
+<h3 class="text-center">
+    Are you sure you want to do this?
+</h3>
+
+<dl class="w-50 m-auto">
+    <dt>@Html.DisplayNameFor(x => x.Id)</dt>
+    <dd>@Model.Id</dd>
+    
+    <dt>Athletes</dt>
+    <dd>
+        <ul>
+            @foreach (var athlete in Model.Athletes)
+            {
+                <li>@athlete.Name</li>
+            }
+        </ul>
+    </dd>
+    
+    <dt>Event</dt>
+    <dd>@Model.Event.DisplayName</dd>
+    
+    <dt>Meet</dt>
+    <dd>@Model.Meet.Name</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.Minutes)</dt>
+    <dd>@Model.Minutes</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.Seconds)</dt>
+    <dd>@Model.Seconds</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.DateCreated)</dt>
+    <dd>@Model.DateCreated</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.DateUpdated)</dt>
+    <dd>@Model.DateUpdated</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.Deleted)</dt>
+    <dd>@Model.Deleted</dd>
+    
+    <dt>@Html.DisplayNameFor(x => x.DateDeleted)</dt>
+    <dd>@Model.DateDeleted</dd>
+</dl>
+
+<form asp-area="Admin" asp-controller="RunningRelayPerformance" asp-action="Delete" class="w-50 m-auto">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button> | <a asp-area="Admin" asp-controller="RunningRelayPerformance" asp-action="Index">Back to List</a>
+</form>
