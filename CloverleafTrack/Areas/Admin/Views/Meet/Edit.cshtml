@@ -63,6 +63,18 @@
         <span asp-validation-for="Meet.SeasonId" class="text-danger"></span>
     </div>
     <div class="mb-3 form-group">
+        <label asp-for="Meet.AllResultsIn" class="form-label"></label>
+        <div class="form-check">
+            @Html.RadioButtonFor(x => x.Meet.AllResultsIn, true, new { @class = "form-check-input" })
+            @Html.LabelFor(x => x.Meet.AllResultsIn, Boolean.TrueString, new { @class = "form-check-label" })
+        </div>
+        <div class="form-check">
+            @Html.RadioButtonFor(x => x.Meet.AllResultsIn, false, new { @class = "form-check-input" })
+            @Html.LabelFor(x => x.Meet.AllResultsIn, Boolean.FalseString, new { @class = "form-check-label" })
+        </div>
+        <span asp-validation-for="Meet.AllResultsIn" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
         <button type="submit" class="btn btn-primary">Save</button>
     </div>
 </form>

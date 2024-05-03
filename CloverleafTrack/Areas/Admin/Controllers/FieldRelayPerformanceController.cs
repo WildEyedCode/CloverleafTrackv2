@@ -96,7 +96,7 @@ public class FieldRelayPerformanceController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        var vm = new FullFieldRelayPerformanceViewModel(new FieldRelayPerformance(), new Guid(), new Guid(), new Guid(), eventService.ReadAll(), meetService.ReadAll(), athleteService.ReadAll());
+        var vm = new FullFieldRelayPerformanceViewModel(new FieldRelayPerformance(), new Guid(), new Guid(), new Guid(), eventService.ReadAll(), meetService.ReadActive(), athleteService.ReadAll());
         return View(vm);
     }
     
@@ -109,7 +109,11 @@ public class FieldRelayPerformanceController : Controller
         {
             if (ModelState.IsValid)
             {
-                performance.AthleteIds = new List<Guid> { athleteId1, athleteId2, athleteId3 };
+                var @event = eventService.ReadById(performance.EventId);
+                performance.AthleteIds = @event!.AthleteCount == 2
+                    ? new List<Guid> { athleteId1, athleteId2 }
+                    : new List<Guid> { athleteId1, athleteId2, athleteId3 };
+                
                 await performanceService.CreateAsync(performance, token);
                 return RedirectToAction(nameof(Index));
             }
@@ -119,7 +123,7 @@ public class FieldRelayPerformanceController : Controller
             ModelState.AddModelError("", ex.ToString());
         }
 
-        var vm = new FullFieldRelayPerformanceViewModel(performance, athleteId1, athleteId2, athleteId3, eventService.ReadAll(), meetService.ReadAll(), athleteService.ReadAll());
+        var vm = new FullFieldRelayPerformanceViewModel(performance, athleteId1, athleteId2, athleteId3, eventService.ReadAll(), meetService.ReadActive(), athleteService.ReadAll());
         return View(vm);
     }
     
@@ -139,8 +143,22 @@ public class FieldRelayPerformanceController : Controller
         }
 
         var athletes = performance.Athletes;
+        var @event = eventService.ReadById(performance.EventId);
+        Guid athleteId1, athleteId2, athleteId3;
+        if (@event.AthleteCount == 2)
+        {
+            athleteId1 = athletes[0].Id;
+            athleteId2 = athletes[1].Id;
+            athleteId3 = athleteService.ReadAll().First().Id;
+        }
+        else
+        {
+            athleteId1 = athletes[0].Id;
+            athleteId2 = athletes[1].Id;
+            athleteId3 = athletes[2].Id;
+        }
 
-        var vm = new FullFieldRelayPerformanceViewModel(performance, athletes[0].Id, athletes[1].Id, athletes[2].Id, eventService.ReadAll(), meetService.ReadAll(), athleteService.ReadAll());
+        var vm = new FullFieldRelayPerformanceViewModel(performance, athleteId1, athleteId2, athleteId3, eventService.ReadAll(), meetService.ReadAll(), athleteService.ReadAll());
         return View(vm);
     }
     
@@ -164,7 +182,11 @@ public class FieldRelayPerformanceController : Controller
         {
             try
             {
-                performanceToUpdate.AthleteIds = new List<Guid> { athleteId1, athleteId2, athleteId3 };
+                var @event = eventService.ReadById(performance.EventId);
+                performanceToUpdate.AthleteIds = @event!.AthleteCount == 2
+                    ? new List<Guid> { athleteId1, athleteId2 }
+                    : new List<Guid> { athleteId1, athleteId2, athleteId3 };
+                
                 performanceToUpdate.EventId = performance.EventId;
                 performanceToUpdate.MeetId = performance.MeetId;
                 performanceToUpdate.Feet = performance.Feet;

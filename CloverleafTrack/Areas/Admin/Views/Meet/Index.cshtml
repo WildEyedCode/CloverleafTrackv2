@@ -60,24 +60,28 @@
             </a>
         </th>
         <th scope="col">
+            All Results In?
+        </th>
+        <th scope="col">
             <a asp-area="Admin" asp-controller="Meet" asp-action="Index" asp-route-sortOrder="@ViewData["DeletedSortParameter"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
                 Deleted
             </a>
         </th>
         <th scope="col"></th>
     </tr>
-    @foreach (var athlete in Model)
+    @foreach (var meet in Model)
     {
         <tr>
-            <td>@athlete.Name</td>
-            <td>@athlete.Location</td>
-            <td>@athlete.Date</td>
-            <td>@athlete.Environment</td>
-            <td>@athlete.Deleted</td>
+            <td>@meet.Name</td>
+            <td>@meet.Location</td>
+            <td>@meet.Date</td>
+            <td>@meet.Environment</td>
+            <td>@meet.AllResultsIn</td>
+            <td>@meet.Deleted</td>
             <td>
-                <a role="button" class="btn btn-primary" asp-area="Admin" asp-controller="Meet" asp-action="Details" asp-route-id="@athlete.Id">Details</a>
-                <a role="button" class="btn btn-info" asp-area="Admin" asp-controller="Meet" asp-action="Edit" asp-route-id="@athlete.Id">Edit</a>
-                <a role="button" class="btn btn-danger" asp-area="Admin" asp-controller="Meet" asp-action="Delete" asp-route-id="@athlete.Id">Delete</a>
+                <a role="button" class="btn btn-primary" asp-area="Admin" asp-controller="Meet" asp-action="Details" asp-route-id="@meet.Id">Details</a>
+                <a role="button" class="btn btn-info" asp-area="Admin" asp-controller="Meet" asp-action="Edit" asp-route-id="@meet.Id">Edit</a>
+                <a role="button" class="btn btn-danger" asp-area="Admin" asp-controller="Meet" asp-action="Delete" asp-route-id="@meet.Id">Delete</a>
             </td>
         </tr>
     }

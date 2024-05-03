@@ -109,7 +109,7 @@ public class FieldRelayEventController : Controller
     [Route("create")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Name,Gender,SortOrder,Environment")] FieldRelayEvent @event, CancellationToken token)
+    public async Task<IActionResult> Create([Bind("Name,Gender,SortOrder,Environment,AthleteCount")] FieldRelayEvent @event, CancellationToken token)
     {
         try
         {
@@ -148,7 +148,7 @@ public class FieldRelayEventController : Controller
     [Route("edit/{id}")]
     [HttpPost, ActionName("Edit")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditPost(Guid? id, [Bind("Id,Name,Gender,SortOrder,Environment")] FieldRelayEvent @event, CancellationToken token)
+    public async Task<IActionResult> EditPost(Guid? id, [Bind("Id,Name,Gender,SortOrder,Environment,AthleteCount")] FieldRelayEvent @event, CancellationToken token)
     {
         if (!id.HasValue || id.Value != @event.Id)
         {
@@ -169,6 +169,7 @@ public class FieldRelayEventController : Controller
                 eventToUpdate.Gender = @event.Gender;
                 eventToUpdate.SortOrder = @event.SortOrder;
                 eventToUpdate.Environment = @event.Environment;
+                eventToUpdate.AthleteCount = @event.AthleteCount;
 
                 await eventService.UpdateAsync(eventToUpdate, token);
                 return RedirectToAction(nameof(Index));

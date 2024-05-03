@@ -96,7 +96,7 @@ public class RunningRelayPerformanceController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        var vm = new FullRunningRelayPerformanceViewModel(new RunningRelayPerformance(), new Guid(), new Guid(), new Guid(), new Guid(), eventService.ReadAll(), meetService.ReadAll(), athleteService.ReadAll());
+        var vm = new FullRunningRelayPerformanceViewModel(new RunningRelayPerformance(), new Guid(), new Guid(), new Guid(), new Guid(), eventService.ReadAll(), meetService.ReadActive(), athleteService.ReadAll());
         return View(vm);
     }
     
@@ -119,7 +119,7 @@ public class RunningRelayPerformanceController : Controller
             ModelState.AddModelError("", ex.ToString());
         }
 
-        var vm = new FullRunningRelayPerformanceViewModel(performance, athleteId1, athleteId2, athleteId3, athleteId4, eventService.ReadAll(), meetService.ReadAll(), athleteService.ReadAll());
+        var vm = new FullRunningRelayPerformanceViewModel(performance, athleteId1, athleteId2, athleteId3, athleteId4, eventService.ReadAll(), meetService.ReadActive(), athleteService.ReadAll());
         return View(vm);
     }
     

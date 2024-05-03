@@ -69,6 +69,7 @@ public class FieldEvent : TrackEvent<FieldPerformance>
 
 public class FieldRelayEvent : TrackEvent<FieldRelayPerformance>
 {
+    public int AthleteCount { get; set; }
 }
 
 public class RunningEvent : TrackEvent<RunningPerformance>

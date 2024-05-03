@@ -14,7 +14,7 @@ public static class SeasonQueries
         FROM
             Seasons season
         ORDER BY
-            season.Name;
+            season.Name DESC;
         """;
 
     public const string CreateSeasonSql =

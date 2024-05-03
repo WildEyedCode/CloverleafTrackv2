@@ -60,24 +60,28 @@
             </a>
         </th>
         <th scope="col">
+            Athlete Count
+        </th>
+        <th scope="col">
             <a asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Index" asp-route-sortOrder="@ViewData["DeletedSortParameter"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
                 Deleted
             </a>
         </th>
         <th scope="col"></th>
     </tr>
-    @foreach (var FieldRelayEvent in Model)
+    @foreach (var fieldRelayEvent in Model)
     {
         <tr>
-            <td>@FieldRelayEvent.Name</td>
-            <td>@FieldRelayEvent.Gender</td>
-            <td>@FieldRelayEvent.Environment</td>
-            <td>@FieldRelayEvent.SortOrder</td>
-            <td>@FieldRelayEvent.Deleted</td>
+            <td>@fieldRelayEvent.Name</td>
+            <td>@fieldRelayEvent.Gender</td>
+            <td>@fieldRelayEvent.Environment</td>
+            <td>@fieldRelayEvent.SortOrder</td>
+            <td>@fieldRelayEvent.AthleteCount</td>
+            <td>@fieldRelayEvent.Deleted</td>
             <td>
-                <a role="button" class="btn btn-primary" asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Details" asp-route-id="@FieldRelayEvent.Id">Details</a>
-                <a role="button" class="btn btn-info" asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Edit" asp-route-id="@FieldRelayEvent.Id">Edit</a>
-                <a role="button" class="btn btn-danger" asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Delete" asp-route-id="@FieldRelayEvent.Id">Delete</a>
+                <a role="button" class="btn btn-primary" asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Details" asp-route-id="@fieldRelayEvent.Id">Details</a>
+                <a role="button" class="btn btn-info" asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Edit" asp-route-id="@fieldRelayEvent.Id">Edit</a>
+                <a role="button" class="btn btn-danger" asp-area="Admin" asp-controller="FieldRelayEvent" asp-action="Delete" asp-route-id="@fieldRelayEvent.Id">Delete</a>
             </td>
         </tr>
     }

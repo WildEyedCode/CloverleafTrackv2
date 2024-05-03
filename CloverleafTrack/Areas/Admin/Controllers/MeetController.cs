@@ -81,7 +81,7 @@ public class MeetController : Controller
                 meets = meets.OrderByDescending(x => x.Deleted).ToList();
                 break;
             default:
-                meets = meets.OrderBy(x => x.Name).ToList();
+                meets = meets.OrderByDescending(x => x.Date).ToList();
                 break;
         }
 
@@ -118,7 +118,7 @@ public class MeetController : Controller
     [Route("create")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Name","Date","Location","Environment","SeasonId")] Meet meet, CancellationToken token)
+    public async Task<IActionResult> Create([Bind("Id,Name,Date,Location,Environment,SeasonId,AllResultsIn")] Meet meet, CancellationToken token)
     {
         try
         {
@@ -159,7 +159,7 @@ public class MeetController : Controller
     [Route("edit/{id}")]
     [HttpPost, ActionName("Edit")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditPost(Guid? id, [Bind("Id,Name,Date,Location,Environment,SeasonId")] Meet meet, CancellationToken token)
+    public async Task<IActionResult> EditPost(Guid? id, [Bind("Id,Name,Date,Location,Environment,SeasonId,AllResultsIn")] Meet meet, CancellationToken token)
     {
         if (!id.HasValue || id.Value != meet.Id)
         {
@@ -181,6 +181,7 @@ public class MeetController : Controller
                 meetToUpdate.Location = meet.Location;
                 meetToUpdate.Environment = meet.Environment;
                 meetToUpdate.SeasonId = meet.SeasonId;
+                meetToUpdate.AllResultsIn = meet.AllResultsIn;
                 
                 await meetService.UpdateAsync(meetToUpdate, token);
                 return RedirectToAction(nameof(Index));

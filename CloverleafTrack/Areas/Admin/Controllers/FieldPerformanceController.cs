@@ -103,7 +103,7 @@ public class FieldPerformanceController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        var vm = new FullFieldPerformanceViewModel(new FieldPerformance(), eventService.ReadAll(), meetService.ReadAll(), athleteService.ReadAll());
+        var vm = new FullFieldPerformanceViewModel(new FieldPerformance(), eventService.ReadAll(), meetService.ReadActive(), athleteService.ReadAll());
         return View(vm);
     }
     
@@ -125,7 +125,7 @@ public class FieldPerformanceController : Controller
             ModelState.AddModelError("", ex.ToString());
         }
 
-        var vm = new FullFieldPerformanceViewModel(performance, eventService.ReadAll(), meetService.ReadAll(), athleteService.ReadAll());
+        var vm = new FullFieldPerformanceViewModel(performance, eventService.ReadAll(), meetService.ReadActive(), athleteService.ReadAll());
         return View(vm);
     }
     

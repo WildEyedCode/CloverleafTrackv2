@@ -21,7 +21,7 @@ public static class MeetQueries
         FROM
             Meets meet
         ORDER BY
-            meet.Date;
+            meet.Date DESC;
         """;
 
     public const string CreateMeetSql =

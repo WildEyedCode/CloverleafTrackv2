@@ -224,9 +224,4 @@ public class RunningEventController : Controller
             return RedirectToAction(nameof(Delete), new { id = id.Value, saveChangesError = true });
         }
     }
-
-    private IActionResult RedirectToAction(string indexName)
-    {
-        throw new NotImplementedException();
-    }
 }

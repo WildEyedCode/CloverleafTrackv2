@@ -58,11 +58,16 @@
                 </div>
                 <span asp-validation-for="Environment" class="text-danger"></span>
             </div>
-        <div class="mb-3 form-group">
-            <label asp-for="SortOrder" class="form-label"></label>
-            <input asp-for="SortOrder" class="form-control"/>
-            <span asp-validation-for="SortOrder" class="text-danger"></span>
-        </div>
+    <div class="mb-3 form-group">
+        <label asp-for="SortOrder" class="form-label"></label>
+        <input asp-for="SortOrder" class="form-control"/>
+        <span asp-validation-for="SortOrder" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="AthleteCount" class="form-label"></label>
+        <input asp-for="AthleteCount" class="form-control"/>
+        <span asp-validation-for="AthleteCount" class="text-danger"></span>
+    </div>
     <div class="mb-3 form-group">
         <button type="submit" class="btn btn-primary">Save</button>
     </div>

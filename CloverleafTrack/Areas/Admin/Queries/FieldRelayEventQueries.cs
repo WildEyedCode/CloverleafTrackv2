@@ -13,7 +13,8 @@ public static class FieldRelayEventQueries
             events.DateUpdated,
             events.DateDeleted,
             events.Environment,
-            events.Deleted
+            events.Deleted,
+            events.AthleteCount
         FROM
             FieldRelayEvents events
         ORDER BY
@@ -32,7 +33,8 @@ public static class FieldRelayEventQueries
             DateUpdated,
             DateDeleted,
             Environment,
-            Deleted
+            Deleted,
+            AthleteCount
         )
         VALUES
         (
@@ -44,7 +46,8 @@ public static class FieldRelayEventQueries
             @DateUpdated,
             @DateDeleted,
             @Environment,
-            @Deleted
+            @Deleted,
+            @AthleteCount
         );
         """;
     
@@ -56,6 +59,7 @@ public static class FieldRelayEventQueries
             Gender = @Gender,
             Environment = @Environment,
             SortOrder = @SortOrder,
+            AthleteCount = @AthleteCount,
             DateUpdated = @DateUpdated
         WHERE
             Id = @Id;

@@ -103,7 +103,7 @@ public class RunningPerformanceController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        var vm = new FullRunningPerformanceViewModel(new RunningPerformance(), eventService.ReadAll(), meetService.ReadAll(), athleteService.ReadAll());
+        var vm = new FullRunningPerformanceViewModel(new RunningPerformance(), eventService.ReadAll(), meetService.ReadActive(), athleteService.ReadAll());
         return View(vm);
     }
     
@@ -125,7 +125,7 @@ public class RunningPerformanceController : Controller
             ModelState.AddModelError("", ex.ToString());
         }
 
-        var vm = new FullRunningPerformanceViewModel(performance, eventService.ReadAll(), meetService.ReadAll(), athleteService.ReadAll());
+        var vm = new FullRunningPerformanceViewModel(performance, eventService.ReadAll(), meetService.ReadActive(), athleteService.ReadAll());
         return View(vm);
     }
     

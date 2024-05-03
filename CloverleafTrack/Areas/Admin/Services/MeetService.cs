@@ -14,6 +14,7 @@ public interface IMeetService
     public Task ReloadAsync(CancellationToken token);
     public Task CreateAsync(Meet meet, CancellationToken token);
     public List<Meet> ReadAll();
+    public List<Meet> ReadActive();
     public Meet? ReadById(Guid id);
     public Task UpdateAsync(Meet meet, CancellationToken token);
     public Task DeleteAsync(Meet meet, CancellationToken token);
@@ -58,6 +59,11 @@ public class MeetService : IMeetService
     public List<Meet> ReadAll()
     {
         return Meets;
+    }
+
+    public List<Meet> ReadActive()
+    {
+        return Meets.FindAll(x => x.AllResultsIn == false);
     }
 
     public Meet? ReadById(Guid id)
