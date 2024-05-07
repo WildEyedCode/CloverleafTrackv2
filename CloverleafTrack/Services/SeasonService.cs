@@ -140,10 +140,12 @@ public class SeasonService : ISeasonService
                             performance.Athlete.Name,
                             performance.Athlete.UrlName,
                             performance.Distance.ToString(),
+                            performance.SchoolRecord,
                             performance.PersonalBest,
                             string.Empty,
                             string.Empty,
                             string.Empty,
+                            false,
                             false,
                             @event.Name,
                             @event.SortOrder,
@@ -159,9 +161,11 @@ public class SeasonService : ISeasonService
                             string.Empty,
                             string.Empty,
                             false,
+                            false,
                             performance.Athlete.Name,
                             performance.Athlete.UrlName,
                             performance.Distance.ToString(),
+                            performance.SchoolRecord,
                             performance.PersonalBest,
                             @event.Name,
                             @event.SortOrder,
@@ -205,10 +209,12 @@ public class SeasonService : ISeasonService
                             performance.Athletes.Select(x => x.Name).ToList(),
                             performance.Athletes.Select(x => x.UrlName).ToList(),
                             performance.Distance.ToString(),
+                            performance.SchoolRecord,
                             performance.PersonalBest,
                             Enumerable.Empty<string>().ToList(),
                             Enumerable.Empty<string>().ToList(),
                             string.Empty,
+                            false,
                             false,
                             @event.Name,
                             @event.SortOrder,
@@ -224,9 +230,11 @@ public class SeasonService : ISeasonService
                             Enumerable.Empty<string>().ToList(),
                             string.Empty,
                             false,
+                            false,
                             performance.Athletes.Select(x => x.Name).ToList(),
                             performance.Athletes.Select(x => x.UrlName).ToList(),
                             performance.Distance.ToString(),
+                            performance.SchoolRecord,
                             performance.PersonalBest,
                             @event.Name,
                             @event.SortOrder,
@@ -270,10 +278,12 @@ public class SeasonService : ISeasonService
                             performance.Athlete.Name,
                             performance.Athlete.UrlName,
                             performance.Time.ToString(),
+                            performance.SchoolRecord,
                             performance.PersonalBest,
                             string.Empty,
                             string.Empty,
                             string.Empty,
+                            false,
                             false,
                             @event.Name,
                             @event.SortOrder,
@@ -289,9 +299,11 @@ public class SeasonService : ISeasonService
                             string.Empty,
                             string.Empty,
                             false,
+                            false,
                             performance.Athlete.Name,
                             performance.Athlete.UrlName,
                             performance.Time.ToString(),
+                            performance.SchoolRecord,
                             performance.PersonalBest,
                             @event.Name,
                             @event.SortOrder,
@@ -335,10 +347,12 @@ public class SeasonService : ISeasonService
                             performance.Athletes.Select(x => x.Name).ToList(),
                             performance.Athletes.Select(x => x.UrlName).ToList(),
                             performance.Time.ToString(),
+                            performance.SchoolRecord,
                             performance.PersonalBest,
                             Enumerable.Empty<string>().ToList(),
                             Enumerable.Empty<string>().ToList(),
                             string.Empty,
+                            false,
                             false,
                             @event.Name,
                             @event.SortOrder,
@@ -354,9 +368,11 @@ public class SeasonService : ISeasonService
                             Enumerable.Empty<string>().ToList(),
                             string.Empty,
                             false,
+                            false,
                             performance.Athletes.Select(x => x.Name).ToList(),
                             performance.Athletes.Select(x => x.UrlName).ToList(),
                             performance.Time.ToString(),
+                            performance.SchoolRecord,
                             performance.PersonalBest,
                             @event.Name,
                             @event.SortOrder,
@@ -389,12 +405,14 @@ public class SeasonService : ISeasonService
             var boysAthleteName = boysPerformance != null ? boysPerformance.BoysAthleteName : string.Empty;
             var boysAthleteUrlName = boysPerformance != null ? boysPerformance.BoysAthleteUrlName : string.Empty;
             var boysPerformanceString = boysPerformance != null ? boysPerformance.BoysPerformance : string.Empty;
+            var boysSchoolRecord = boysPerformance?.BoysSchoolRecord ?? false;
             var boysPersonalBest = boysPerformance?.BoysPersonalBest ?? false;
             var boysEventSortOrder = boysPerformance?.EventSortOrder ?? 0;
             var boysEnvironment = boysPerformance?.Environment ?? Environment.None;
             var girlsAthleteName = girlsPerformance != null ? girlsPerformance.GirlsAthleteName : string.Empty;
             var girlsAthleteUrlName = girlsPerformance != null ? girlsPerformance.GirlsAthleteUrlName : string.Empty;
             var girlsPerformanceString = girlsPerformance != null ? girlsPerformance.GirlsPerformance : string.Empty;
+            var girlsSchoolRecord = girlsPerformance?.GirlsSchoolRecord ?? false;
             var girlsPersonalBest = girlsPerformance?.GirlsPersonalBest ?? false;
             var girlsEventSortOrder = girlsPerformance?.EventSortOrder ?? 0;
             var girlsEnvironment = girlsPerformance?.Environment ?? Environment.None;
@@ -403,10 +421,12 @@ public class SeasonService : ISeasonService
                 boysAthleteName,
                 boysAthleteUrlName,
                 boysPerformanceString,
+                boysSchoolRecord,
                 boysPersonalBest,
                 girlsAthleteName,
                 girlsAthleteUrlName,
                 girlsPerformanceString,
+                girlsSchoolRecord,
                 girlsPersonalBest,
                 eventName,
                 boysEventSortOrder == 0 ? girlsEventSortOrder : boysEventSortOrder,
@@ -431,12 +451,14 @@ public class SeasonService : ISeasonService
             var boysAthletesNames = boysPerformance != null ? boysPerformance.BoysAthletesNames : Enumerable.Empty<string>().ToList();
             var boysAthletesUrlNames = boysPerformance != null ? boysPerformance.BoysAthletesUrlNames : Enumerable.Empty<string>().ToList();
             var boysPerformanceString = boysPerformance != null ? boysPerformance.BoysPerformance : string.Empty;
+            var boysSchoolRecord = boysPerformance?.BoysSchoolRecord ?? false;
             var boysPersonalBest = boysPerformance?.BoysPersonalBest ?? false;
             var boysEventSortOrder = boysPerformance?.EventSortOrder ?? 0;
             var boysEnvironment = boysPerformance?.Environment ?? Environment.None;
             var girlsAthletesNames = girlsPerformance != null ? girlsPerformance.GirlsAthletesNames : Enumerable.Empty<string>().ToList();
             var girlsAthletesUrlNames = girlsPerformance != null ? girlsPerformance.GirlsAthletesUrlNames : Enumerable.Empty<string>().ToList();
             var girlsPerformanceString = girlsPerformance != null ? girlsPerformance.GirlsPerformance : string.Empty;
+            var girlsSchoolRecord = girlsPerformance?.GirlsSchoolRecord ?? false;
             var girlsPersonalBest = girlsPerformance?.GirlsPersonalBest ?? false;
             var girlsEventSortOrder = girlsPerformance?.EventSortOrder ?? 0;
             var girlsEnvironment = girlsPerformance?.Environment ?? Environment.None;
@@ -445,10 +467,12 @@ public class SeasonService : ISeasonService
                 boysAthletesNames,
                 boysAthletesUrlNames,
                 boysPerformanceString,
+                boysSchoolRecord,
                 boysPersonalBest,
                 girlsAthletesNames,
                 girlsAthletesUrlNames,
                 girlsPerformanceString,
+                girlsSchoolRecord,
                 girlsPersonalBest,
                 eventName,
                 boysEventSortOrder == 0 ? girlsEventSortOrder : boysEventSortOrder,
