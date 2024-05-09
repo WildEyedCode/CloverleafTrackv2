@@ -17,6 +17,7 @@ public interface IRunningPerformanceService
     public RunningPerformance? ReadById(Guid id);
     public Task UpdateAsync(RunningPerformance performance, CancellationToken token);
     public Task DeleteAsync(RunningPerformance performance, CancellationToken token);
+    public Task CalculateRecordsAsync(CancellationToken token);
 }
 
 public class RunningPerformanceService : IRunningPerformanceService
@@ -105,5 +106,44 @@ public class RunningPerformanceService : IRunningPerformanceService
                 cancellationToken: token));
         
         await ReloadAsync(token);
+    }
+    
+    public async Task CalculateRecordsAsync(CancellationToken token)
+    {
+        var orderedPerformances = Performances.OrderBy(x => x.Minutes).ThenBy(x => x.Seconds).ToList();
+
+        foreach (var performance in orderedPerformances)
+        {
+            var eventId = performance.EventId;
+            var athleteId = performance.AthleteId;
+            var seasonId = performance.Meet.SeasonId;
+            bool updateDatabase = false;
+            
+            var schoolRecord = orderedPerformances.First(x => x.EventId == eventId);
+            if (performance.Id == schoolRecord.Id && !performance.SchoolRecord)
+            {
+                performance.SchoolRecord = true;
+                updateDatabase = true;
+            }
+            
+            var athleteBest = orderedPerformances.First(x => x.AthleteId == athleteId && x.EventId == eventId);
+            if (performance.Id == athleteBest.Id && !performance.PersonalBest)
+            {
+                performance.PersonalBest = true;
+                updateDatabase = true;
+            }
+
+            var athleteSeasonBest = orderedPerformances.First(x => x.AthleteId == athleteId && x.Meet.SeasonId == seasonId && x.EventId == eventId);
+            if (performance.Id == athleteSeasonBest.Id && !performance.SeasonBest)
+            {
+                performance.SeasonBest = true;
+                updateDatabase = true;
+            }
+
+            if (updateDatabase)
+            {
+                await UpdateAsync(performance, token);
+            }
+        }
     }
 }

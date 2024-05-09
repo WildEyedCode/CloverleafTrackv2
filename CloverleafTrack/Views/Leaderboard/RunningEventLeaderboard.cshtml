@@ -102,11 +102,11 @@
                     @leaderboard.Performance.Time
                     @if (!Model.PersonalRecordsOnly && leaderboard.Performance.PersonalBest)
                     {
-                        <span class="badge bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                        <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
                     }
                     @if (!Model.PersonalRecordsOnly && leaderboard.Performance.SeasonBest)
                     {
-                        <span class="badge bg-info" data-bs-toggle="tooltip" data-bs-placement="right" title="@leaderboard.Performance.Meet.Season.Name Season Best">📅</span>
+                        <span class="badge bg-info-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="@leaderboard.Performance.Meet.Season.Name Season Best">📅</span>
                     }
                 </td>
                 <td class="align-middle">

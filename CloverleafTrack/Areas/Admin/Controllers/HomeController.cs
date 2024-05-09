@@ -87,6 +87,20 @@ public class HomeController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+
+    [Route("records")]
+    public async Task<IActionResult> Records(CancellationToken token)
+    {
+        await ReloadAsync(token);
+        await ReloadNonAdminAsync(token);
+        
+        await fieldPerformanceService.CalculateRecordsAsync(token);
+        await fieldRelayPerformanceService.CalculateRecordsAsync(token);
+        await runningPerformanceService.CalculateRecordsAsync(token);
+        await runningRelayPerformanceService.CalculateRecordsAsync(token);
+        
+        return RedirectToAction(nameof(RefreshCache));
+    }
     
     private async Task ReloadAsync(CancellationToken token = default)
     {

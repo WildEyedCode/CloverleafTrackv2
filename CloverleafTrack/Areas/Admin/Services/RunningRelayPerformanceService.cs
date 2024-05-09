@@ -17,6 +17,7 @@ public interface IRunningRelayPerformanceService
     public RunningRelayPerformance? ReadById(Guid id);
     public Task UpdateAsync(RunningRelayPerformance performance, CancellationToken token);
     public Task DeleteAsync(RunningRelayPerformance performance, CancellationToken token);
+    public Task CalculateRecordsAsync(CancellationToken token);
 }
 
 public class RunningRelayPerformanceService : IRunningRelayPerformanceService
@@ -144,5 +145,44 @@ public class RunningRelayPerformanceService : IRunningRelayPerformanceService
                 cancellationToken: token));
         
         await ReloadAsync(token);
+    }
+    
+    public async Task CalculateRecordsAsync(CancellationToken token)
+    {
+        var orderedPerformances = Performances.OrderBy(x => x.Minutes).ThenBy(x => x.Seconds).ToList();
+
+        foreach (var performance in orderedPerformances)
+        {
+            performance.AthleteIds = performance.Athletes.Select(x => x.Id).ToList();
+            var eventId = performance.EventId;
+            var seasonId = performance.Meet.SeasonId;
+            bool updateDatabase = false;
+            
+            var schoolRecord = orderedPerformances.First(x => x.EventId == eventId);
+            if (performance.Id == schoolRecord.Id && !performance.SchoolRecord)
+            {
+                performance.SchoolRecord = true;
+                updateDatabase = true;
+            }
+            
+            var athleteBest = orderedPerformances.First(x => x.Athletes.Select(y => y.Id).All(performance.AthleteIds.Contains) && x.EventId == eventId);
+            if (performance.Id == athleteBest.Id && !performance.PersonalBest)
+            {
+                performance.PersonalBest = true;
+                updateDatabase = true;
+            }
+
+            var athleteSeasonBest = orderedPerformances.First(x => x.Athletes.Select(y => y.Id).All(performance.AthleteIds.Contains) && x.Meet.SeasonId == seasonId && x.EventId == eventId);
+            if (performance.Id == athleteSeasonBest.Id && !performance.SeasonBest)
+            {
+                performance.SeasonBest = true;
+                updateDatabase = true;
+            }
+
+            if (updateDatabase)
+            {
+                await UpdateAsync(performance, token);
+            }
+        }
     }
 }

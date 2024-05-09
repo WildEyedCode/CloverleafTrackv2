@@ -143,19 +143,25 @@ public class FieldRelayPerformanceController : Controller
         }
 
         var athletes = performance.Athletes;
-        var @event = eventService.ReadById(performance.EventId);
-        Guid athleteId1, athleteId2, athleteId3;
-        if (@event.AthleteCount == 2)
+        var athleteId1 = new Guid();
+        var athleteId2 = new Guid();
+        var athleteId3 = new Guid();
+        if (athletes.Count != 0)
         {
-            athleteId1 = athletes[0].Id;
-            athleteId2 = athletes[1].Id;
-            athleteId3 = athleteService.ReadAll().First().Id;
-        }
-        else
-        {
-            athleteId1 = athletes[0].Id;
-            athleteId2 = athletes[1].Id;
-            athleteId3 = athletes[2].Id;
+            var @event = eventService.ReadById(performance.EventId);
+            
+            if (@event is { AthleteCount: 2 })
+            {
+                athleteId1 = athletes[0].Id;
+                athleteId2 = athletes[1].Id;
+                athleteId3 = athleteService.ReadAll().First().Id;
+            }
+            else
+            {
+                athleteId1 = athletes[0].Id;
+                athleteId2 = athletes[1].Id;
+                athleteId3 = athletes[2].Id;
+            }
         }
 
         var vm = new FullFieldRelayPerformanceViewModel(performance, athleteId1, athleteId2, athleteId3, eventService.ReadAll(), meetService.ReadAll(), athleteService.ReadAll());

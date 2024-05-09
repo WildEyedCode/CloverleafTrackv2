@@ -57,7 +57,17 @@
             @foreach (var performance in eventPerformances.Performances)
             {
                 <tr>
-                    <td class="text-center">@performance.Time</td>
+                    <td class="text-center">
+                        @performance.Time
+                        @if (performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                        @if (performance.SeasonBest)
+                        {
+                            <span class="badge bg-info-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="@performance.Meet.Season.Name Season Best">📅</span>
+                        }
+                    </td>
                     <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td class="text-center">
                         <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
@@ -89,7 +99,13 @@
             @foreach (var performance in eventPerformances.Performances)
             {
                 <tr>
-                    <td class="text-center">@performance.Time</td>
+                    <td class="text-center">
+                        @performance.Time
+                        @if (performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                    </td>
                     <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td class="text-center">
                         <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
@@ -121,7 +137,17 @@
             @foreach (var performance in eventPerformances.Performances)
             {
                 <tr>
-                    <td class="text-center">@performance.Distance</td>
+                    <td class="text-center">
+                        @performance.Distance
+                        @if (performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                        @if (performance.SeasonBest)
+                        {
+                            <span class="badge bg-info-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="@performance.Meet.Season.Name Season Best">📅</span>
+                        }
+                    </td>
                     <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td class="text-center">
                         <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
@@ -153,7 +179,13 @@
             @foreach (var performance in eventPerformances.Performances)
             {
                 <tr>
-                    <td class="text-center">@performance.Distance</td>
+                    <td class="text-center">
+                        @performance.Distance
+                        @if (performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                    </td>
                     <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td class="text-center">
                         <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
@@ -191,7 +223,17 @@
             @foreach (var performance in eventPerformances.Performances)
             {
                 <tr>
-                    <td class="text-center">@performance.Time</td>
+                    <td class="text-center">
+                        @performance.Time
+                        @if (performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                        @if (performance.SeasonBest)
+                        {
+                            <span class="badge bg-info-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="@performance.Meet.Season.Name Season Best">📅</span>
+                        }
+                    </td>
                     <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td class="text-center">
                         <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
@@ -223,7 +265,13 @@
             @foreach (var performance in eventPerformances.Performances)
             {
                 <tr>
-                    <td class="text-center">@performance.Time</td>
+                    <td class="text-center">
+                        @performance.Time
+                        @if (performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                    </td>
                     <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td class="text-center">
                         <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
@@ -255,7 +303,17 @@
             @foreach (var performance in eventPerformances.Performances)
             {
                 <tr>
-                    <td class="text-center">@performance.Distance</td>
+                    <td class="text-center">
+                        @performance.Distance
+                        @if (performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                        @if (performance.SeasonBest)
+                        {
+                            <span class="badge bg-info-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="@performance.Meet.Season.Name Season Best">📅</span>
+                        }
+                    </td>
                     <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td class="text-center">
                         <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
@@ -287,7 +345,13 @@
             @foreach (var performance in eventPerformances.Performances)
             {
                 <tr>
-                    <td class="text-center">@performance.Distance</td>
+                    <td class="text-center">
+                        @performance.Distance
+                        @if (performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                    </td>
                     <td class="text-center">@performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td class="text-center">
                         <a title="@performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Meet.UrlName">
@@ -327,7 +391,13 @@
             {
                 <tr>
                     <th>@lifetimeBest.Event.Name</th>
-                    <td>@lifetimeBest.Performance.Time</td>
+                    <td>
+                        @lifetimeBest.Performance.Time
+                        @if (lifetimeBest.Performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                    </td>
                     <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td>
                         <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
@@ -340,7 +410,13 @@
             {
                 <tr>
                     <th>@lifetimeBest.Event.Name</th>
-                    <td>@lifetimeBest.Performance.Time</td>
+                    <td>
+                        @lifetimeBest.Performance.Time
+                        @if (lifetimeBest.Performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                    </td>
                     <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td>
                         <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
@@ -353,7 +429,13 @@
             {
                 <tr>
                     <th>@lifetimeBest.Event.Name</th>
-                    <td>@lifetimeBest.Performance.Distance</td>
+                    <td>
+                        @lifetimeBest.Performance.Distance
+                        @if (lifetimeBest.Performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                    </td>
                     <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td>
                         <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
@@ -366,7 +448,13 @@
             {
                 <tr>
                     <th>@lifetimeBest.Event.Name</th>
-                    <td>@lifetimeBest.Performance.Distance</td>
+                    <td>
+                        @lifetimeBest.Performance.Distance
+                        @if (lifetimeBest.Performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                    </td>
                     <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td>
                         <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
@@ -398,7 +486,13 @@
             {
                 <tr>
                     <th>@lifetimeBest.Event.Name</th>
-                    <td>@lifetimeBest.Performance.Time</td>
+                    <td>
+                        @lifetimeBest.Performance.Time
+                        @if (lifetimeBest.Performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                    </td>
                     <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td>
                         <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
@@ -411,7 +505,13 @@
             {
                 <tr>
                     <th>@lifetimeBest.Event.Name</th>
-                    <td>@lifetimeBest.Performance.Time</td>
+                    <td>
+                        @lifetimeBest.Performance.Time
+                        @if (lifetimeBest.Performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                    </td>
                     <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td>
                         <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
@@ -424,7 +524,13 @@
             {
                 <tr>
                     <th>@lifetimeBest.Event.Name</th>
-                    <td>@lifetimeBest.Performance.Distance</td>
+                    <td>
+                        @lifetimeBest.Performance.Distance
+                        @if (lifetimeBest.Performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                    </td>
                     <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td>
                         <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
@@ -437,7 +543,13 @@
             {
                 <tr>
                     <th>@lifetimeBest.Event.Name</th>
-                    <td>@lifetimeBest.Performance.Distance</td>
+                    <td>
+                        @lifetimeBest.Performance.Distance
+                        @if (lifetimeBest.Performance.SchoolRecord)
+                        {
+                            <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                        }
+                    </td>
                     <td>@lifetimeBest.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                     <td>
                         <a title="@lifetimeBest.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@lifetimeBest.Performance.Meet.UrlName">
@@ -496,7 +608,17 @@
                     {
                         <tr>
                             <th>@performance.Event.Name</th>
-                            <td>@performance.Performance.Time</td>
+                            <td>
+                                @performance.Performance.Time
+                                @if (performance.Performance.SchoolRecord)
+                                {
+                                    <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                                }
+                                @if (performance.Performance.PersonalBest)
+                                {
+                                    <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                                }
+                            </td>
                             <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                             <td>
                                 <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">
@@ -512,7 +634,13 @@
                     {
                         <tr>
                             <th>@performance.Event.Name</th>
-                            <td>@performance.Performance.Time</td>
+                            <td>
+                                @performance.Performance.Time
+                                @if (performance.Performance.SchoolRecord)
+                                {
+                                    <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                                }
+                            </td>
                             <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                             <td>
                                 <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">
@@ -528,7 +656,17 @@
                     {
                         <tr>
                             <th>@performance.Event.Name</th>
-                            <td>@performance.Performance.Distance</td>
+                            <td>
+                                @performance.Performance.Distance
+                                @if (performance.Performance.SchoolRecord)
+                                {
+                                    <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                                }
+                                @if (performance.Performance.PersonalBest)
+                                {
+                                    <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                                }
+                            </td>
                             <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                             <td>
                                 <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">
@@ -544,7 +682,13 @@
                     {
                         <tr>
                             <th>@performance.Event.Name</th>
-                            <td>@performance.Performance.Distance</td>
+                            <td>
+                                @performance.Performance.Distance
+                                @if (performance.Performance.SchoolRecord)
+                                {
+                                    <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                                }
+                            </td>
                             <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                             <td>
                                 <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">
@@ -581,7 +725,17 @@
                     {
                         <tr>
                             <th>@performance.Event.Name</th>
-                            <td>@performance.Performance.Time</td>
+                            <td>
+                                @performance.Performance.Time
+                                @if (performance.Performance.SchoolRecord)
+                                {
+                                    <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                                }
+                                @if (performance.Performance.PersonalBest)
+                                {
+                                    <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                                }
+                            </td>
                             <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                             <td>
                                 <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">
@@ -597,7 +751,13 @@
                     {
                         <tr>
                             <th>@performance.Event.Name</th>
-                            <td>@performance.Performance.Time</td>
+                            <td>
+                                @performance.Performance.Time
+                                @if (performance.Performance.SchoolRecord)
+                                {
+                                    <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                                }
+                            </td>
                             <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                             <td>
                                 <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">
@@ -613,7 +773,17 @@
                     {
                         <tr>
                             <th>@performance.Event.Name</th>
-                            <td>@performance.Performance.Distance</td>
+                            <td>
+                                @performance.Performance.Distance
+                                @if (performance.Performance.SchoolRecord)
+                                {
+                                    <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                                }
+                                @if (performance.Performance.PersonalBest)
+                                {
+                                    <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="Personal Record">⭐</span>
+                                }
+                            </td>
                             <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                             <td>
                                 <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">
@@ -629,7 +799,13 @@
                     {
                         <tr>
                             <th>@performance.Event.Name</th>
-                            <td>@performance.Performance.Distance</td>
+                            <td>
+                                @performance.Performance.Distance
+                                @if (performance.Performance.SchoolRecord)
+                                {
+                                    <span class="badge bg-warning-subtle" data-bs-toggle="tooltip" data-bs-placement="right" title="School Record">🏆</span>
+                                }
+                            </td>
                             <td>@performance.Performance.Meet.Date.ToString("MM/dd/yyyy")</td>
                             <td>
                                 <a title="@performance.Performance.Meet.Name" asp-controller="Meets" asp-action="Details" asp-route-meetName="@performance.Performance.Meet.UrlName">

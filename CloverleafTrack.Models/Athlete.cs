@@ -5,7 +5,7 @@ using Dapper.Contrib.Extensions;
 
 namespace CloverleafTrack.Models;
 
-public class Athlete : AuditModel
+public class Athlete : AuditModel, IEquatable<Athlete>
 {
     [System.ComponentModel.DataAnnotations.Key]
     public Guid Id { get; set; }
@@ -29,4 +29,24 @@ public class Athlete : AuditModel
     public string UrlName => $"{HttpUtility.UrlEncode(FirstName.ToLower())}-{HttpUtility.UrlEncode(LastName.ToLower())}";
     
     public override string ToString() => Name;
+
+    public bool Equals(Athlete? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Id.Equals(other.Id);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((Athlete)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return Id.GetHashCode();
+    }
 }

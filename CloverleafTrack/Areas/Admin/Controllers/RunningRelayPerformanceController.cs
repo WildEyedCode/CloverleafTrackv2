@@ -139,8 +139,35 @@ public class RunningRelayPerformanceController : Controller
         }
         
         var athletes = performance.Athletes;
+        var athleteId1 = new Guid();
+        var athleteId2 = new Guid();
+        var athleteId3 = new Guid();
+        var athleteId4 = new Guid();
 
-        var vm = new FullRunningRelayPerformanceViewModel(performance, athletes[0].Id, athletes[1].Id, athletes[2].Id, athletes[3].Id, eventService.ReadAll(), meetService.ReadAll(), athleteService.ReadAll());
+        if (athletes.Count == 1)
+        {
+            athleteId1 = athletes[0].Id;
+        }
+        else if (athletes.Count == 2)
+        {
+            athleteId1 = athletes[0].Id;
+            athleteId2 = athletes[1].Id;
+        }
+        else if (athletes.Count == 3)
+        {
+            athleteId1 = athletes[0].Id;
+            athleteId2 = athletes[1].Id;
+            athleteId3 = athletes[2].Id;
+        }
+        else if (athletes.Count == 4)
+        {
+            athleteId1 = athletes[0].Id;
+            athleteId2 = athletes[1].Id;
+            athleteId3 = athletes[2].Id;
+            athleteId4 = athletes[3].Id;
+        }
+
+        var vm = new FullRunningRelayPerformanceViewModel(performance, athleteId1, athleteId2, athleteId3, athleteId4, eventService.ReadAll(), meetService.ReadAll(), athleteService.ReadAll());
         return View(vm);
     }
     
