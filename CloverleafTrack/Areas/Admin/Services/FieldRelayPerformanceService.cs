@@ -58,6 +58,7 @@ public class FieldRelayPerformanceService : IFieldRelayPerformanceService
         foreach (var performance in performances)
         {
             performance.Athletes = (await connection.QueryAsync<Athlete>(FieldRelayPerformanceQueries.AthletesForRelayPerformanceSql, new { PerformanceId = performance.Id })).ToList();
+            performance.AthleteIds = performance.Athletes.Select(x => x.Id).ToList();
         }
 
         Performances = performances;
@@ -68,6 +69,49 @@ public class FieldRelayPerformanceService : IFieldRelayPerformanceService
         performance.Id = Guid.NewGuid();
         performance.DateCreated = DateTime.UtcNow;
         performance.DateUpdated = DateTime.UtcNow;
+        
+        var orderedPerformances = Performances.OrderByDescending(x => x.Feet).ThenByDescending(x => x.Inches).ToList();
+        var eventId = performance.EventId;
+        var seasonId = performance.Meet.SeasonId;
+        var schoolRecord = orderedPerformances.FirstOrDefault(x => x.EventId == eventId);
+        var athleteBest = orderedPerformances.FirstOrDefault(x => x.Athletes.Select(y => y.Id).All(performance.AthleteIds.Contains) && x.EventId == eventId);
+        var athleteSeasonBest = orderedPerformances.FirstOrDefault(x => x.Athletes.Select(y => y.Id).All(performance.AthleteIds.Contains) && x.Meet.SeasonId == seasonId && x.EventId == eventId);
+
+        if (schoolRecord is null)
+        {
+            performance.SchoolRecord = true;
+        }
+        else if (performance.Distance > schoolRecord.Distance)
+        {
+            performance.SchoolRecord = true;
+            schoolRecord.SchoolRecord = false;
+
+            await UpdateAsync(schoolRecord, token);
+        }
+        
+        if (athleteBest is null)
+        {
+            performance.PersonalBest = true;
+        }
+        else if (performance.Distance > athleteBest.Distance)
+        {
+            performance.PersonalBest = true;
+            athleteBest.PersonalBest = false;
+
+            await UpdateAsync(athleteBest, token);
+        }
+        
+        if (athleteSeasonBest is null)
+        {
+            performance.SeasonBest = true;
+        }
+        else if (performance.Distance > athleteSeasonBest.Distance)
+        {
+            performance.SeasonBest = true;
+            athleteSeasonBest.SeasonBest = false;
+
+            await UpdateAsync(athleteSeasonBest, token);
+        }
 
         await connection.ExecuteAsync(
             new CommandDefinition(
@@ -75,12 +119,12 @@ public class FieldRelayPerformanceService : IFieldRelayPerformanceService
                 performance,
                 cancellationToken: token));
 
-        foreach (var athleteId in performance.AthleteIds)
+        foreach (var dbAthleteId in performance.AthleteIds)
         {
             await connection.ExecuteAsync(
                 new CommandDefinition(
                     FieldRelayPerformanceQueries.CreateAthleteForRelayPerformanceSql,
-                    new { Id = Guid.NewGuid(), AthleteId = athleteId, PerformanceId = performance.Id, DateCreated = DateTime.UtcNow, DateUpdated = DateTime.UtcNow },
+                    new { Id = Guid.NewGuid(), AthleteId = dbAthleteId, PerformanceId = performance.Id, DateCreated = DateTime.UtcNow, DateUpdated = DateTime.UtcNow },
                     cancellationToken: token
                     ));
         }
@@ -155,7 +199,6 @@ public class FieldRelayPerformanceService : IFieldRelayPerformanceService
         {
             performance.AthleteIds = performance.Athletes.Select(x => x.Id).ToList();
             var eventId = performance.EventId;
-            var athleteHash = performance.Athletes.GetHashCode();
             var seasonId = performance.Meet.SeasonId;
             bool updateDatabase = false;
             

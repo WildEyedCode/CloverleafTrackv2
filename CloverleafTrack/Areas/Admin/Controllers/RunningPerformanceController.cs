@@ -116,6 +116,7 @@ public class RunningPerformanceController : Controller
         {
             if (ModelState.IsValid)
             {
+                performance.Meet = meetService.ReadById(performance.MeetId) ?? throw new InvalidOperationException();
                 await performanceService.CreateAsync(performance, token);
                 return RedirectToAction(nameof(Index));
             }

@@ -109,6 +109,7 @@ public class RunningRelayPerformanceController : Controller
         {
             if (ModelState.IsValid)
             {
+                performance.Meet = meetService.ReadById(performance.MeetId) ?? throw new InvalidOperationException();
                 performance.AthleteIds = new List<Guid> { athleteId1, athleteId2, athleteId3, athleteId4 };
                 await performanceService.CreateAsync(performance, token);
                 return RedirectToAction(nameof(Index));

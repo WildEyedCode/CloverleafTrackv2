@@ -109,8 +109,9 @@ public class FieldRelayPerformanceController : Controller
         {
             if (ModelState.IsValid)
             {
-                var @event = eventService.ReadById(performance.EventId);
-                performance.AthleteIds = @event!.AthleteCount == 2
+                var @event = eventService.ReadById(performance.EventId) ?? throw new InvalidOperationException();
+                performance.Meet = meetService.ReadById(performance.MeetId) ?? throw new InvalidOperationException();
+                performance.AthleteIds = @event.AthleteCount == 2
                     ? new List<Guid> { athleteId1, athleteId2 }
                     : new List<Guid> { athleteId1, athleteId2, athleteId3 };
                 

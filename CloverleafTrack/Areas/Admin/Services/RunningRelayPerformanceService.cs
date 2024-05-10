@@ -58,6 +58,7 @@ public class RunningRelayPerformanceService : IRunningRelayPerformanceService
         foreach (var performance in performances)
         {
             performance.Athletes = (await connection.QueryAsync<Athlete>(RunningRelayPerformanceQueries.AthletesForRelayPerformanceSql, new { PerformanceId = performance.Id })).ToList();
+            performance.AthleteIds = performance.Athletes.Select(x => x.Id).ToList();
         }
 
         Performances = performances;
@@ -68,6 +69,49 @@ public class RunningRelayPerformanceService : IRunningRelayPerformanceService
         performance.Id = Guid.NewGuid();
         performance.DateCreated = DateTime.UtcNow;
         performance.DateUpdated = DateTime.UtcNow;
+        
+        var orderedPerformances = Performances.OrderBy(x => x.Minutes).ThenBy(x => x.Seconds).ToList();
+        var eventId = performance.EventId;
+        var seasonId = performance.Meet.SeasonId;
+        var schoolRecord = orderedPerformances.FirstOrDefault(x => x.EventId == eventId);
+        var athleteBest = orderedPerformances.FirstOrDefault(x => x.Athletes.Select(y => y.Id).All(performance.AthleteIds.Contains) && x.EventId == eventId);
+        var athleteSeasonBest = orderedPerformances.FirstOrDefault(x => x.Athletes.Select(y => y.Id).All(performance.AthleteIds.Contains) && x.Meet.SeasonId == seasonId && x.EventId == eventId);
+
+        if (schoolRecord is null)
+        {
+            performance.SchoolRecord = true;
+        }
+        else if (performance.Time < schoolRecord.Time)
+        {
+            performance.SchoolRecord = true;
+            schoolRecord.SchoolRecord = false;
+
+            await UpdateAsync(schoolRecord, token);
+        }
+        
+        if (athleteBest is null)
+        {
+            performance.PersonalBest = true;
+        }
+        else if (performance.Time < athleteBest.Time)
+        {
+            performance.PersonalBest = true;
+            athleteBest.PersonalBest = false;
+
+            await UpdateAsync(athleteBest, token);
+        }
+        
+        if (athleteSeasonBest is null)
+        {
+            performance.SeasonBest = true;
+        }
+        else if (performance.Time < athleteSeasonBest.Time)
+        {
+            performance.SeasonBest = true;
+            athleteSeasonBest.SeasonBest = false;
+
+            await UpdateAsync(athleteSeasonBest, token);
+        }
 
         await connection.ExecuteAsync(
             new CommandDefinition(
