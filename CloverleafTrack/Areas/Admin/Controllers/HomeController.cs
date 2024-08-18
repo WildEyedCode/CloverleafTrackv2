@@ -98,7 +98,7 @@ public class HomeController : Controller
         await fieldRelayPerformanceService.CalculateRecordsAsync(token);
         await runningPerformanceService.CalculateRecordsAsync(token);
         await runningRelayPerformanceService.CalculateRecordsAsync(token);
-        
+
         return RedirectToAction(nameof(RefreshCache));
     }
     

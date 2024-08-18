@@ -15,8 +15,9 @@ public interface IRunningRelayPerformanceService
     public Task CreateAsync(RunningRelayPerformance performance, CancellationToken token);
     public List<RunningRelayPerformance> ReadAll();
     public RunningRelayPerformance? ReadById(Guid id);
-    public Task UpdateAsync(RunningRelayPerformance performance, CancellationToken token);
+    public Task UpdateAsync(RunningRelayPerformance performance, CancellationToken token, bool reloadCache = true);
     public Task DeleteAsync(RunningRelayPerformance performance, CancellationToken token);
+    public Task ClearAllRecordsAsync(CancellationToken token);
     public Task CalculateRecordsAsync(CancellationToken token);
 }
 
@@ -142,7 +143,7 @@ public class RunningRelayPerformanceService : IRunningRelayPerformanceService
         return Performances.FirstOrDefault(x => x.Id == id);
     }
 
-    public async Task UpdateAsync(RunningRelayPerformance performance, CancellationToken token)
+    public async Task UpdateAsync(RunningRelayPerformance performance, CancellationToken token, bool updateCache = true)
     {
         performance.DateUpdated = DateTime.UtcNow;
 
@@ -168,7 +169,10 @@ public class RunningRelayPerformanceService : IRunningRelayPerformanceService
                 ));
         }
 
-        await ReloadAsync(token);
+        if (updateCache)
+        {
+            await ReloadAsync(token);
+        }
     }
 
     public async Task DeleteAsync(RunningRelayPerformance performance, CancellationToken token)
@@ -191,8 +195,19 @@ public class RunningRelayPerformanceService : IRunningRelayPerformanceService
         await ReloadAsync(token);
     }
     
+    public async Task ClearAllRecordsAsync(CancellationToken token)
+    {
+        await connection.ExecuteAsync(
+            new CommandDefinition(
+                RunningRelayPerformanceQueries.ClearAllRecordsSql,
+                cancellationToken: token));
+
+        await ReloadAsync(token);
+    }
+    
     public async Task CalculateRecordsAsync(CancellationToken token)
     {
+        await ClearAllRecordsAsync(token);
         var orderedPerformances = Performances.OrderBy(x => x.Minutes).ThenBy(x => x.Seconds).ToList();
 
         foreach (var performance in orderedPerformances)
@@ -225,7 +240,7 @@ public class RunningRelayPerformanceService : IRunningRelayPerformanceService
 
             if (updateDatabase)
             {
-                await UpdateAsync(performance, token);
+                await UpdateAsync(performance, token, false);
             }
         }
     }

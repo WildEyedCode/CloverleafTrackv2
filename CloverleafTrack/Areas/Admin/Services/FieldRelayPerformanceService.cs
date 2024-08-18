@@ -15,8 +15,9 @@ public interface IFieldRelayPerformanceService
     public Task CreateAsync(FieldRelayPerformance performance, CancellationToken token);
     public List<FieldRelayPerformance> ReadAll();
     public FieldRelayPerformance? ReadById(Guid id);
-    public Task UpdateAsync(FieldRelayPerformance performance, CancellationToken token);
+    public Task UpdateAsync(FieldRelayPerformance performance, CancellationToken token, bool updateCache = true);
     public Task DeleteAsync(FieldRelayPerformance performance, CancellationToken token);
+    public Task ClearAllRecordsAsync(CancellationToken token);
     public Task CalculateRecordsAsync(CancellationToken token);
 }
 
@@ -142,7 +143,7 @@ public class FieldRelayPerformanceService : IFieldRelayPerformanceService
         return Performances.FirstOrDefault(x => x.Id == id);
     }
 
-    public async Task UpdateAsync(FieldRelayPerformance performance, CancellationToken token)
+    public async Task UpdateAsync(FieldRelayPerformance performance, CancellationToken token, bool updateCache = true)
     {
         performance.DateUpdated = DateTime.UtcNow;
 
@@ -168,7 +169,10 @@ public class FieldRelayPerformanceService : IFieldRelayPerformanceService
                 ));
         }
 
-        await ReloadAsync(token);
+        if (updateCache)
+        {
+            await ReloadAsync(token);
+        }
     }
 
     public async Task DeleteAsync(FieldRelayPerformance performance, CancellationToken token)
@@ -191,8 +195,19 @@ public class FieldRelayPerformanceService : IFieldRelayPerformanceService
         await ReloadAsync(token);
     }
     
+    public async Task ClearAllRecordsAsync(CancellationToken token)
+    {
+        await connection.ExecuteAsync(
+            new CommandDefinition(
+                FieldRelayPerformanceQueries.ClearAllRecordsSql,
+                cancellationToken: token));
+
+        await ReloadAsync(token);
+    }
+    
     public async Task CalculateRecordsAsync(CancellationToken token)
     {
+        await ClearAllRecordsAsync(token);
         var orderedPerformances = Performances.OrderByDescending(x => x.Feet).ThenByDescending(x => x.Inches).ToList();
 
         foreach (var performance in orderedPerformances)
@@ -225,7 +240,7 @@ public class FieldRelayPerformanceService : IFieldRelayPerformanceService
 
             if (updateDatabase)
             {
-                await UpdateAsync(performance, token);
+                await UpdateAsync(performance, token, false);
             }
         }
     }

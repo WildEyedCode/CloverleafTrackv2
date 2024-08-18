@@ -133,4 +133,17 @@ public static class FieldPerformanceQueries
         WHERE
             Id = @Id;
         """;
+
+    public const string ClearAllRecordsSql =
+        """
+        UPDATE FieldPerformance
+        SET
+            PersonalBest = 0,
+            SeasonBest = 0,
+            SchoolRecord = 0
+        WHERE
+            PersonalBest = 1
+            OR SeasonBest = 1
+            OR SchoolRecord = 1;
+        """;
 }

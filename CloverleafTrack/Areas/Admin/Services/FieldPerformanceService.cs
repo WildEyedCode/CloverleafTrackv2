@@ -15,8 +15,9 @@ public interface IFieldPerformanceService
     public Task CreateAsync(FieldPerformance performance, CancellationToken token);
     public List<FieldPerformance> ReadAll();
     public FieldPerformance? ReadById(Guid id);
-    public Task UpdateAsync(FieldPerformance performance, CancellationToken token);
+    public Task UpdateAsync(FieldPerformance performance, CancellationToken token, bool updateCache = true);
     public Task DeleteAsync(FieldPerformance performance, CancellationToken token);
+    public Task ClearAllRecordsAsync(CancellationToken token);
     public Task CalculateRecordsAsync(CancellationToken token);
 }
 
@@ -125,7 +126,7 @@ public class FieldPerformanceService : IFieldPerformanceService
         return Performances.FirstOrDefault(x => x.Id == id);
     }
 
-    public async Task UpdateAsync(FieldPerformance performance, CancellationToken token)
+    public async Task UpdateAsync(FieldPerformance performance, CancellationToken token, bool updateCache = true)
     {
         performance.DateUpdated = DateTime.UtcNow;
 
@@ -135,7 +136,10 @@ public class FieldPerformanceService : IFieldPerformanceService
                 performance,
                 cancellationToken: token));
 
-        await ReloadAsync(token);
+        if (updateCache)
+        {
+            await ReloadAsync(token);
+        }
     }
 
     public async Task DeleteAsync(FieldPerformance performance, CancellationToken token)
@@ -152,8 +156,19 @@ public class FieldPerformanceService : IFieldPerformanceService
         await ReloadAsync(token);
     }
 
+    public async Task ClearAllRecordsAsync(CancellationToken token)
+    {
+        await connection.ExecuteAsync(
+            new CommandDefinition(
+                FieldPerformanceQueries.ClearAllRecordsSql,
+                cancellationToken: token));
+
+        await ReloadAsync(token);
+    }
+
     public async Task CalculateRecordsAsync(CancellationToken token)
     {
+        await ClearAllRecordsAsync(token);
         var orderedPerformances = Performances.OrderByDescending(x => x.Feet).ThenByDescending(x => x.Inches).ToList();
 
         foreach (var performance in orderedPerformances)
@@ -186,7 +201,7 @@ public class FieldPerformanceService : IFieldPerformanceService
 
             if (updateDatabase)
             {
-                await UpdateAsync(performance, token);
+                await UpdateAsync(performance, token, false);
             }
         }
     }

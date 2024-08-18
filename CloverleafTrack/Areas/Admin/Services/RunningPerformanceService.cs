@@ -15,8 +15,9 @@ public interface IRunningPerformanceService
     public Task CreateAsync(RunningPerformance performance, CancellationToken token);
     public List<RunningPerformance> ReadAll();
     public RunningPerformance? ReadById(Guid id);
-    public Task UpdateAsync(RunningPerformance performance, CancellationToken token);
+    public Task UpdateAsync(RunningPerformance performance, CancellationToken token, bool updateCache = true);
     public Task DeleteAsync(RunningPerformance performance, CancellationToken token);
+    public Task ClearAllRecordsAsync(CancellationToken token);
     public Task CalculateRecordsAsync(CancellationToken token);
 }
 
@@ -125,7 +126,7 @@ public class RunningPerformanceService : IRunningPerformanceService
         return Performances.FirstOrDefault(x => x.Id == id);
     }
 
-    public async Task UpdateAsync(RunningPerformance performance, CancellationToken token)
+    public async Task UpdateAsync(RunningPerformance performance, CancellationToken token, bool updateCache = true)
     {
         performance.DateUpdated = DateTime.UtcNow;
 
@@ -135,7 +136,10 @@ public class RunningPerformanceService : IRunningPerformanceService
                 performance,
                 cancellationToken: token));
 
-        await ReloadAsync(token);
+        if (updateCache)
+        {
+            await ReloadAsync(token);
+        }
     }
 
     public async Task DeleteAsync(RunningPerformance performance, CancellationToken token)
@@ -152,8 +156,19 @@ public class RunningPerformanceService : IRunningPerformanceService
         await ReloadAsync(token);
     }
     
+    public async Task ClearAllRecordsAsync(CancellationToken token)
+    {
+        await connection.ExecuteAsync(
+            new CommandDefinition(
+                RunningPerformanceQueries.ClearAllRecordsSql,
+                cancellationToken: token));
+
+        await ReloadAsync(token);
+    }
+    
     public async Task CalculateRecordsAsync(CancellationToken token)
     {
+        await ClearAllRecordsAsync(token);
         var orderedPerformances = Performances.OrderBy(x => x.Minutes).ThenBy(x => x.Seconds).ToList();
 
         foreach (var performance in orderedPerformances)
@@ -186,7 +201,7 @@ public class RunningPerformanceService : IRunningPerformanceService
 
             if (updateDatabase)
             {
-                await UpdateAsync(performance, token);
+                await UpdateAsync(performance, token, false);
             }
         }
     }

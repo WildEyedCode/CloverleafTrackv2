@@ -182,4 +182,17 @@ public static class FieldRelayPerformanceQueries
         WHERE
             FieldRelayPerformanceId = @PerformanceId;
         """;
+    
+    public const string ClearAllRecordsSql =
+        """
+        UPDATE FieldRelayPerformance
+        SET
+            PersonalBest = 0,
+            SeasonBest = 0,
+            SchoolRecord = 0
+        WHERE
+            PersonalBest = 1
+            OR SeasonBest = 1
+            OR SchoolRecord = 1;
+        """;
 }
